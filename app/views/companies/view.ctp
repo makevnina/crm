@@ -47,7 +47,7 @@ if ($clients <> null) {
    foreach ($clients as $client) {
       echo $this->Html->tag(
               'p',
-              $client['Client'][surname].' '.$client['Client'][name].' '.$client['Client'][father]
+              $client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father']
       );
    }
 }
