@@ -4,9 +4,17 @@ class Client extends AppModel {
     public $name = 'Client';
 
     public $belongsTo = 'Company';
-
-   // public $hasMany = 'Project';
-    public $validate = array(
+	 
+	 public $hasMany = array(
+		'Phone' => array(
+			'foreignKey' => 'artifact_id'
+		),
+		'Project' => array(
+			'foreignKey' => 'artifact_id'
+		)
+	 );
+   
+	 public $validate = array(
       'surname' => array(
           'rule' => 'notEmpty',
           'requred' => 'true',

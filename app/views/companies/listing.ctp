@@ -14,19 +14,48 @@ echo $this->Html->tag(
         $createLink
 );
 foreach ($companies as $company) {
-   echo $this->Html->link(
-      $company['Company']['name'],
-      array(
-          'action' => 'view',
-          $company['Company']['id']
-      )
+   $showDetailsLink = $this->Html->link(
+		'+',
+		'javascript:void(0)',
+		array ('class' => 'toggle_details')
+	);
+	$companyLink = $this->Html->tag(
+		'h3',
+		$this->Html->link(
+			$company['Company']['name'],
+			array(
+				 'action' => 'view',
+				 $company['Company']['id']
+			)
+		)
    );
-   echo $this->Html->tag(
-           'p',
-           'Сфера деятельности: '.$company['Company']['activity']
-   );
-   echo $this->Html->tag(
-           'p',
-           'Адрес: '.$company['Company']['address']
-   );
+	echo $companyLink.$showDetailsLink;
+	$activity_input = $this->Html->tag(
+		'dl',
+		$this->Html->tag(
+		'dt',
+		'Сфера деятельности: ').
+		$this->Html->tag(
+			'dd',
+			$company['Company']['activity']
+		)
+	);
+   $address_input = $this->Html->tag(
+		'dl',
+		$this->Html->tag(
+		'dt',
+		'Адрес: ').
+		$this->Html->tag(
+			'dd',
+			$company['Company']['address']
+		)
+	);
+	echo $this->Html->tag(
+		'div',
+		$activity_input.$address_input,
+		array(
+			'class' => "details_block",
+			'id' => "block_{$company['Company']['id']}"
+		)
+	);
 }

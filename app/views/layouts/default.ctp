@@ -28,8 +28,9 @@
     <?php
         echo $this->Html->meta('icon');
 
-        echo $this->Html->css('cake.generic');
-        echo $this->Html->script(array ('jquery-1.5.2.js', 'scripts'));
+      //  echo $this->Html->css('cake.generic');
+		  echo $this->Html->css('styles');
+        echo $this->Html->script(array ('jquery-1.7.1.min.js', 'scripts'));
         echo $this->Html->script(array ('scripts.js', 'scripts'));
 
         echo $scripts_for_layout;
@@ -37,18 +38,23 @@
 </head>
 <body>
     <div id="container">
-        <div id="header">
-            <div class="left">
-                <h1>
-                    <?php echo $this->Html->link('Компании', '/companies'); ?>
-                </h1>
-            </div>
-            <div class="left">
-                <h1>
-                    <?php echo $this->Html->link('Клиенты', '/clients'); ?>
-                </h1>
-            </div>
-        </div>
+			<div id="header">
+				<span class="left">
+					 <h1>
+						  <?php echo $this->Html->link('Компании', '/companies'); ?>
+					 </h1>
+				</span>
+				<span class="left">
+					 <h1>
+						  <?php echo $this->Html->link('Клиенты', '/clients'); ?>
+					 </h1>
+				</span>
+				<span class="left">
+					<h1>
+						<?php echo $this->Html->link('Проекты', '/projects'); ?>
+					</h1>
+				</span>
+			</div>
         <div id="content">
 
             <?php echo $this->Session->flash(); ?>

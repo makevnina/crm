@@ -1,13 +1,19 @@
 <?php
 class Company extends AppModel {
 
-    public $name = 'Company';
+	public $name = 'Company';
 
-    public $hasMany = array(
-        'Client' => array(
-            'dependent' => true
-        )
-    );
+	public $hasMany = array(
+		'Client' => array(
+			'dependent' => false
+		),
+		'Phone' => array(
+			'foreignKey' => 'artifact_id'
+		),
+		'Project' => array(
+			'foreignKey' => 'artifact_id'
+		)
+	);
     
     public $validate = array(
         'name' => array(

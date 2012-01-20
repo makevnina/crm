@@ -6,7 +6,7 @@ echo $this->Html->link(
         )
 ); 
 echo $this->Html->tag(
-    'h3',
+    'h2',
     $client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father']
 );
 $editLink = $this->Html->link(
@@ -38,14 +38,26 @@ if ($client['Company']['id'] <> 0) {
    );
 }
 if ($client['Client']['position'] <> '') {
-    echo $this->Html->tag(
-            'p',
-            'Должность: '.$client['Client']['position']
-    );
+   echo $this->Html->tag(
+		'dl',
+		$this->Html->tag(
+		'dt',
+		'Должность: ').
+		$this->Html->tag(
+			'dd',
+			$client['Client']['position']
+		)
+	);
 }
 if ($client['Client']['address'] <> '') {
-    echo $this->Html->tag(
-            'p',
-            'Адрес: '.$client['Client']['address']
-    );
+   echo $this->Html->tag(
+		'dl',
+		$this->Html->tag(
+		'dt',
+		'Адрес: ').
+		$this->Html->tag(
+			'dd',
+			$client['Client']['address']
+		)
+	);
 }

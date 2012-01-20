@@ -57,16 +57,29 @@ else {
           );
        }
        if ($client['Client']['position'] <> ''){
-           echo $this->Html->tag(
-                   'p',
-                   $client['Client']['position']
-           );
+          echo $this->Html->tag(
+				'dl',
+				$this->Html->tag(
+				'dt',
+				'Должность: ').
+				$this->Html->tag(
+					'dd',
+					$client['Client']['position']
+				)
+			);
        }
        if ($client['Client']['address'] <> '') {
-           echo $this->Html->tag(
-                   'p',
-                   $client['Client']['address']
-           );
+			echo $this->Html->tag(
+				'dl',
+				$this->Html->tag(
+					'dt',
+					'Адрес: '
+				).
+				$this->Html->tag(
+					'dd',
+					$client['Client']['address']
+				)
+			);
        }
    }
 }

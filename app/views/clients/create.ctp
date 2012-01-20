@@ -1,20 +1,8 @@
 <?php
-if ($this->action == 'create') {
-			$title = $this->Html->tag(
-						'h2',
-						'Добавление нового клиента'
-			);
-			$submit = 'Добавить';
-}
-else {
-			$title = $this->Html->tag(
-						'h2',
-      'Редактирование клиента'
-   );
-   $submit = 'Сохранить';
-}
-
-echo $title;
+echo $this->Html->tag(
+	'h2',
+	$this->action == 'create' ? 'Создание нового клиента' : 'Редактирование клиента'
+);
 
 if ($this->action == 'create') {
    echo $this->Form->create(
@@ -30,7 +18,7 @@ if ($this->action == 'edit') {
            'Client',
            array(
                'action' => 'edit',
-               $company['Company']['id']
+               $client['Client']['id']
            )
    );
 }
@@ -66,15 +54,57 @@ echo $this->Form->input(
         )
 );
 echo $this->Form->input(
-        'position',
-        array(
-            'label' => 'Должность'
-        )
+	'position',
+	array(
+		'label' => 'Должность'
+	)
 );
+
+if (! empty ($client['Phone'])) {
+	$phone_input = '';
+	foreach ($client['Phone'] as $phone) {
+		$phone_input .= $this->Form->input(
+			'phone',
+			array(
+				'label' => 'Телефон',
+				'name' => "data[Phone][{$phone['id']}]",
+				'value' => $phone['number']
+			)
+		);
+	}
+}
+else {
+	$phone_input = $this->Form->input(
+		'phone',
+		array(
+			'label' => 'Телефон',
+			'name' => 'data[Phone][new][]'
+		)
+	);
+}
+
+$add_phone_link = $this->Html->link(
+	'Добавить телефон',
+	'#',
+	array(
+		'onclick' => 'return add_phone();'
+	)
+);
+
+echo $this->Html->tag(
+	'div',
+	$phone_input.$add_phone_link,
+	array(
+		'class' => 'phone_block'
+	)
+);
+
 echo $this->Form->input(
         'address',
         array(
             'label' => 'Адрес'
         )
 );
-echo $this->Form->end($submit);
+echo $this->Form->end(
+	$this->action == 'create' ? 'Создать' : 'Сохранить'
+);

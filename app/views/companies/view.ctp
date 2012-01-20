@@ -29,15 +29,27 @@ echo $this->Html->tag(
 );
 if ($company['Company']['activity'] <> '') {
    echo $this->Html->tag(
-           'p',
-           'Сфера деятельности: '.$company['Company']['activity']
-   );
+		'dl',
+		$this->Html->tag(
+		'dt',
+		'Сфера деятельности: ').
+		$this->Html->tag(
+			'dd',
+			$company['Company']['activity']
+		)
+	);
 }
 if ($company['Company']['address'] <> '') {
    echo $this->Html->tag(
-           'p',
-           'Адрес: '.$company['Company']['address']
-   );
+		'dl',
+		$this->Html->tag(
+		'dt',
+		'Адрес: ').
+		$this->Html->tag(
+			'dd',
+			$company['Company']['address']
+		)
+	);
 }
 if ($clients <> null) {
    echo $this->Html->tag(
@@ -45,9 +57,17 @@ if ($clients <> null) {
          'Контактные лица компании:'  
    );
    foreach ($clients as $client) {
-      echo $this->Html->tag(
-              'p',
-              $client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father']
+      $viewClientLink = $this->Html->link(
+         $client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father'],
+			array(
+				'controller' => 'clients',
+				'action' => 'view',
+				$client['Client']['id']
+			)
       );
+		echo $this->Html->tag(
+			'p',
+			$viewClientLink
+		);
    }
 }

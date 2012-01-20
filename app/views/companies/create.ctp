@@ -1,5 +1,4 @@
 <?php
-
 echo $this->Html->tag(
 	'h2',
 	$this->action == 'create' ? 'Создание новой компании' : 'Редактирование компании'
@@ -39,4 +38,4 @@ echo $this->Form->input(
 		'label' => 'Адрес'
 	)
 );
-echo $this->Form->end($this->action == 'create' ? 'Добавить' : 'Сохранить');
+echo $this->Form->end($this->action == 'create' ? 'Создать' : 'Сохранить');
