@@ -5,11 +5,26 @@ function add_phone() {
 	$('div.phone_block div.input:first-child').after(phone_field);
 	return false;
 }
-function hide_details(block_id) {
-	$("#block_" + block_id).hide();
+
+function add_email() {
+	var email_field = $('div.email_block div.input:first-child').clone();
+	email_field.find('input').val('');
+	email_field.find('input').attr('name', 'data[Email][new][]');
+	$('div.email_block div.input:first-child').after(email_field);
+	return false;
 }
-function show_details(block_id) {
-	$("#block_" + block_id).show();
+function toggle_details(block_id) {
+	if ($(".block" + block_id).is(":visible")) {
+		$(".block" + block_id).hide();
+		return false;
+	}	
+	if ($(".block" + block_id).is(":hidden")) {
+		$(".block" + block_id).show();
+		return false;
+	}
 }
 
+$(document).ready(function() {
+	$('.details_block').hide();
+});
 
