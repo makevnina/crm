@@ -10,6 +10,9 @@ class Company extends AppModel {
 		'Phone' => array(
 			'foreignKey' => 'artifact_id'
 		),
+		'Email' => array(
+			'foreignKey' => 'artifact_id'
+		),
 		'Project' => array(
 			'foreignKey' => 'artifact_id'
 		)

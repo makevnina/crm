@@ -4,8 +4,12 @@ class Phone extends AppModel {
 	public $name = 'Phone';
 	
 	public $belongsTo = array(
-		'Client',
-		'Company'
+		'Client' => array(
+			'foreignKey' => 'artifact_id'
+		),
+		'Company' => array(
+			'foreignKey' => 'artifact_id'
+		)
 	);
 	
 	public function save(& $model, $phones) {
@@ -37,7 +41,6 @@ class Phone extends AppModel {
 		foreach ($phone_list as $phone_list){
 			$success = parent::save($phone_list);
 		}
-		return $success;
-		
+		return $success;		
 	}
 }
