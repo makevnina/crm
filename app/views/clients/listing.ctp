@@ -1,5 +1,4 @@
 <?php
-$id = 0;
 echo $this->Html->tag(
     'h2',
     'Список клиентов'
@@ -26,50 +25,47 @@ else {
    );
    echo $createLink;
    foreach ($clients as $client) {
-       echo $this->Html->tag('p');
-       echo $this->Html->tag(
-           'b',
-           $this->Html->tag(
-               'a',
-               $this->Html->tag(
-                       'h3',
-                       $client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father']
-               ),
-               array(
-                   'href' => $this->Html->url(
-                       array(
-                           'controller' => 'clients',
-                           'action' => 'view',
-                           $id => $client['Client']['id']
-                       )
-                   )
-               )
-           )
-       );
-       if ($client['Company']['id'] <> 0) {
-          echo $this->Html->link(
-                  'Компания '.$client['Company']['name'],
-                  array(
-                      'controller' => 'companies',
-                      'action' => 'view',
-                      $client['Company']['id']
-                  )
-          );
-       }
-       if ($client['Client']['position'] <> ''){
-          echo $this->Html->tag(
+		echo $this->Html->tag(
+			'h3',
+			$this->Html->link(
+				$client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father'],
+				array(
+					'action' => 'view',
+					$client['Client']['id']
+				)
+			)
+		);
+		if ($client['Company']['id'] <> 0) {
+			echo $this->Html->tag(
+				'h4',
+				$this->Html->link(
+					'Компания '.$client['Company']['name'],
+					array(
+						'controller' => 'companies',
+						'action' => 'view',
+						$client['Company']['id']
+					)
+				)
+			);
+		}
+		if ($client['Client']['position'] <> ''){
+			$position = $this->Html->tag(
 				'dl',
 				$this->Html->tag(
-				'dt',
-				'Должность: ').
+					'dt',
+					'Должность: '
+				).
 				$this->Html->tag(
 					'dd',
 					$client['Client']['position']
 				)
 			);
-       }
-       if ($client['Client']['address'] <> '') {
-			echo $this->Html->tag(
+		}
+		else {
+			$position = '';
+		}
+		if ($client['Client']['address'] <> '') {
+			$address = $this->Html->tag(
 				'dl',
 				$this->Html->tag(
 					'dt',
@@ -80,6 +76,87 @@ else {
 					$client['Client']['address']
 				)
 			);
-       }
+		}
+		else {
+			$address = '';
+		}
+		$showDetailsLink = $this->Html->link(
+			'+',
+			'javascript:void(0)',
+			array (
+				'class' => 'toggle_details',
+				'onclick' => "return toggle_details({$client['Client']['id']});"
+			)
+		);
+		
+		if (! empty($phones)) {
+			$phone_list = '';
+			foreach ($phones as $phone) {
+				if ($phone['Phone']['artifact_id'] == $client['Client']['id']) {
+					if ($phone_list !== ''){
+						$phone_list .= ', ';
+					}
+					$phone_list .= $phone['Phone']['number'];
+				}				
+			}
+			if (! empty($phone_list)) {
+				$phone_numbers = $this->Html->tag(
+					'dl',
+					$this->Html->tag(
+						'dt',
+						'Телефон: '
+					).
+					$this->Html->tag(
+						'dd',
+						$phone_list
+					)
+				);
+			}
+			else {
+				$phone_numbers = '';
+			}
+		}
+		else {
+			$phone_numbers = '';
+		}
+		if (! empty($emails)) {
+			$email_list = '';
+			foreach ($emails as $email) {
+				if ($email['Email']['artifact_id'] == $client['Client']['id']) {
+					if ($email_list !== '') {
+						$email_list .= ', ';
+					}
+					$email_list .= $email['Email']['address'];
+				}
+			}
+			if (! empty($email_list)) {
+				$email_addresses = $this->Html->tag(
+					'dl',
+					$this->Html->tag(
+						'dt',
+						'E-mail:'
+					).
+					$this->Html->tag(
+						'dd',
+						$email_list
+					)
+				);
+			}
+			else {
+				$email_addresses = '';
+			}
+		}
+		else {
+			$email_addresses = '';
+		}
+		echo $showDetailsLink;
+		echo $this->Html->tag(
+			'div',
+			$position.$address.$phone_numbers.$email_addresses,
+			array(
+				'class' => "details_block block{$client['Client']['id']}",
+				'id' => "block_{$client['Client']['id']}"
+			)
+		);
    }
 }
