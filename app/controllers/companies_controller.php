@@ -5,7 +5,9 @@ class CompaniesController extends AppController {
 
 	public $uses = array(
 		'Company',
-		'Client'
+		'Client',
+		'Phone',
+		'Email'
 	);
 
 	function index() {
@@ -21,11 +23,46 @@ class CompaniesController extends AppController {
 			'companies',
 			$this->Company->find('all')
 		);
+		$this->set(
+			'clients',
+			$this->Client->find(
+				'all'
+			)
+		);
+		$this->set(
+			'phones',
+			$this->Phone->find(
+				'all',
+				array(
+					//'fields' => 'number',
+					'conditions' => array(
+						'Phone.artifact_type' => 'company'
+					)
+				)
+			)
+		);
+		$this->set(
+			'emails',
+			$this->Email->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Email.artifact_type' => 'company'
+					)
+				)
+			)
+		);
 	}
 
 	function create() {
 		if ($this->RequestHandler->isPost()) {
 			$success = $this->Company->save($this->data);
+			if (! empty($this->data['Phone'])) {
+				$success = $this->Phone->save($this->Company, $this->data['Phone']);
+			}
+			if (!empty($this->data['Email'])) {
+				$success = $this->Email->save($this->Company, $this->data['Email']);
+			}
 			if ($success) {
 				$this->Session->SetFlash('Компания создана');
 			}
@@ -69,6 +106,12 @@ class CompaniesController extends AppController {
 		$this->Company->id = $id;
 		if ($this->RequestHandler->isPost()) {
 			$success = $this->Company->save($this->data);
+			if (! empty($this->data['Phone'])) {
+				$success = $this->Phone->save($this->Company, $this->data['Phone']);
+			}
+			if (! empty($this->data['Email'])) {
+				$success = $this->Email->save($this->Company, $this->data['Email']);
+			}
 			if ($success) {
 				$this->Session->SetFlash('Изменения сохранены');
 			}
@@ -93,6 +136,32 @@ class CompaniesController extends AppController {
 			$this->set(
 				'company',
 				$this->data
+			);
+			$this->set(
+				'phones',
+				$this->Phone->find(
+					'all',
+					array(
+						'fields' => 'id, number',
+						'conditions' => array(
+							'Phone.artifact_id' => $id,
+							'Phone.artifact_type' => 'company'
+						)
+					)
+				)
+			);
+			$this->set(
+				'emails',
+				$this->Email->find(
+					'all',
+					array(
+						'fields' => 'id, address',
+						'conditions' => array(
+							'Email.artifact_id' => $id,
+							'Email.artifact_type' => 'company'
+						)
+					)
+				)
 			);
 			$this->render('create');
 		}

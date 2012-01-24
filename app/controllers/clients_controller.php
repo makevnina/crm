@@ -6,7 +6,8 @@ class ClientsController extends AppController {
 	public $uses = array(
 		'Client',
 		'Company',
-		'Phone'
+		'Phone',
+		'Email'
 	);
 
 	public function index() {
@@ -22,6 +23,28 @@ class ClientsController extends AppController {
 			'clients',
 			$this->Client->find('all')
 		);
+		$this->set(
+			'phones',
+			$this->Phone->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Phone.artifact_type' => 'client'
+					)
+				)
+			)
+		);
+		$this->set(
+			'emails',
+			$this->Email->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Email.artifact_type' => 'client'
+					)
+				)
+			)
+		);
 	}
 
 	public function create() {
@@ -29,6 +52,9 @@ class ClientsController extends AppController {
 			$success = $this->Client->save($this->data);
 			if (! empty($this->data['Phone'])) {
 				$success = $this->Phone->save($this->Client, $this->data['Phone']);
+			}
+			if (! empty($this->data['Email'])) {
+				$success = $this->Email->save($this->Client, $this->data['Email']);
 			}
 			if ($success) {
 				$this->Session->SetFlash('Клиент создан');
@@ -65,6 +91,9 @@ class ClientsController extends AppController {
 			if (! empty($this->data['Phone'])) {
 				$success = $this->Phone->save($this->Client, $this->data['Phone']);
 			}
+			if (! empty($this->data['Email'])) {
+				$success = $this->Email->save($this->Client, $this->data['Email']);
+			}
 			if ($success) {
 				$this->Session->SetFlash('Изменения сохранены');
 				$this->redirect(
@@ -93,6 +122,32 @@ class ClientsController extends AppController {
 			$this->set(
 				'companies',
 				$this->Company->find('all')
+			);
+			$this->set(
+				'phones',
+				$this->Phone->find(
+					'all',
+					array(
+						'fields' => 'id, number',
+						'conditions' => array(
+							'Phone.artifact_id' => $id,
+							'Phone.artifact_type' => 'client'
+						)
+					)
+				)
+			);
+			$this->set(
+				'emails',
+				$this->Email->find(
+					'all',
+					array(
+						'fields' => 'id, address',
+						'conditions' => array(
+							'Email.artifact_id' => $id,
+							'Email.artifact_type' => 'client'
+						)
+					)
+				)
 			);
 			$this->render('create');
 		}
