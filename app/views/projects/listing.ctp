@@ -27,65 +27,59 @@ else {
 		'p',
 		$createLink
 	);
+	
+	$tableHeaders = array(
+			'Описание',
+			'Дата начала',
+			'Дата планируемого окончания',
+			'Дата фактического окончания'
+	);
+	
 	foreach ($projects as $project) {
-		$projectNameLink = $this->Html->link(
-			$project['Project']['name'],
-			array(
-				'action' => 'view',
-				$project['Project']['id']
+		$projectNameLink = $this->Html->tag(
+			'h3',
+			$this->Html->link(
+				$project['Project']['name'],
+				array(
+					'action' => 'view',
+					$project['Project']['id']
+				)
 			)
 		);
-		echo $this->Html->tag(
-			'h3',
-			$projectNameLink
-		);
-		if (! empty($project['Project']['description'])) {
-			echo $this->Html->tag(
-				'dl',
-				$this->Html->tag(
-				'dt',
-				'Описание: ').
-				$this->Html->tag(
-					'dd',
-					$project['Project']['description']
-				)
-			);
-		}
+		echo $projectNameLink;
+		
 		if ($project['Project']['start_date'] <> '0000-00-00') {
-			echo $this->Html->tag(
-				'dl',
-				$this->Html->tag(
-				'dt',
-				'Дата начала: ').
-				$this->Html->tag(
-					'dd',
-					$project['Project']['start_date']
-				)
-			);
+			$start_date = $project['Project']['start_date'];
+		}
+		else {
+			$start_date = '';
 		}
 		if ($project['Project']['plan_date'] <> '0000-00-00') {
-			echo $this->Html->tag(
-				'dl',
-				$this->Html->tag(
-				'dt',
-				'Дата планируемого окончания: ').
-				$this->Html->tag(
-					'dd',
-					$project['Project']['plan_date']
-				)
-			);
+			$plan_date = $project['Project']['plan_date'];
+		}
+		else {
+			$plan_date = '';
 		}
 		if ($project['Project']['fact_date'] <> '0000-00-00') {
-			echo $this->Html->tag(
-				'dl',
-				$this->Html->tag(
-				'dt',
-				'Дата фактического окончания: ').
-				$this->Html->tag(
-					'dd',
-					$project['Project']['fact_date']
-				)
-			);
+			$fact_date = $project['Project']['fact_date'];
 		}
+		else {
+			$fact_date = '';
+		}
+		$tableCells = array(
+			$project['Project']['description'],
+			$start_date,
+			$plan_date,
+			$fact_date
+		);
+		
+		echo $this->Html->tag(
+			'table',
+			$this->Html->tableHeaders($tableHeaders).
+			$this->Html->tableCells($tableCells),
+			array(
+				'border' => 1
+			)			
+		);
 	}
 }
