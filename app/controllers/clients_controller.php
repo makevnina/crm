@@ -81,7 +81,36 @@ class ClientsController extends AppController {
 				'conditions' => array ('Client.id' => $id)
 			)
 		);
-		$this->set('client', $client);
+		$this->set(
+			'client',
+			$client
+		);
+		$this->set(
+			'phones',
+			$this->Phone->find(
+				'all',
+				array(
+					'fields' => 'number',
+					'conditions' => array(
+						'Phone.artifact_id' => $id,
+						'Phone.artifact_type' => 'client'
+					)
+				)
+			)
+		);
+		$this->set(
+			'emails',
+			$this->Email->find(
+				'all',
+				array(
+					'fields' => 'address',
+					'conditions' => array(
+						'Email.artifact_id' => $id,
+						'Email.artifact_type' => 'client'
+					)
+				)
+			)
+		);
 	}
 
 	public function edit($id) {

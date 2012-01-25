@@ -100,6 +100,32 @@ class CompaniesController extends AppController {
 				)
 			)
 		);
+		$this->set(
+			'phones',
+			$this->Phone->find(
+				'all',
+				array(
+					'fields' => 'number',
+					'conditions' => array(
+						'Phone.artifact_id' => $id,
+						'Phone.artifact_type' => 'company'
+					)
+				)
+			)
+		);
+		$this->set(
+			'emails',
+			$this->Email->find(
+				'all',
+				array(
+					'fields' => 'address',
+					'conditions' => array(
+						'Email.artifact_id' => $id,
+						'Email.artifact_type' => 'company'
+					)
+				)
+			)
+		);
 	}
 
 	function edit($id) {
