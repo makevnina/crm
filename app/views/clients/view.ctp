@@ -49,6 +49,44 @@ if ($client['Client']['position'] <> '') {
 		)
 	);
 }
+if (! empty($phones)) {
+	$phone_list = '';
+	foreach ($phones as $phone) {
+		if ($phone_list !== '') {
+			$phone_list .= ', ';
+		}
+		$phone_list .= $phone['Phone']['number'];
+	}
+	echo $this->Html->tag(
+		'dl',
+		$this->Html->tag(
+		'dt',
+		'Телефон: ').
+		$this->Html->tag(
+			'dd',
+			$phone_list
+		)
+	);
+}
+if (! empty($emails)) {
+	$email_list = '';
+	foreach ($emails as $email) {
+		if ($email_list !== '') {
+			$email_list .= ', ';
+		}
+		$email_list .= $email['Email']['address'];
+	}
+	echo $this->Html->tag(
+		'dl',
+		$this->Html->tag(
+		'dt',
+		'E-mail: ').
+		$this->Html->tag(
+			'dd',
+			$email_list
+		)
+	);
+}
 if ($client['Client']['address'] <> '') {
    echo $this->Html->tag(
 		'dl',
