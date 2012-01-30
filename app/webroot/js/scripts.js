@@ -13,6 +13,7 @@ function add_email() {
 	$('div.email_block div.input:first-child').after(email_field);
 	return false;
 }
+
 function toggle_details(block_id) {
 	if ($(".block" + block_id).is(":visible")) {
 		$(".block" + block_id).hide();
@@ -24,7 +25,17 @@ function toggle_details(block_id) {
 	}
 }
 
+function open_dialog() {
+	$('#dialogform').dialog({modal:true});
+}
+
 $(document).ready(function() {
 	$('.details_block').hide();
+	
+	$(function() {
+		$.datepicker.setDefaults($.datepicker.regional[""]);
+		$('.datepicker').datepicker($.datepicker.regional["ru"]);
+	});
+	
 });
 

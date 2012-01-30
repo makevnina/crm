@@ -1,0 +1,28 @@
+#navigation_menu {}
+#navigation_menu a {
+	color: white;
+	text-decoration: none;
+}
+#navigation_menu a:hover {}
+
+#navigation_menu li {
+	list-style: none;
+	margin: 0;
+}
+#navigation_menu ul {
+	margin: 0;
+}
+
+#navigation_menu ul.main {
+	margin-left: 20px;
+}
+#navigation_menu ul.main li {
+	display: inline-block;
+	padding: 3px 8px;
+}
+#navigation_menu ul.main li.main.active {
+	background-color: white;
+}
+#navigation_menu ul.main li.main.active a {
+	color: #003D4C;
+}

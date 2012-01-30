@@ -21,16 +21,12 @@ class Project extends AppModel {
     public $belongsTo = array(
         'Client' => array(
             'classname' => 'Client',
-            'jointables' => 'projects_clients',
             'foreignKey' => 'artifact_id',
-            'associationForeignKey' => 'artifact_id',
             'unique' => 'false'
         ),
         'Company' => array(
-            'classname' => 'Client',
-            'jointables' => 'projects_clients',
+            'classname' => 'Company',
             'foreignKey' => 'artifact_id',
-            'associationForeignKey' => 'artifact_id',
             'unique' => 'false'
         ),
         'User'

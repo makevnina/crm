@@ -47,16 +47,18 @@ if (! empty($phones)) {
 		}
 		$phone_list .= $phone['Phone']['number'];
 	}
-	echo $this->Html->tag(
-		'dl',
-		$this->Html->tag(
-		'dt',
-		'Телефон: ').
-		$this->Html->tag(
-			'dd',
-			$phone_list
-		)
-	);
+	if ($phone_list !== '') {
+		echo $this->Html->tag(
+			'dl',
+			$this->Html->tag(
+			'dt',
+			'Телефон: ').
+			$this->Html->tag(
+				'dd',
+				$phone_list
+			)
+		);
+	}
 }
 if (! empty($emails)) {
 	$email_list = '';
@@ -66,18 +68,20 @@ if (! empty($emails)) {
 		}
 		$email_list .= $email['Email']['address'];
 	}
-	echo $this->Html->tag(
-		'dl',
-		$this->Html->tag(
-		'dt',
-		'E-mail: ').
-		$this->Html->tag(
-			'dd',
-			$email_list
-		)
-	);
+	if ($email_list !== '') {
+		echo $this->Html->tag(
+			'dl',
+			$this->Html->tag(
+			'dt',
+			'E-mail: ').
+			$this->Html->tag(
+				'dd',
+				$email_list
+			)
+		);
+	}
 }
-if ($company['Company']['address'] <> '') {
+if ($company['Company']['address'] !== '') {
    echo $this->Html->tag(
 		'dl',
 		$this->Html->tag(

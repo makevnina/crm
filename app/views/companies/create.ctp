@@ -16,7 +16,8 @@ if ($this->action == 'edit') {
 	echo $this->Form->create(
 		'Company',
 		array(
-			'action' => 'edit'
+			'action' => 'edit',
+			'id' => 'create_company_form'
 		)
 	);
 }

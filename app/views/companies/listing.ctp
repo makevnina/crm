@@ -75,16 +75,21 @@ foreach ($companies as $company) {
 				$phone_list .= $phone['Phone']['number'];
 			}
 		}
-		$phone_numbers = $this->Html->tag(
-			'dl',
-			$this->Html->tag(
-			'dt',
-			'Телефон: ').
-			$this->Html->tag(
-				'dd',
-				$phone_list
-			)
-		);
+		if (!empty ($phone_list)) {
+			$phone_numbers = $this->Html->tag(
+				'dl',
+				$this->Html->tag(
+				'dt',
+				'Телефон: ').
+				$this->Html->tag(
+					'dd',
+					$phone_list
+				)
+			);
+		}
+		else {
+			$phone_numbers = '';
+		}
 	}
 	else
 		$phone_numbers = '';
@@ -127,16 +132,10 @@ foreach ($companies as $company) {
 		)
 	);
 	if ($clients <> null) {
-		echo $this->Html->tag(
-				'h3',
-				'Контактные лица компании:',
-			array(
-				'class' => "details_block block{$company['Company']['id']}"
-			)
-		);
+		$viewClientLinks = array();
 		foreach ($clients as $client) {
 			if ($client['Client']['company_id'] == $company['Company']['id']) {
-				$viewClientLink = $this->Html->link(
+				$viewClientLinks[] = $this->Html->link(
 					$client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father'],
 					array(
 						'controller' => 'clients',
@@ -144,6 +143,17 @@ foreach ($companies as $company) {
 						$client['Client']['id']
 					)
 				);
+			}
+		}		
+		if (! empty($viewClientLinks)) {
+			echo $this->Html->tag(
+				'h3',
+				'Контактные лица компании:',
+				array(
+					'class' => "details_block block{$company['Company']['id']}"
+				)
+			);
+			foreach ($viewClientLinks as $viewClientLink) {
 				echo $this->Html->tag(
 					'p',
 					$viewClientLink,
@@ -152,6 +162,6 @@ foreach ($companies as $company) {
 					)
 				);
 			}
-		}
+		}		
 	}
 }

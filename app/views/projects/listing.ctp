@@ -29,7 +29,6 @@ else {
 	);
 	
 	$tableHeaders = array(
-			'Описание',
 			'Дата начала',
 			'Дата планируемого окончания',
 			'Дата фактического окончания'
@@ -47,6 +46,29 @@ else {
 			)
 		);
 		echo $projectNameLink;
+		
+		if (! empty($project['Project']['description'])) {
+			$showDescriptionLink = $this->Html->link(
+				'+',
+				'javascript:void(0)',
+				array(
+					'id' => 'toggle_description',
+					'onclick' => "return toggle_details({$project['Project']['id']});"
+				)
+			);
+			$descriptionTitle = $this->Html->tag(
+				'b',
+				'Описание'
+			);
+			echo $showDescriptionLink.$descriptionTitle;
+			echo $this->Html->tag(
+				'p',
+				$project['Project']['description'],
+				array(
+					'class' => "details_block block{$project['Project']['id']}"
+				)
+			);
+		}
 		
 		if ($project['Project']['start_date'] <> '0000-00-00') {
 			$start_date = $project['Project']['start_date'];
@@ -67,7 +89,6 @@ else {
 			$fact_date = '';
 		}
 		$tableCells = array(
-			$project['Project']['description'],
 			$start_date,
 			$plan_date,
 			$fact_date

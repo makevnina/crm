@@ -41,6 +41,13 @@ echo $this->Form->input(
             'label' => 'Отчество'
         )
 );
+echo $this->Html->link(
+	'Создать новую компанию',
+	'javascript:void(0)',
+	array(
+		'onclick' => 'return open_dialog();'
+	)
+);
 $companiesList = array('');
 foreach ($companies as $company) {
    $companiesList[$company['Company']['id']] = $company['Company']['name'];
@@ -148,3 +155,86 @@ echo $this->Form->input(
 echo $this->Form->end(
 	$this->action == 'create' ? 'Создать' : 'Сохранить'
 );
+
+
+
+
+
+
+
+
+
+
+echo $this->Form->create(
+		'Company',
+		array(
+			'action' => 'create',
+			'id' => 'dialogform',
+			'style' => 'display:none'
+		)
+	);
+
+echo $this->Form->input(
+	'name',
+	array(
+		'label' => 'Название'
+	)
+);
+echo $this->Form->input(
+	'activity',
+	array(
+		'label' => 'Сфера деятельности'
+	)
+);
+$phone_input = $this->Form->input(
+	'phone',
+	array(
+		'label' => 'Телефон',
+		'name' => 'data[Phone][new][]',
+		'type' => 'text'
+	)
+);
+$add_phone_link = $this->Html->link(
+	'Добавить телефон',
+	'javascript:void(0)',
+	array(
+		'onclick' => 'return add_phone();'
+	)
+);
+echo $this->Html->tag(
+	'div',
+	$phone_input.$add_phone_link,
+	array(
+		'class' => 'phone_block'
+	)
+);
+$email_input = $this->Form->input(
+	'email',
+	array(
+		'label' => 'E-mail',
+		'name' => 'data[Email][new][]',
+		'type' => 'text'
+	)
+);
+$add_email_link = $this->Html->link(
+	'Добавить e-mail',
+	'javascript:void(0)',
+	array(
+		'onclick' => 'return add_email();'
+	)
+);
+echo $this->Html->tag(
+	'div',
+	$email_input.$add_email_link,
+	array(
+		'class' => 'email_block'
+	)
+);
+
+echo $this->Form->input(
+	'address',
+	array(
+		'label' => 'Адрес'
+	)
+);
+echo $this->Form->end('Создать');

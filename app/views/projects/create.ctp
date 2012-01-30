@@ -8,6 +8,7 @@ if ($this->action == 'create') {
 	echo $this->Form->create(
 		'Project',
 		array(
+			'controller' => 'companies',
 			'action' => 'create'
 		)
 	);
@@ -38,14 +39,16 @@ echo $this->Form->input(
 	'start_date',
 	array(
 		'label' => 'Дата начала проекта',
-		'type' => 'date'
+		'type' => 'text',
+		'class' => 'datepicker'
 	)
 );
 echo $this->Form->input(
 	'plan_date',
 	array(
 		'label' => 'Дата планируемого окончания проекта',
-		'type' => 'date'
+		'type' => 'text',
+		'class' => 'datepicker'
 	)
 );
 echo $this->Form->end($this->action == 'create' ? 'Создать' : 'Сохранить');
