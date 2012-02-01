@@ -5,18 +5,22 @@ class NavigationMenuHelper extends AppHelper {
 	public $helpers = array ('Html');
 	
 	public $items = array (
+		array(
+			'title' => 'Задачи',
+			'link' => array('controller' => 'tasks', 'action' => 'listing')
+		),
 		array (
 			'title' => 'Проекты',
 			'link' => array ('controller' => 'projects', 'action' => 'listing')
 		),
 		array (
-			'title' => 'Компании',
-			'link' => array ('controller' => 'companies', 'action' => 'listing')
-		),
-		array (
 			'title' => 'Клиенты',
 			'link' => array ('controller' => 'clients', 'action' => 'listing')
 		),
+		array (
+			'title' => 'Компании',
+			'link' => array ('controller' => 'companies', 'action' => 'listing')
+		),		
 	);
 	
 	public function render() {
