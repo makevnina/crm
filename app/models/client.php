@@ -14,7 +14,8 @@ class Client extends AppModel {
 		),
 		'Project' => array(
 			'foreignKey' => 'artifact_id'
-		)
+		),
+		'Task'
 	);
 
 	public $validate = array(
