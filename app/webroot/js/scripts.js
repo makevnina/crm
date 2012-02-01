@@ -31,11 +31,32 @@ function open_dialog() {
 
 $(document).ready(function() {
 	$('.details_block').hide();
-	
 	$(function() {
-		$.datepicker.setDefaults($.datepicker.regional[""]);
 		$('.datepicker').datepicker($.datepicker.regional["ru"]);
+		$( ".datepicker" ).datepicker({ dateFormat: 'yy-mm-dd' });
+		$( ".datepicker" ).datepicker( "option", "dateFormat", 'yy-mm-dd' );
 	});
 	
+});
+jQuery(function($){
+	$.datepicker.regional['ru'] = {
+		closeText: 'Закрыть',
+		prevText: '&#x3c;Пред',
+		nextText: 'След&#x3e;',
+		currentText: 'Сегодня',
+		monthNames: ['Январь','Февраль','Март','Апрель','Май','Июнь',
+		'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+		monthNamesShort: ['Янв','Фев','Мар','Апр','Май','Июн',
+		'Июл','Авг','Сен','Окт','Ноя','Дек'],
+		dayNames: ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'],
+		dayNamesShort: ['вск','пнд','втр','срд','чтв','птн','сбт'],
+		dayNamesMin: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
+		weekHeader: 'Не',
+		dateFormat: 'dd.mm.yy',
+		firstDay: 1,
+		isRTL: false,
+		showMonthAfterYear: false,
+		yearSuffix: ''};
+	$.datepicker.setDefaults($.datepicker.regional['ru']);
 });
 
