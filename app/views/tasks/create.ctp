@@ -5,15 +5,18 @@ echo $this->Html->tag(
 );
 if ($this->action == 'create') {
 	echo $this->Form->create(
+		'Task',
 		array(
 			'action' => 'create'
 		)
 	);
 }
 if ($this->action == 'edit') {
-	echo $this->Form->edit(
+	echo $this->Form->create(
+		'Task',
 		array(
-			'action' => 'edit'
+			'action' => 'edit',
+			'method' => 'post'
 		)
 	);
 }

@@ -46,7 +46,58 @@ else {
 			)
 		);
 		echo $projectNameLink;
-		
+		echo $this->Html->tag(
+			'div',
+			'<состояние проекта (степень завершенности)>'
+		);
+		echo $this->Html->tag(
+			'div',
+			'<статус проекта>'
+		);
+		echo $this->Html->tag(
+			'dl',
+			$this->Html->tag(
+				'dt',
+				'Ответственный'
+			).$this->Html->tag(
+				'dd',				
+				'<ФИО менеджера>'
+			)
+		);
+		if (!empty($project['Project']['artifact_id'])) {
+			if ($project['Project']['artifact_type'] == 'client') {
+				$clientLink = $this->Html->link(
+					$project['Client']['surname'].' '.
+						$project['Client']['name'].' '.
+						$project['Client']['father'],
+					array(
+						'controller' => 'clients',
+						'action' => 'view',
+						$project['Client']['id']
+					)
+				);
+			}
+			else {
+				$clientLink = $this->Html->link(
+					'компания "'.$project['Company']['name'].'"',
+					array(
+						'controller' => 'companies',
+						'action' => 'view',
+						$project['Company']['id']
+					)
+				);
+			}
+			echo $this->Html->tag(
+				'dl',
+				$this->Html->tag(
+					'dt',
+					'Клиент'
+				).$this->Html->tag(
+					'dd',
+					$clientLink
+				)
+			);
+		}
 		if (! empty($project['Project']['description'])) {
 			$showDescriptionLink = $this->Html->link(
 				'+',
@@ -56,16 +107,25 @@ else {
 					'onclick' => "return toggle_details({$project['Project']['id']});"
 				)
 			);
-			$descriptionTitle = $this->Html->tag(
-				'b',
-				'Описание'
-			);
-			echo $showDescriptionLink.$descriptionTitle;
 			echo $this->Html->tag(
-				'p',
-				$project['Project']['description'],
+				'div',
+				$showDescriptionLink
+			);
+			echo $this->Html->tag(
+				'div',
+				$this->Html->tag(
+					'div',
+					$this->Html->tag(
+						'b',
+						'Описание'
+					)
+				).$this->Html->tag(
+					'div',
+					$project['Project']['description']
+				),
 				array(
-					'class' => "details_block block{$project['Project']['id']}"
+					'class' => "details_block block{$project['Project']['id']}",
+					'style' => 'border: 1px solid #ccc'
 				)
 			);
 		}
@@ -99,7 +159,8 @@ else {
 			$this->Html->tableHeaders($tableHeaders).
 			$this->Html->tableCells($tableCells),
 			array(
-				'border' => 1
+				'border' => 1,
+				'class' => "details_block block{$project['Project']['id']}"
 			)			
 		);
 	}

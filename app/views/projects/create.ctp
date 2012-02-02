@@ -35,6 +35,29 @@ echo $this->Form->input(
 		'type' => 'textarea'
 	)
 );
+$clientsList['client'] = array();
+$clientsList['company'] = array();
+foreach ($clients as $client) {
+	$clientsList['client'][$client['Client']['id']] = $client['Client']['surname'].' '.
+		$client['Client']['name'].' '.$client['Client']['father'];
+}
+foreach ($companies as $company) {
+	$clientsList['company'][$company['Company']['id']] = $company['Company']['name'];
+}
+echo $this->Form->select(
+	'artifact_id',
+	array(
+		'Клиенты:' => $clientsList['client'],
+		'Компании:' => $clientsList['company']
+	)
+);
+echo $this->Form->input(
+	'artifact_type',
+	array(
+		'type' => 'hidden'
+	)
+);
+
 echo $this->Form->input(
 	'start_date',
 	array(

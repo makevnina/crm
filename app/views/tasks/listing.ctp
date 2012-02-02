@@ -33,14 +33,15 @@ else {
 			)
 		);
 		$tableCells = array(
-			'статус задачи',
+			'<статус задачи>',
 			$task['Task']['deadline_date'].' '.$task['Task']['deadline_time']
 		);
 		echo $this->Html->tag(
 			'table',
 			$this->Html->tableCells($tableCells),
 			array(
-				'border' => 0
+				'border' => 0,
+				'border-bottom' => 0
 			)
 		);
 		if (! empty($task['Task']['description'])){
@@ -50,20 +51,6 @@ else {
 				array(
 					'id' => 'toggle_description',
 					'onclick' => "return toggle_details({$task['Task']['id']})"
-				)
-			);
-			echo $this->Html->tag(
-				'div',
-				$showDetailsLink
-			);
-			$user = $this->Html->tag(
-				'dl',
-				$this->Html->tag(
-					'dt',
-					'Ответственный'
-				).$this->Html->tag(
-					'dd',
-					'<ФИО>'
 				)
 			);
 			$description = $this->Html->tag(
@@ -80,6 +67,20 @@ else {
 				),
 				array(
 					'style' => 'border: 1px solid #ccc'
+				)
+			);
+			echo $this->Html->tag(
+				'div',
+				$showDetailsLink
+			);
+			$user = $this->Html->tag(
+				'dl',
+				$this->Html->tag(
+					'dt',
+					'Ответственный'
+				).$this->Html->tag(
+					'dd',
+					'<ФИО менеджера>'
 				)
 			);
 			$client = $this->Html->tag(
@@ -104,7 +105,7 @@ else {
 			);
 			echo $this->Html->tag(
 				'div',
-				$user.$description.$client.$project,
+				$user.$client.$project.$description,
 				array(
 					'class' => "details_block block{$task['Task']['id']}"
 				)
