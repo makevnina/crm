@@ -21,11 +21,11 @@ class Task extends AppModel {
 				'message' => 'Такая задача уже существует'
 			)
 		),
-		'name' => array(
+		'type' => array(
 			'rule' => 'notEmpty',
 			'requred' => 'true',
 			'allowEmpty' => false,
-			'message' => 'Имя клиента обязательно для заполнения'
+			'message' => 'Выберете тип задачи'
 		),
 	);
 	
