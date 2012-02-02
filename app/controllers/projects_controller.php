@@ -38,6 +38,25 @@ class ProjectsController extends AppController {
 				$this->Session->SetFlash('Не удалось сохранить проект');
 			}
 		}
+		else {
+			$this->set(
+				'clients',
+				$this->Client->find(
+					'all',
+					array(
+						'conditions' => array(
+							'Client.company_id' => 0
+						)
+					)
+				)
+			);
+			$this->set(
+				'companies',
+				$this->Company->find(
+					'all'
+				)
+			);
+		}
 	}
 	
 	public function view($id) {
