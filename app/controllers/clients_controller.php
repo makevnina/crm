@@ -127,7 +127,8 @@ class ClientsController extends AppController {
 				$this->Session->SetFlash('Изменения сохранены');
 				$this->redirect(
 					array(
-						'action' => 'listing'
+						'action' => 'view',
+						$id
 					)
 				);
 			}

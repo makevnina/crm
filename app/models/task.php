@@ -5,7 +5,8 @@ class Task extends AppModel {
 	
 	public $belongsTo = array(
 		'Client',
-		'User'
+		'User',
+		'Project'
 	);
 	
 	public $validate = array(
@@ -26,6 +27,12 @@ class Task extends AppModel {
 			'requred' => 'true',
 			'allowEmpty' => false,
 			'message' => 'Выберете тип задачи'
+		),
+		'deadline_date' => array(
+			'rule' => 'notEmpty',
+			'requred' => 'true',
+			'allowEmpty' => false,
+			'message' => 'Выберете дату дедлайна'
 		),
 	);
 	

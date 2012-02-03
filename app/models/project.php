@@ -31,4 +31,8 @@ class Project extends AppModel {
         ),
         'User'
     );
+	 
+	 public $hasMany = array(
+		'Task' 
+	 );
 }

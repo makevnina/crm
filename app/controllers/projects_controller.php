@@ -81,7 +81,8 @@ class ProjectsController extends AppController {
 				$this->Session->SetFlash('Изменения сохранены');
 				$this->redirect(
 					array(
-						'action' => 'listing'
+						'action' => 'view',
+						$id
 					)
 				);
 			}
@@ -101,6 +102,23 @@ class ProjectsController extends AppController {
 			$this->set(
 				'project',
 				$this->data
+			);
+			$this->set(
+				'clients',
+				$this->Client->find(
+					'all',
+					array(
+						'conditions' => array(
+							'Client.company_id' => 0
+						)
+					)
+				)
+			);
+			$this->set(
+				'companies',
+				$this->Company->find(
+					'all'
+				)
 			);
 			$this->render('create');
 		}

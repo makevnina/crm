@@ -7,7 +7,7 @@ echo $this->Html->link(
 );
 echo $this->Html->tag(
          'h2',
-         $company['Company']['name']
+         'Компания "'.$company['Company']['name'].'"'
 );
 $editLink = $this->Html->link(
         'редактировать',

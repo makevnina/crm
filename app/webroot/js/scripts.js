@@ -37,6 +37,16 @@ $(document).ready(function() {
 		$( ".datepicker" ).datepicker( "option", "dateFormat", 'yy-mm-dd' );
 	});
 	
+	$("select").change(function() {
+		var current_value = "";
+		$('optgroup[label="Клиенты"] option:selected').each(function() {
+			current_value = 'client';
+		});
+		$('optgroup[label="Компании"] option:selected').each(function() {
+			current_value = 'company';
+		});
+		$('#artifact_type').attr('value', current_value);
+	});
 });
 jQuery(function($){
 	$.datepicker.regional['ru'] = {

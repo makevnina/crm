@@ -3,7 +3,6 @@ echo $this->Html->tag(
 	'h2',
 	$this->action == 'create' ? 'Создание нового проекта' : 'Редактирование проекта'
 );
-
 if ($this->action == 'create') {
 	echo $this->Form->create(
 		'Project',
@@ -44,20 +43,25 @@ foreach ($clients as $client) {
 foreach ($companies as $company) {
 	$clientsList['company'][$company['Company']['id']] = $company['Company']['name'];
 }
-echo $this->Form->select(
+echo $this->Form->input(
 	'artifact_id',
 	array(
-		'Клиенты:' => $clientsList['client'],
-		'Компании:' => $clientsList['company']
+		'label' => 'Клиент',
+		'type' => 'select',
+		'options' => array(
+			'',
+			'Клиенты' => $clientsList['client'],
+			'Компании' => $clientsList['company']
+		)
 	)
 );
 echo $this->Form->input(
 	'artifact_type',
 	array(
-		'type' => 'hidden'
+		'type' => 'hidden',
+		'id' => 'artifact_type'
 	)
 );
-
 echo $this->Form->input(
 	'start_date',
 	array(

@@ -146,7 +146,8 @@ class CompaniesController extends AppController {
 			}
 			$this->redirect(
 				array(
-					'action' => 'listing'
+					'action' => 'view',
+					$id
 				)
 			);
 		}

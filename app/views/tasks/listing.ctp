@@ -3,7 +3,6 @@ echo $this->Html->tag(
 	'h2',
 	'Задачи'
 );
-
 if (empty($tasks)) {
 	$createLink = $this->Html->link(
 		'Создайте',
@@ -43,16 +42,93 @@ else {
 				'border' => 0,
 				'border-bottom' => 0
 			)
+		);		
+		$showDetailsLink = $this->Html->link(
+			'+',
+			'javascript:void(0)',
+			array(
+				'id' => 'toggle_description',
+				'onclick' => "return toggle_details({$task['Task']['id']})"
+			)
 		);
-		if (! empty($task['Task']['description'])){
-			$showDetailsLink = $this->Html->link(
-				'+',
-				'javascript:void(0)',
+		echo $this->Html->tag(
+			'div',
+			$showDetailsLink
+		);		
+		$user = $this->Html->tag(
+			'dl',
+			$this->Html->tag(
+				'dt',
+				'Ответственный'
+			).$this->Html->tag(
+				'dd',
+				'<ФИО менеджера>'
+			)
+		);
+		if (! empty($task['Client']['name'])) {
+			$clientLink = $this->Html->link(
+				$task['Client']['surname'].' '.$task['Client']['name'].' '.
+					$task['Client']['father'],
 				array(
-					'id' => 'toggle_description',
-					'onclick' => "return toggle_details({$task['Task']['id']})"
+					'controller' => 'clients',
+					'action' => 'view',
+					$task['Client']['id']
 				)
 			);
+			$companyLink = '';
+			if ($task['Client']['company_id'] !== 0) {
+				foreach ($companies as $company) {
+					if ($company['Company']['id'] == $task['Client']['company_id']) {
+						$companyLink = ' ('.$this->Html->link(
+							'компания "'.$company['Company']['name'].'"',
+							array(
+								'controller' => 'companies',
+								'action' => 'view',
+								$company['Company']['id']
+							)
+						).')';
+						break;
+					}
+				}
+			}
+			$client = $this->Html->tag(
+				'dl',
+				$this->Html->tag(
+					'dt',
+					'Клиент'
+				).$this->Html->tag(
+					'dd',
+					$clientLink.$companyLink
+				)
+			);
+		}
+		else {
+			$client = '';
+		}
+		if (!empty($task['Project']['name'])){
+			$projectLink = $this->Html->link(
+				$task['Project']['name'],
+				array(
+					'controller' => 'projects',
+					'action' => 'view',
+					$task['Project']['id']
+				)
+			);
+			$project = $this->Html->tag(
+				'dl',
+				$this->Html->tag(
+					'dt',
+					'Проект'
+				).$this->Html->tag(
+					'dd',
+					$projectLink
+				)
+			);
+		}
+		else {
+			$project = '';
+		}
+		if (! empty($task['Task']['description'])) {
 			$description = $this->Html->tag(
 				'div',
 				$this->Html->tag(
@@ -69,48 +145,13 @@ else {
 					'style' => 'border: 1px solid #ccc'
 				)
 			);
-			echo $this->Html->tag(
-				'div',
-				$showDetailsLink
-			);
-			$user = $this->Html->tag(
-				'dl',
-				$this->Html->tag(
-					'dt',
-					'Ответственный'
-				).$this->Html->tag(
-					'dd',
-					'<ФИО менеджера>'
-				)
-			);
-			$client = $this->Html->tag(
-				'dl',
-				$this->Html->tag(
-					'dt',
-					'Клиент'
-				).$this->Html->tag(
-					'dd',
-					'<ФИО клиента или Название компании>'
-				)
-			);
-			$project = $this->Html->tag(
-				'dl',
-				$this->Html->tag(
-					'dt',
-					'Проект'
-				).$this->Html->tag(
-					'dd',
-					'<Название проекта>'
-				)
-			);
-			echo $this->Html->tag(
-				'div',
-				$user.$client.$project.$description,
-				array(
-					'class' => "details_block block{$task['Task']['id']}"
-				)
-			);
 		}
-		
+		echo $this->Html->tag(
+			'div',
+			$user.$client.$project.$description,
+			array(
+				'class' => "details_block block{$task['Task']['id']}"
+			)
+		);
 	}
 }

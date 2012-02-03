@@ -39,7 +39,7 @@ else {
 			echo $this->Html->tag(
 				'h4',
 				$this->Html->link(
-					'Компания '.$client['Company']['name'],
+					'Компания "'.$client['Company']['name'].'"',
 					array(
 						'controller' => 'companies',
 						'action' => 'view',

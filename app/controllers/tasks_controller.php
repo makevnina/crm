@@ -6,6 +6,7 @@ class TasksController extends AppController {
 	public $uses = array(
 		'Task',
 		'Client',
+		'Company',
 		'Project'
 	);
 	
@@ -22,6 +23,12 @@ class TasksController extends AppController {
 			'tasks',
 			$this->Task->find('all')
 		);
+		$this->set(
+			'companies',
+			$this->Company->find(
+				'all'
+			)
+		);
 	}
 	
 	public function create() {
@@ -35,6 +42,20 @@ class TasksController extends AppController {
 					)
 				);
 			}
+		}
+		else {
+			$this->set(
+				'clients',
+				$this->Client->find(
+					'all'
+				)
+			);
+			$this->set(
+				'projects',
+				$this->Project->find(
+					'all'
+				)
+			);
 		}
 	}
 	
@@ -50,6 +71,12 @@ class TasksController extends AppController {
 				)
 			)
 		);
+		$this->set(
+			'companies',
+			$this->Company->find(
+				'all'
+			)
+		);
 	}
 
 
@@ -61,7 +88,8 @@ class TasksController extends AppController {
 				$this->Session->SetFlash('Изменения сохранены');
 				$this->redirect(
 					array(
-						'action' => 'listing'
+						'action' => 'view',
+						$id
 					)
 				);
 			}
@@ -81,6 +109,18 @@ class TasksController extends AppController {
 			$this->set(
 				'task',
 				$this->data
+			);
+			$this->set(
+				'clients',
+				$this->Client->find(
+					'all'
+				)
+			);
+			$this->set(
+				'projects',
+				$this->Project->find(
+					'all'
+				)
 			);
 			$this->render('create');
 		}		
