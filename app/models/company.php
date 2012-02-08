@@ -14,8 +14,15 @@ class Company extends AppModel {
 			'foreignKey' => 'artifact_id'
 		),
 		'Project' => array(
-			'foreignKey' => 'artifact_id'
+			'foreignKey' => 'artifact_id',
+			'conditions' => array (
+				array ('Project.artifact_type' => 'company')
+			),
 		)
+	);
+	
+	public $belongsTo = array(
+		'Status'
 	);
     
     public $validate = array(

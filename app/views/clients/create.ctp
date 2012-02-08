@@ -41,6 +41,51 @@ echo $this->Form->input(
             'label' => 'Отчество'
         )
 );
+
+$optionsHtml = '';
+$optionsHtml .= $this->Html->tag(
+	'option',
+	'',
+	array(
+		'style' => 'background: #ffffff'
+	)
+);
+$selected_color = '';
+foreach ($statuses as $status) {
+	$selected = false;
+	if (! empty($client)) {
+		if ($client['Client']['status_id'] == $status['Status']['id']) {
+			$selected = true;
+			$selected_color = $status['Status']['color'];
+		}
+	}
+	$optionsHtml .= $this->Html->tag(
+		'option',
+		$status['Status']['name'],
+		array(
+			'value' => $status['Status']['id'],
+			'style' => "background: {$status['Status']['color']}",
+			'selected' => $selected ? 'selected' : ''
+		)
+	);
+}
+$selectHtml = $this->Html->tag(
+	'select',
+	$optionsHtml,
+	array (
+		'id'=> 'status',
+		'name' => 'data[Client][status_id]',
+		'style' => "background-color:{$selected_color}"
+	)
+);
+
+echo $this->Html->tag(
+	'div',
+	$this->Html->tag('label', 'Статус', array ('for' => 'status'))
+	. $selectHtml
+);
+
+
 echo $this->Html->link(
 	'Создать новую компанию',
 	'javascript:void(0)',
@@ -127,7 +172,8 @@ else {
 		'email',
 		array(
 			'label' => 'E-mail',
-			'name' => 'data[Email][new][]'
+			'name' => 'data[Email][new][]',
+			'type' => 'text'
 		)
 	);
 }

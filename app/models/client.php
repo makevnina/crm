@@ -3,7 +3,10 @@ class Client extends AppModel {
 
 	public $name = 'Client';
 
-	public $belongsTo = 'Company';
+	public $belongsTo = array(
+		'Company',
+		'Status'
+	);
 
 	public $hasMany = array(
 		'Phone' => array(
@@ -13,7 +16,10 @@ class Client extends AppModel {
 			'foreignKey' => 'artifact_id' 
 		),
 		'Project' => array(
-			'foreignKey' => 'artifact_id'
+			'foreignKey' => 'artifact_id',
+			'conditions' => array (
+				array ('Project.artifact_type' => 'client')
+			),
 		),
 		'Task'
 	);

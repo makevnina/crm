@@ -13,12 +13,12 @@ body {
 }
 a {
 	color: #003d4c;
-	text-decoration: underline;
+	text-decoration: none;
 	font-weight: bold;
 }
 a:hover {
 	color: #367889;
-	text-decoration:none;
+	text-decoration:underline;
 }
 a img {
 	border:none;
@@ -33,21 +33,33 @@ h1 {
 }
 h2 {
 	background:#fff;
-	color: #e32;
+	color: #F6A828;
 	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
 	font-size: 190%;
 }
 h3 {
-	color: #993;
+	color: #1C94C4;
 	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
 	font-size: 165%;
 }
+h3 a {
+	color: #1C94C4;
+	text-decoration: none;
+}
+h3 a:hover {
+	color: #C77405;
+}
 h4 {
-	color: #993;
+	color: #F6A828;
 	font-weight: normal;
 }
 ul, li {
 	margin: 0 12px;
+}
+.status_color {
+	display:inline;
+	width:100px;
+	height:100px;
 }
 
 /** Layout **/
@@ -262,26 +274,27 @@ form div.submit {
 }
 label {
 	display: block;
-	font-size: 110%;
+	font-size: 100%;
 	margin-bottom:3px;
 }
 input, textarea {
 	clear: both;
-	font-size: 140%;
+	font-size: 100%;
 	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
-	padding: 1%;
-	width:98%;
+	padding: 0.5%;
+	width:20%;
 }
 select {
 	clear: both;
-	font-size: 120%;
+	font-size: 100%;
 	vertical-align: text-bottom;
+	padding: 0.5% 0% 0.5% 0.5%;
 }
 select[multiple=multiple] {
 	width: 100%;
 }
 option {
-	font-size: 120%;
+	font-size: 100%;
 	padding: 0 3px;
 }
 input[type=checkbox] {
@@ -303,7 +316,7 @@ div.radio label {
 }
 input[type=submit] {
 	display: inline;
-	font-size: 110%;
+	font-size: 100%;
 	width: auto;
 }
 form .submit input[type=submit] {

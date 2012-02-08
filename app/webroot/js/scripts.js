@@ -47,6 +47,10 @@ $(document).ready(function() {
 		});
 		$('#artifact_type').attr('value', current_value);
 	});
+	$('select#status').change(function() {
+		var current_color = $('option:selected').attr('style');
+		$(this).attr('style',current_color);
+	});
 });
 jQuery(function($){
 	$.datepicker.regional['ru'] = {

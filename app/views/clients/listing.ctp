@@ -35,6 +35,15 @@ else {
 				)
 			)
 		);
+		if ($client['Client']['status_id'] <> 0) {
+			echo $this->Html->tag(
+				'span',
+				$client['Status']['name'],
+				array(
+					'style' => "background-color:{$client['Status']['color']}"
+				)
+			);
+		}
 		if ($client['Company']['id'] <> 0) {
 			echo $this->Html->tag(
 				'h4',
@@ -149,7 +158,10 @@ else {
 		else {
 			$email_addresses = '';
 		}
-		echo $showDetailsLink;
+		echo $this->Html->tag(
+			'div',
+			$showDetailsLink
+		);
 		echo $this->Html->tag(
 			'div',
 			$position.$address.$phone_numbers.$email_addresses,

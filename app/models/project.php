@@ -22,11 +22,17 @@ class Project extends AppModel {
         'Client' => array(
             'classname' => 'Client',
             'foreignKey' => 'artifact_id',
+				'conditions' => array (
+					array ('Project.artifact_type' => 'client')
+				),
             'unique' => 'false'
         ),
         'Company' => array(
             'classname' => 'Company',
             'foreignKey' => 'artifact_id',
+			   'conditions' => array (
+					array ('Project.artifact_type' => 'company')
+				),
             'unique' => 'false'
         ),
         'User'

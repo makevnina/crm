@@ -51,10 +51,6 @@ else {
 			'<состояние проекта (степень завершенности)>'
 		);
 		echo $this->Html->tag(
-			'div',
-			'<статус проекта>'
-		);
-		echo $this->Html->tag(
 			'dl',
 			$this->Html->tag(
 				'dt',

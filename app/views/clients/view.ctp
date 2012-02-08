@@ -27,14 +27,26 @@ echo $this->Html->tag(
         'p',
         '['.$editLink.', '.$deleteLink.']'
 );
+if (!empty($client['Client']['status_id'])) {
+	echo $this->Html->tag(
+		'span',
+		$client['Status']['name'],
+		array(
+			'style' => "background:{$client['Status']['color']}"
+		)
+	);
+}
 if ($client['Company']['id'] <> 0) {
-   echo $this->Html->link(
+   echo $this->Html->tag(
+		'h3',
+		$this->Html->link(
          'Компания '.$client['Company']['name'],
          array(
              'controller' => 'companies',
              'action' => 'view',
              $client['Company']['id']
          )
+		)
    );
 }
 if ($client['Client']['position'] <> '') {
@@ -49,7 +61,7 @@ if ($client['Client']['position'] <> '') {
 		)
 	);
 }
-if (! empty($phones)) {
+if (! empty($phones['Phone']['number'])) {
 	$phone_list = '';
 	foreach ($phones as $phone) {
 		if ($phone_list !== '') {
@@ -68,7 +80,7 @@ if (! empty($phones)) {
 		)
 	);
 }
-if (! empty($emails)) {
+if (! empty($emails['Email']['address'])) {
 	$email_list = '';
 	foreach ($emails as $email) {
 		if ($email_list !== '') {

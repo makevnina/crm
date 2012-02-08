@@ -7,7 +7,8 @@ class ClientsController extends AppController {
 		'Client',
 		'Company',
 		'Phone',
-		'Email'
+		'Email',
+		'Status'
 	);
 
 	public function index() {
@@ -71,6 +72,10 @@ class ClientsController extends AppController {
 		$this->set(
 			'companies',
 			$this->Company->find('all')
+		);
+		$this->set(
+			'statuses',
+			$this->Status->find('all')
 		);
 	}
 
@@ -178,6 +183,10 @@ class ClientsController extends AppController {
 						)
 					)
 				)
+			);
+			$this->set(
+				'statuses',
+				$this->Status->find('all')
 			);
 			$this->render('create');
 		}

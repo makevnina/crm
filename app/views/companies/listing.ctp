@@ -14,15 +14,7 @@ echo $this->Html->tag(
         $createLink
 );
 foreach ($companies as $company) {
-   $showDetailsLink = $this->Html->link(
-		'+',
-		'javascript:void(0)',
-		array (
-			'class' => 'toggle_details',
-			'onclick' => "return toggle_details({$company['Company']['id']});"
-		)
-	);
-	$companyLink = $this->Html->tag(
+   $companyLink = $this->Html->tag(
 		'h3',
 		$this->Html->link(
 			$company['Company']['name'],
@@ -32,7 +24,7 @@ foreach ($companies as $company) {
 			)
 		)
    );
-	echo $companyLink.$showDetailsLink;
+	echo $companyLink;
 	
 	if (! empty($company['Company']['activity'])) {
 		$activity = $this->Html->tag(
@@ -123,14 +115,25 @@ foreach ($companies as $company) {
 	else {
 		$email_addresses = '';
 	}
-	echo $this->Html->tag(
-		'div',
-		$activity.$address.$phone_numbers.$email_addresses,
-		array(
-			'class' => "details_block block{$company['Company']['id']}",
-			'id' => "block_{$company['Company']['id']}"
-		)
-	);
+	if (! empty($activity) OR !empty($address) OR !empty($phone_numbers) OR !empty($email_addresses)) {
+		$showDetailsLink = $this->Html->link(
+			'+',
+			'javascript:void(0)',
+			array (
+				'class' => 'toggle_details',
+				'onclick' => "return toggle_details({$company['Company']['id']});"
+			)
+		);
+		echo $showDetailsLink;
+		echo $this->Html->tag(
+			'div',
+			$activity.$address.$phone_numbers.$email_addresses,
+			array(
+				'class' => "details_block block{$company['Company']['id']}",
+				'id' => "block_{$company['Company']['id']}"
+			)
+		);
+	}
 	if ($clients <> null) {
 		$viewClientLinks = array();
 		foreach ($clients as $client) {
@@ -147,7 +150,7 @@ foreach ($companies as $company) {
 		}		
 		if (! empty($viewClientLinks)) {
 			echo $this->Html->tag(
-				'h3',
+				'h4',
 				'Контактные лица компании:',
 				array(
 					'class' => "details_block block{$company['Company']['id']}"
@@ -155,7 +158,7 @@ foreach ($companies as $company) {
 			);
 			foreach ($viewClientLinks as $viewClientLink) {
 				echo $this->Html->tag(
-					'p',
+					'div',
 					$viewClientLink,
 					array(
 						'class' => "details_block block{$company['Company']['id']}"
