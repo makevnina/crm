@@ -27,10 +27,16 @@ echo $this->Html->tag(
 	'p',
 	'['.$editLink.', '.$deleteLink.']'
 );
-echo $this->Html->tag(
-	'div',
-	'<состояние проекта (степень завершенности)>'
-);
+if (! empty($project['Project']['state_id'])) {
+	echo $this->Html->tag(
+		'span',
+		$project['State']['name'],
+		array(
+			'class' => 'status',
+			'style' => "background: {$project['State']['color']}"
+		)
+	);
+}
 echo $this->Html->tag(
 	'dl',
 	$this->Html->tag(

@@ -11,9 +11,12 @@
 		echo $this->Html->css('common');
 		echo $this->Html->css('jquery-ui');
 		echo $this->Html->css('nav-menu');
+		echo $this->Html->css('jPicker-1.1.6');
+		echo $this->Html->css('jPicker');
 		echo $this->Html->script(array('jquery-1.7.1.min.js', 'scripts'));
 		echo $this->Html->script(array('scripts.js', 'scripts'));
 		echo $this->Html->script(array('jquery-ui-1.8.17.custom.min.js', 'scripts'));
+		echo $this->Html->script(array('jpicker-1.1.6.js', 'scripts'));
 
 		echo $scripts_for_layout;
 		?>

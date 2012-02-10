@@ -46,10 +46,16 @@ else {
 			)
 		);
 		echo $projectNameLink;
-		echo $this->Html->tag(
-			'div',
-			'<состояние проекта (степень завершенности)>'
-		);
+		if ($project['Project']['state_id'] <> 0) {
+			echo $this->Html->tag(
+				'span',
+				$project['State']['name'],
+				array(
+					'class' => 'status',
+					'style' => "background: {$project['State']['color']}"
+				)
+			);
+		}
 		echo $this->Html->tag(
 			'dl',
 			$this->Html->tag(

@@ -3,7 +3,6 @@ echo $this->Html->tag(
     'h2',
     'Список клиентов'
 );
-
 if (empty($clients)) {
     $createLink = $this->Html->link(
         'создайте',
@@ -35,12 +34,13 @@ else {
 				)
 			)
 		);
-		if ($client['Client']['status_id'] <> 0) {
+		if ($client['Client']['client_status_id'] <> 0) {
 			echo $this->Html->tag(
 				'span',
-				$client['Status']['name'],
+				$client['ClientStatus']['name'],
 				array(
-					'style' => "background-color:{$client['Status']['color']}"
+					'class' => 'status',
+					'style' => "background-color:{$client['ClientStatus']['color']}"
 				)
 			);
 		}

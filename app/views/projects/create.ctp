@@ -114,6 +114,46 @@ echo $this->Form->input(
 		'id' => 'artifact_type'
 	)
 );
+$optionsHtml = '';
+$selected_color = '';
+foreach ($states as $state) {
+	$selected = false;
+	if (! empty($project)) {
+		if ($project['Project']['state_id'] == $state['State']['id']) {
+			$selected = true;
+			$selected_color = $state['State']['color'];
+		}
+	}
+	$optionsHtml .= $this->Html->tag(
+		'option',
+		$state['State']['name'],
+		array(
+			'class' => 'status',
+			'value' => $state['State']['id'],
+			'style' => "background: {$state['State']['color']}",
+			'selected' => $selected ? 'selected' : ''
+		)
+	);
+}
+$selectHtml = $this->Html->tag(
+	'select',
+	$optionsHtml,
+	array(
+		'id' => 'status',
+		'name' => 'data[Project][state_id]',
+		'style' => "background: {$selected_color}"
+	)
+);
+echo $this->Html->tag(
+	'div',
+	$this->Html->tag(
+		'label',
+		'Состояние проекта',
+		array(
+			'for' => 'state'
+		)
+	).$selectHtml
+);
 echo $this->Form->input(
 	'start_date',
 	array(

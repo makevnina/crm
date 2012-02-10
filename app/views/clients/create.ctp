@@ -47,24 +47,26 @@ $optionsHtml .= $this->Html->tag(
 	'option',
 	'',
 	array(
+		'class' => 'status',
 		'style' => 'background: #ffffff'
 	)
 );
 $selected_color = '';
-foreach ($statuses as $status) {
+foreach ($client_statuses as $status) {
 	$selected = false;
 	if (! empty($client)) {
-		if ($client['Client']['status_id'] == $status['Status']['id']) {
+		if ($client['Client']['client_status_id'] == $status['ClientStatus']['id']) {
 			$selected = true;
-			$selected_color = $status['Status']['color'];
+			$selected_color = $status['ClientStatus']['color'];
 		}
 	}
 	$optionsHtml .= $this->Html->tag(
 		'option',
-		$status['Status']['name'],
+		$status['ClientStatus']['name'],
 		array(
-			'value' => $status['Status']['id'],
-			'style' => "background: {$status['Status']['color']}",
+			'class' => 'status',
+			'value' => $status['ClientStatus']['id'],
+			'style' => "background: {$status['ClientStatus']['color']}",
 			'selected' => $selected ? 'selected' : ''
 		)
 	);
@@ -74,7 +76,7 @@ $selectHtml = $this->Html->tag(
 	$optionsHtml,
 	array (
 		'id'=> 'status',
-		'name' => 'data[Client][status_id]',
+		'name' => 'data[Client][client_status_id]',
 		'style' => "background-color:{$selected_color}"
 	)
 );
@@ -136,7 +138,6 @@ else {
 		)
 	);
 }
-
 $add_phone_link = $this->Html->link(
 	'Добавить телефон',
 	'javascript:void(0)',
@@ -144,7 +145,6 @@ $add_phone_link = $this->Html->link(
 		'onclick' => 'return add_phone();'
 	)
 );
-
 echo $this->Html->tag(
 	'div',
 	$phone_input.$add_phone_link,

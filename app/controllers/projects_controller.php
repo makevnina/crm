@@ -6,7 +6,8 @@ class ProjectsController extends AppController {
 	public $uses = array(
 		'Project',
 		'Client',
-		'Company'
+		'Company',
+		'State'
 	);
 	
 	public function index() {
@@ -53,6 +54,12 @@ class ProjectsController extends AppController {
 			$this->set(
 				'companies',
 				$this->Company->find(
+					'all'
+				)
+			);
+			$this->set(
+				'states',
+				$this->State->find(
 					'all'
 				)
 			);
@@ -117,6 +124,12 @@ class ProjectsController extends AppController {
 			$this->set(
 				'companies',
 				$this->Company->find(
+					'all'
+				)
+			);
+			$this->set(
+				'states',
+				$this->State->find(
 					'all'
 				)
 			);

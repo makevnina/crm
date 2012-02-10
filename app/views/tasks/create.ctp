@@ -26,6 +26,48 @@ echo $this->Form->input(
 		'label' => 'Название'
 	)
 );
+$optionsHtml = '';
+$selected_color = '';
+foreach ($task_states as $task_state) {
+	$selected = false;
+	if (! empty($task)) {
+		if ($task['Task']['task_state_id'] == $task_state['TaskState']['id']) {
+			$selected = true;
+			$selected_color = $task_state['TaskState']['color'];
+		}
+	}
+	$optionsHtml .= $this->Html->tag(
+		'option',
+		$task_state['TaskState']['name'],
+		array(
+			'class' => 'status',
+			'value' => $task_state['TaskState']['id'],
+			'style' => "background: {$task_state['TaskState']['color']}",
+			'selected' => $selected ? 'selected' : ''
+		)
+	);
+}
+$selectHtml = $this->Html->tag(
+	'select',
+	$optionsHtml,
+	array(
+		'id' => 'status',
+		'name' => 'data[Task][task_state_id]',
+		'style' => "background: {$selected_color}"
+	)
+);
+echo $this->Html->tag(
+	'div',
+	$this->Html->tag(
+		'label',
+		'Статус',
+		array(
+			'for' => 'status'
+		)
+	).$selectHtml
+);
+
+
 $clientsList = array('');
 $clientsCompaniesList = array();
 foreach ($clients as $client) {

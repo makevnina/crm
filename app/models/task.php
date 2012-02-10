@@ -6,7 +6,8 @@ class Task extends AppModel {
 	public $belongsTo = array(
 		'Client',
 		'User',
-		'Project'
+		'Project',
+		'TaskState'
 	);
 	
 	public $validate = array(

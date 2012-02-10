@@ -27,12 +27,13 @@ echo $this->Html->tag(
         'p',
         '['.$editLink.', '.$deleteLink.']'
 );
-if (!empty($client['Client']['status_id'])) {
+if (!empty($client['Client']['client_status_id'])) {
 	echo $this->Html->tag(
 		'span',
-		$client['Status']['name'],
+		$client['ClientStatus']['name'],
 		array(
-			'style' => "background:{$client['Status']['color']}"
+			'class' => 'status',
+			'style' => "background:{$client['ClientStatus']['color']}"
 		)
 	);
 }

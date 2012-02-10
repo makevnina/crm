@@ -31,18 +31,18 @@ else {
 				)
 			)
 		);
-		$tableCells = array(
-			'<статус задачи>',
-			$task['Task']['deadline_date'].' '.$task['Task']['deadline_time']
-		);
 		echo $this->Html->tag(
-			'table',
-			$this->Html->tableCells($tableCells),
-			array(
-				'border' => 0,
-				'border-bottom' => 0
-			)
-		);		
+				'span',
+				$task['TaskState']['name'],
+				array(
+					'class' => 'status',
+					'style' => "background: {$task['TaskState']['color']}"
+				)
+			).' '.
+			$this->Html->tag(
+				'span',
+				$task['Task']['deadline_date'].' '.$task['Task']['deadline_time']
+		);	
 		$showDetailsLink = $this->Html->link(
 			'+',
 			'javascript:void(0)',

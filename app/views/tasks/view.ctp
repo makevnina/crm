@@ -27,16 +27,17 @@ echo $this->Html->tag(
 	'div',
 	$editLink.', '.$deleteLink	
 );
-$tableCells = array(
-	'<статус задачи>',
-	$task['Task']['deadline_date'].' '.$task['Task']['deadline_time']	
-);
 echo $this->Html->tag(
-	'table',
-	$this->Html->tableCells($tableCells),
+	'span',
+	$task['TaskState']['name'],
 	array(
-		'border' => 0
+		'class' => 'status',
+		'style' => "background: {$task['TaskState']['color']}"
 	)
+).' '.
+$this->Html->tag(
+	'span',
+	$task['Task']['deadline_date'].' '.$task['Task']['deadline_time']
 );
 echo $this->Html->tag(
 	'dl',

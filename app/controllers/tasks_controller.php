@@ -7,7 +7,8 @@ class TasksController extends AppController {
 		'Task',
 		'Client',
 		'Company',
-		'Project'
+		'Project',
+		'TaskState'
 	);
 	
 	public function index() {
@@ -53,6 +54,12 @@ class TasksController extends AppController {
 			$this->set(
 				'projects',
 				$this->Project->find(
+					'all'
+				)
+			);
+			$this->set(
+				'task_states',
+				$this->TaskState->find(
 					'all'
 				)
 			);
@@ -119,6 +126,12 @@ class TasksController extends AppController {
 			$this->set(
 				'projects',
 				$this->Project->find(
+					'all'
+				)
+			);
+			$this->set(
+				'task_states',
+				$this->TaskState->find(
 					'all'
 				)
 			);
