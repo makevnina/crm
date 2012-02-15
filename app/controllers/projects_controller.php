@@ -36,34 +36,32 @@ class ProjectsController extends AppController {
 				);
 			}
 			else {
-				$this->Session->SetFlash('Не удалось сохранить проект');
+				$this->Session->SetFlash('Не удалось добавить проект');
 			}
 		}
-		else {
-			$this->set(
-				'clients',
-				$this->Client->find(
-					'all',
-					array(
-						'conditions' => array(
-							'Client.company_id' => 0
-						)
+		$this->set(
+			'clients',
+			$this->Client->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Client.company_id' => 0
 					)
 				)
-			);
-			$this->set(
-				'companies',
-				$this->Company->find(
-					'all'
-				)
-			);
-			$this->set(
-				'states',
-				$this->State->find(
-					'all'
-				)
-			);
-		}
+			)
+		);
+		$this->set(
+			'companies',
+			$this->Company->find(
+				'all'
+			)
+		);
+		$this->set(
+			'states',
+			$this->State->find(
+				'all'
+			)
+		);
 	}
 	
 	public function view($id) {

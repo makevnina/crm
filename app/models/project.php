@@ -7,7 +7,6 @@ class Project extends AppModel {
 		'name' => array(
 			'ruleName' => array(
 				'rule' => 'notEmpty',
-				'requred' => 'true',
 				'allowEmpty' => false,
 				'message' => 'Введите название проекта',
 			),

@@ -51,11 +51,15 @@ class ClientsController extends AppController {
 	public function create() {
 		if ($this->RequestHandler->isPost()){
 			$success = $this->Client->save($this->data);
-			if (! empty($this->data['Phone'])) {
-				$success = $this->Phone->save($this->Client, $this->data['Phone']);
+			if ($success) {
+				if (! empty($this->data['Phone'])) {
+					$success = $this->Phone->save($this->Client, $this->data['Phone']);
+				}
 			}
-			if (! empty($this->data['Email'])) {
-				$success = $this->Email->save($this->Client, $this->data['Email']);
+			if ($success) {
+				if (! empty($this->data['Email'])) {
+					$success = $this->Email->save($this->Client, $this->data['Email']);
+				}
 			}
 			if ($success) {
 				$this->Session->SetFlash('Клиент создан');

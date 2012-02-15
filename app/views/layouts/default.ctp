@@ -14,9 +14,9 @@
 		echo $this->Html->css('jPicker-1.1.6');
 		echo $this->Html->css('jPicker');
 		echo $this->Html->script(array('jquery-1.7.1.min.js', 'scripts'));
+		echo $this->Html->script(array('jpicker-1.1.6.min.js', 'scripts'));
 		echo $this->Html->script(array('scripts.js', 'scripts'));
 		echo $this->Html->script(array('jquery-ui-1.8.17.custom.min.js', 'scripts'));
-		echo $this->Html->script(array('jpicker-1.1.6.js', 'scripts'));
 
 		echo $scripts_for_layout;
 		?>
@@ -27,6 +27,7 @@
 				<h1 id="logo"><?= $this->Html->link('CRM', '/') ?></h1>
 			</div>
 			<div id="navigation_menu"><?= $navigationMenu->render() ?></div>
+			
 			<div id="content">
 
 				<?php echo $this->Session->flash(); ?>

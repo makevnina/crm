@@ -27,13 +27,11 @@ class Client extends AppModel {
 	public $validate = array(
 		'surname' => array(
 			'rule' => 'notEmpty',
-			'requred' => 'true',
 			'allowEmpty' => false,
 			'message' => 'Фамилия клиента обязательна для заполнения'
 		),
 		'name' => array(
 			'rule' => 'notEmpty',
-			'requred' => 'true',
 			'allowEmpty' => false,
 			'message' => 'Имя клиента обязательно для заполнения'
 		),

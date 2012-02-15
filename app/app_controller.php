@@ -11,6 +11,8 @@ class AppController extends Controller {
 		'Session',
 		'Form',
 		'NavigationMenu',
+		'ViewTasks',
+		'Time'
 	);
 
 }

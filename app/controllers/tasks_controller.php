@@ -22,7 +22,9 @@ class TasksController extends AppController {
 	public function listing() {
 		$this->set(
 			'tasks',
-			$this->Task->find('all')
+			$this->Task->find(
+				'all'
+			)
 		);
 		$this->set(
 			'companies',
@@ -43,27 +45,28 @@ class TasksController extends AppController {
 					)
 				);
 			}
-		}
-		else {
-			$this->set(
-				'clients',
-				$this->Client->find(
-					'all'
-				)
-			);
-			$this->set(
-				'projects',
-				$this->Project->find(
-					'all'
-				)
-			);
-			$this->set(
-				'task_states',
-				$this->TaskState->find(
-					'all'
-				)
-			);
-		}
+			else {
+				$this->Session->SetFlash('Не удалось добавить задачу');
+			}
+		}		
+		$this->set(
+			'clients',
+			$this->Client->find(
+				'all'
+			)
+		);
+		$this->set(
+			'projects',
+			$this->Project->find(
+				'all'
+			)
+		);
+		$this->set(
+			'task_states',
+			$this->TaskState->find(
+				'all'
+			)
+		);
 	}
 	
 	public function view($id) {

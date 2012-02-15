@@ -52,6 +52,7 @@ h3 a:hover {
 h4 {
 	color: #F6A828;
 	font-weight: normal;
+	font-size: 120%;
 }
 ul, li {
 	margin: 0 12px;
@@ -60,6 +61,16 @@ ul, li {
 	padding: 0.3px 2px 2px 2px;
 	border-radius: 4px;
 	font-size: 70%;
+}
+div.input.text.required {
+	display: inline;
+	padding: 0;
+}
+.details_block {
+	font-size: 90%;
+}
+h4.details_block {
+	font-size: 120%;
 }
 
 /** Layout **/
@@ -130,13 +141,14 @@ table {
 	clear: both;
 	color: #333;
 	margin-bottom: 10px;
-	width: 100%;
+	width: auto;
 }
 th {
 	border:0;
 	border-bottom:2px solid #555;
-	text-align: left;
+	text-align: center;
 	padding:4px;
+	font-size: 70%;
 }
 th a {
 	display: block;
@@ -152,9 +164,10 @@ th a.desc:after {
 table tr td {
 	background: #fff;
 	padding: 6px;
-	text-align: left;
+	text-align: center;
 	vertical-align: top;
 	border-bottom:1px solid #ddd;
+	font-size: 70%;
 }
 table tr:nth-child(2n) td {
 	background: #f5f5f5;

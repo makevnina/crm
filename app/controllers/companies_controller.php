@@ -57,23 +57,27 @@ class CompaniesController extends AppController {
 	function create() {
 		if ($this->RequestHandler->isPost()) {
 			$success = $this->Company->save($this->data);
-			if (! empty($this->data['Phone'])) {
-				$success = $this->Phone->save($this->Company, $this->data['Phone']);
+			if ($success) {
+				if (! empty($this->data['Phone'])) {
+					$success = $this->Phone->save($this->Company, $this->data['Phone']);
+				}
 			}
-			if (!empty($this->data['Email'])) {
-				$success = $this->Email->save($this->Company, $this->data['Email']);
+			if ($success) {
+				if (!empty($this->data['Email'])) {
+					$success = $this->Email->save($this->Company, $this->data['Email']);
+				}
 			}
 			if ($success) {
 				$this->Session->SetFlash('Компания создана');
+				$this->redirect(
+					array(
+						'action' => 'listing'
+					)
+				);
 			}
 			else {
-				$this->Session->SetFlash('Компанию не удалось создать');
+				$this->Session->SetFlash('Не удалось добавить компанию');
 			}
-			$this->redirect(
-				array(
-				'action' => 'listing'
-				)
-			);
 		}
 	}
 

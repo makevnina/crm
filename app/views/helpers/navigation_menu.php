@@ -20,7 +20,11 @@ class NavigationMenuHelper extends AppHelper {
 		array (
 			'title' => 'Компании',
 			'link' => array ('controller' => 'companies', 'action' => 'listing')
-		),		
+		),
+		array(
+			'title' => 'Настройки',
+			'link' => array('controller' => 'client_statuses', 'action' => 'edit')
+		)
 	);
 	
 	public function render() {

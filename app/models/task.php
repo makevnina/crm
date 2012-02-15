@@ -12,13 +12,13 @@ class Task extends AppModel {
 	
 	public $validate = array(
 		'name' => array(
-			'rule_first' => array(
+			'rule1' => array(
 				'rule' => 'notEmpty',
 				'requred' => 'true',
 				'allowEmpty' => false,
-				'message' => 'Необходимо выбрать тип задачи'
+				'message' => 'Введите название задачи'
 			),
-			'rule_second' => array(
+			'rule2' => array(
 				'rule' => 'isUnique',
 				'message' => 'Такая задача уже существует'
 			)
@@ -30,10 +30,15 @@ class Task extends AppModel {
 			'message' => 'Выберете тип задачи'
 		),
 		'deadline_date' => array(
-			'rule' => 'notEmpty',
-			'requred' => 'true',
-			'allowEmpty' => false,
-			'message' => 'Выберете дату дедлайна'
+			'rule1' => array(
+				'rule' => 'notEmpty',
+				'allowEmpty' => false,
+				'message' => 'Выберете дату дедлайна'
+			),
+			'rule2' => array(
+				'rule' => array('date', 'ymd'),
+				'message' => 'Введите корректную дату в формате ГГГГ-ММ-ДД'
+			)
 		),
 	);
 	

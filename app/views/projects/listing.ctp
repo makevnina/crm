@@ -113,21 +113,23 @@ else {
 				'div',
 				$showDescriptionLink
 			);
-			echo $this->Html->tag(
+			$descriptionTitle = $this->Html->tag(
 				'div',
 				$this->Html->tag(
-					'div',
-					$this->Html->tag(
-						'b',
-						'Описание'
-					)
-				).$this->Html->tag(
+					'b',
+					'Описание'
+				)
+			);
+			
+			echo $this->Html->tag(
+				'div',
+				$descriptionTitle.$this->Html->tag(
 					'div',
 					$project['Project']['description']
 				),
 				array(
 					'class' => "details_block block{$project['Project']['id']}",
-					'style' => 'border: 1px solid #ccc'
+					'style' => 'border: 1px solid #ccc; width: 32%'
 				)
 			);
 		}
