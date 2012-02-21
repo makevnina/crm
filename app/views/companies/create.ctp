@@ -110,11 +110,25 @@ echo $this->Html->tag(
 		'class' => 'email_block'
 	)
 );
-
 echo $this->Form->input(
 	'address',
 	array(
 		'label' => 'Адрес'
+	)
+);
+$clientList = array();
+foreach ($clients as $client) {
+	$clientList[$client['Client']['id']] = $client['Client']['surname']
+		.' '.$client['Client']['name'].' '.$client['Client']['father'];
+}
+echo $this->Form->select(
+	'Client.company_id',
+	$clientList,
+	Null,
+	array(
+		'name' => 'data[Client][company_id]',
+		'multiple' => true,
+		'style' => 'display: inline; width: auto; height: auto'
 	)
 );
 echo $this->Form->end($this->action == 'create' ? 'Создать' : 'Сохранить');

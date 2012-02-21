@@ -125,6 +125,7 @@ $selectHtml = $this->Html->tag(
 	'select',
 	$aloneOptionsHtml.$optgroupHtml,
 	array(
+		'name' => 'data[Task][client_id]',
 		'id' => 'ClientSelect'
 	)
 );
@@ -198,6 +199,7 @@ $projectSelectHtml = $this->Html->tag(
 	'select',
 	$projectOptionsHtml,
 	array(
+		'name' => 'data[Task][project_id]',
 		'id' => 'ProjectSelect'
 	)
 );

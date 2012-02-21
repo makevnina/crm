@@ -48,7 +48,7 @@ class TasksController extends AppController {
 			else {
 				$this->Session->SetFlash('Не удалось добавить задачу');
 			}
-		}		
+		}	
 		$this->set(
 			'clients',
 			$this->Client->find(
@@ -107,39 +107,37 @@ class TasksController extends AppController {
 				$this->Session->SetFlash('Не удалось сохранить изменения');
 			}
 		}
-		else {
-			$this->data = $this->Task->find(
-				'first',
-				array(
-					'conditions' => array(
-						'Task.id' => $id
-					)
+		$this->data = $this->Task->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Task.id' => $id
 				)
-			);
-			$this->set(
-				'task',
-				$this->data
-			);
-			$this->set(
-				'clients',
-				$this->Client->find(
-					'all'
-				)
-			);
-			$this->set(
-				'projects',
-				$this->Project->find(
-					'all'
-				)
-			);
-			$this->set(
-				'task_states',
-				$this->TaskState->find(
-					'all'
-				)
-			);
-			$this->render('create');
-		}		
+			)
+		);
+		$this->set(
+			'task',
+			$this->data
+		);
+		$this->set(
+			'clients',
+			$this->Client->find(
+				'all'
+			)
+		);
+		$this->set(
+			'projects',
+			$this->Project->find(
+				'all'
+			)
+		);
+		$this->set(
+			'task_states',
+			$this->TaskState->find(
+				'all'
+			)
+		);
+		$this->render('create');	
 	}
 	
 	public function delete($id) {

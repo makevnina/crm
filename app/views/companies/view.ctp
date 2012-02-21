@@ -93,13 +93,13 @@ if ($company['Company']['address'] !== '') {
 		)
 	);
 }
-if ($clients <> null) {
+if (! empty($clients)) {
    echo $this->Html->tag(
          'h3',
          'Контактные лица компании:'  
    );
    foreach ($clients as $client) {
-      $viewClientLink = $this->Html->link(
+      $clientLink = $this->Html->link(
          $client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father'],
 			array(
 				'controller' => 'clients',
@@ -108,8 +108,28 @@ if ($clients <> null) {
 			)
       );
 		echo $this->Html->tag(
-			'p',
-			$viewClientLink
+			'div',
+			$clientLink
 		);
    }
+}
+if (! empty($projects)) {
+	echo $this->Html->tag(
+		'h3',
+		'Проекты компании:'
+	);
+	foreach ($projects as $project) {
+		$projectLink = $this->Html->link(
+			$project['Project']['name'],
+			array(
+				'controller' => 'projects',
+				'action' => 'view',
+				$project['Project']['id']
+			)
+		);
+		echo $this->Html->tag(
+			'div',
+			$projectLink
+		);
+	}
 }

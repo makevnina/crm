@@ -115,17 +115,8 @@ foreach ($companies as $company) {
 	else {
 		$email_addresses = '';
 	}
-	if (! empty($activity) OR !empty($address) OR !empty($phone_numbers) OR !empty($email_addresses)) {
-		$showDetailsLink = $this->Html->link(
-			'+',
-			'javascript:void(0)',
-			array (
-				'class' => 'toggle_details',
-				'onclick' => "return toggle_details({$company['Company']['id']});"
-			)
-		);
-		echo $showDetailsLink;
-		echo $this->Html->tag(
+	if (! empty($activity) OR !empty($address) OR !empty($phone_numbers) OR !empty($email_addresses)) {		
+		$detailsDiv = $this->Html->tag(
 			'div',
 			$activity.$address.$phone_numbers.$email_addresses,
 			array(
@@ -134,7 +125,10 @@ foreach ($companies as $company) {
 			)
 		);
 	}
-	if ($clients <> null) {
+	else {
+		$detailsDiv = '';
+	}
+	if (! empty($clients)) {
 		$viewClientLinks = array();
 		foreach ($clients as $client) {
 			if ($client['Client']['company_id'] == $company['Company']['id']) {
@@ -147,24 +141,77 @@ foreach ($companies as $company) {
 					)
 				);
 			}
-		}		
-		if (! empty($viewClientLinks)) {
+		}
+	}
+	else {
+		$viewClientLinks = '';
+	}
+	if (! empty($projects)) {
+		$projectArrayLink = array();
+		foreach ($projects as $project) {
+			if ($project['Project']['artifact_id'] == $company['Company']['id']) {
+				$projectArrayLink[] = $this->Html->link(
+					$project['Project']['name'],
+					array(
+						'controller' => 'projects',
+						'action' => 'view',
+						$project['Project']['id']
+					)
+				);
+			}
+		}
+	}
+	else {
+		$projectArrayLink = '';
+	}
+	$showDetailsLink = $this->Html->link(
+		'+',
+		'javascript:void(0)',
+		array (
+			'class' => 'toggle_details',
+			'onclick' => "return toggle_details({$company['Company']['id']});"
+		)
+	);
+	if ((! empty($detailsDiv)) OR (!empty($viewClientLinks)) OR (! empty($projectArrayLink))) {
+		echo $showDetailsLink;
+	}
+	if (!empty ($detailsDiv)) {
+		echo $detailsDiv;
+	}
+	if (! empty($viewClientLinks)) {
+		echo $this->Html->tag(
+			'h4',
+			'Контактные лица компании:',
+			array(
+				'class' => "details_block block{$company['Company']['id']}"
+			)
+		);
+		foreach ($viewClientLinks as $viewClientLink) {
 			echo $this->Html->tag(
-				'h4',
-				'Контактные лица компании:',
+				'div',
+				$viewClientLink,
 				array(
 					'class' => "details_block block{$company['Company']['id']}"
 				)
 			);
-			foreach ($viewClientLinks as $viewClientLink) {
-				echo $this->Html->tag(
-					'div',
-					$viewClientLink,
-					array(
-						'class' => "details_block block{$company['Company']['id']}"
-					)
-				);
-			}
-		}		
+		}
+	}
+	if (! empty($projectArrayLink)) {
+		echo $this->Html->tag(
+			'h4',
+			'Проекты компании:',
+			array(
+				'class' => "details_block block{$company['Company']['id']}"
+			)
+		);
+		foreach ($projectArrayLink as $projectLink) {
+			echo $this->Html->tag(
+				'div',
+				$projectLink,
+				array(
+					'class' => "details_block block{$company['Company']['id']}"
+				)
+			);
+		}
 	}
 }

@@ -88,16 +88,7 @@ else {
 		}
 		else {
 			$address = '';
-		}
-		$showDetailsLink = $this->Html->link(
-			'+',
-			'javascript:void(0)',
-			array (
-				'class' => 'toggle_details',
-				'onclick' => "return toggle_details({$client['Client']['id']});"
-			)
-		);
-		
+		}		
 		if (! empty($phones)) {
 			$phone_list = '';
 			foreach ($phones as $phone) {
@@ -158,9 +149,50 @@ else {
 		else {
 			$email_addresses = '';
 		}
+		$projectClientType = '';
+		if (! empty($projects)) {
+			$projectArrayLink = array();
+			foreach ($projects as $project) {
+				if (($project['Project']['artifact_id'] == $client['Client']['id']) 
+					AND ($project['Project']['artifact_type'] == 'client')) {
+					$projectArrayLink[] = $this->Html->link(
+						$project['Project']['name'],
+						array(
+							'controller' => 'projects',
+							'action' => 'view',
+							$project['Project']['id']
+						)
+					);
+					$projectClientType = ' клиента:';
+				}
+				if (($project['Project']['artifact_id'] == $client['Client']['company_id'])
+					AND ($project['Project']['artifact_type'] == 'company')) {
+					$projectArrayLink[] = $this->Html->link(
+						$project['Project']['name'],
+						array(
+							'controller' => 'projects',
+							'action' => 'view',
+							$project['Project']['id']
+						)
+					);
+					$projectClientType = ' компании клиента:';
+				}
+			}
+		}
+		else {
+			$projectArrayLink = '';
+		}
+		$DetailsLink = $this->Html->link(
+			'+',
+			'javascript:void(0)',
+			array (
+				'class' => 'toggle_details',
+				'onclick' => "return toggle_details({$client['Client']['id']});"
+			)
+		);
 		echo $this->Html->tag(
 			'div',
-			$showDetailsLink
+			$DetailsLink
 		);
 		echo $this->Html->tag(
 			'div',
@@ -170,5 +202,23 @@ else {
 				'id' => "block_{$client['Client']['id']}"
 			)
 		);
+		if (! empty($projectArrayLink)) {
+			echo $this->Html->tag(
+				'h4',
+				'Проекты'.$projectClientType,
+				array(
+						'class' => "details_block block{$client['Client']['id']}"
+				)
+			);
+			foreach ($projectArrayLink as $projectLink) {
+				echo $this->Html->tag(
+					'div',
+					$projectLink,
+					array(
+						'class' => "details_block block{$client['Client']['id']}"
+					)
+				);
+			}
+		}
    }
 }

@@ -6,6 +6,7 @@ class CompaniesController extends AppController {
 	public $uses = array(
 		'Company',
 		'Client',
+		'Project',
 		'Phone',
 		'Email'
 	);
@@ -34,7 +35,6 @@ class CompaniesController extends AppController {
 			$this->Phone->find(
 				'all',
 				array(
-					//'fields' => 'number',
 					'conditions' => array(
 						'Phone.artifact_type' => 'company'
 					)
@@ -48,6 +48,17 @@ class CompaniesController extends AppController {
 				array(
 					'conditions' => array(
 						'Email.artifact_type' => 'company'
+					)
+				)
+			)
+		);
+		$this->set(
+			'projects',
+			$this->Project->find(
+				'all',
+				array(
+					'conditions' => array(
+						'artifact_type' => 'company'
 					)
 				)
 			)
@@ -79,6 +90,17 @@ class CompaniesController extends AppController {
 				$this->Session->SetFlash('Не удалось добавить компанию');
 			}
 		}
+		$this->set(
+			'clients',
+			$this->Client->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Client.company_id' => 0
+					)
+				)
+			)
+		);
 	}
 
 	function view($id) {
@@ -126,6 +148,18 @@ class CompaniesController extends AppController {
 					'conditions' => array(
 						'Email.artifact_id' => $id,
 						'Email.artifact_type' => 'company'
+					)
+				)
+			)
+		);
+		$this->set(
+			'projects',
+			$this->Project->find(
+				'all',
+				array(
+					'conditions' => array(
+						'Project.artifact_id' => $id,
+						'Project.artifact_type' => 'company'
 					)
 				)
 			)

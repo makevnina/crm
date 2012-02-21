@@ -66,7 +66,7 @@ else {
 				'<ФИО менеджера>'
 			)
 		);
-		if (!empty($project['Project']['artifact_id'])) {
+		if ($project['Project']['artifact_id'] <> 0) {
 			if ($project['Project']['artifact_type'] == 'client') {
 				$clientLink = $this->Html->link(
 					$project['Client']['surname'].' '.
@@ -79,7 +79,7 @@ else {
 					)
 				);
 			}
-			else {
+			if ($project['Project']['artifact_type'] == 'company') {
 				$clientLink = $this->Html->link(
 					'компания "'.$project['Company']['name'].'"',
 					array(

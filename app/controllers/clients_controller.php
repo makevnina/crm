@@ -6,6 +6,7 @@ class ClientsController extends AppController {
 	public $uses = array(
 		'Client',
 		'Company',
+		'Project',
 		'Phone',
 		'Email',
 		'ClientStatus'
@@ -45,6 +46,10 @@ class ClientsController extends AppController {
 					)
 				)
 			)
+		);
+		$this->set(
+			'projects',
+			$this->Project->find('all')
 		);
 	}
 
