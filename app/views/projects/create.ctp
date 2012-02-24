@@ -116,21 +116,21 @@ echo $this->Form->input(
 );
 $optionsHtml = '';
 $selected_color = '';
-foreach ($states as $state) {
+foreach ($project_statuses as $status) {
 	$selected = false;
 	if (! empty($project)) {
-		if ($project['Project']['state_id'] == $state['State']['id']) {
+		if ($project['Project']['project_status_id'] == $status['ProjectStatus']['id']) {
 			$selected = true;
-			$selected_color = $state['State']['color'];
+			$selected_color = $status['ProjectStatus']['color'];
 		}
 	}
 	$optionsHtml .= $this->Html->tag(
 		'option',
-		$state['State']['name'],
+		$status['ProjectStatus']['name'],
 		array(
 			'class' => 'status',
-			'value' => $state['State']['id'],
-			'style' => "background: {$state['State']['color']}",
+			'value' => $status['ProjectStatus']['id'],
+			'style' => "background: {$status['ProjectStatus']['color']}",
 			'selected' => $selected ? 'selected' : ''
 		)
 	);
@@ -140,7 +140,7 @@ $selectHtml = $this->Html->tag(
 	$optionsHtml,
 	array(
 		'id' => 'status',
-		'name' => 'data[Project][state_id]',
+		'name' => 'data[Project][project_status_id]',
 		'style' => "background: {$selected_color}"
 	)
 );
@@ -148,7 +148,7 @@ echo $this->Html->tag(
 	'div',
 	$this->Html->tag(
 		'label',
-		'Состояние проекта',
+		'Статус проекта',
 		array(
 			'for' => 'state'
 		)

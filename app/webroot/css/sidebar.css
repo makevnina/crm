@@ -1,0 +1,11 @@
+td.sidebar {
+	background-color: #EEEEEE;
+	width: 250px;
+}
+
+#sidebar {
+	vertical-align: top;
+	padding: 20px 0 20px 20px;
+	text-align: top;
+}
+

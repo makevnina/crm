@@ -11,6 +11,7 @@
 		echo $this->Html->css('common');
 		echo $this->Html->css('jquery-ui');
 		echo $this->Html->css('nav-menu');
+		echo $this->Html->css('sidebar');
 		echo $this->Html->css('jPicker-1.1.6');
 		echo $this->Html->css('jPicker');
 		echo $this->Html->script(array('jquery-1.7.1.min.js', 'scripts'));
@@ -27,14 +28,21 @@
 				<h1 id="logo"><?= $this->Html->link('CRM', '/') ?></h1>
 			</div>
 			<div id="navigation_menu"><?= $navigationMenu->render() ?></div>
-			
-			<div id="content">
-
-				<?php echo $this->Session->flash(); ?>
-
-				<?php echo $content_for_layout; ?>
-
-			</div>
+			<table id="content-wrapper" cellpadding="0" cellspacing="0">
+				<tr>
+					<? if(! empty($sidebar_element)): ?>
+						<td class="sidebar">
+							<div id="sidebar"><?= $this->element('sidebar' . DS . $sidebar_element) ?></div>
+						</td>
+					<? endif; ?>
+					<td class="content">
+						<div id="content">
+							<?php echo $this->Session->flash(); ?>
+							<?php echo $content_for_layout; ?>
+						</div>
+					</td>
+				</tr>
+			</table>
 			<div id="footer">
 				<span>Автор: <a href="mailto:polly.makevnina@gmail.com">Макевнина Полина</a></span>
 			</div>

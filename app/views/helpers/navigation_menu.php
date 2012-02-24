@@ -23,7 +23,7 @@ class NavigationMenuHelper extends AppHelper {
 		),
 		array(
 			'title' => 'Настройки',
-			'link' => array('controller' => 'client_statuses', 'action' => 'edit')
+			'link' => array('controller' => 'settings')
 		)
 	);
 	

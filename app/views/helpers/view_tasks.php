@@ -6,7 +6,7 @@ class ViewTasksHelper extends AppHelper {
 	public function viewGroup($tasks, $companies) {
 		foreach ($tasks as $task) {
 			echo $this->Html->tag(
-				'h3',
+				'h4',
 				$this->Html->link(
 					$task['Task']['name'],
 					array(
@@ -17,10 +17,10 @@ class ViewTasksHelper extends AppHelper {
 			);
 			echo $this->Html->tag(
 					'span',
-					$task['TaskState']['name'],
+					$task['TaskStatus']['name'],
 					array(
 						'class' => 'status',
-						'style' => "background: {$task['TaskState']['color']}"
+						'style' => "background: {$task['TaskStatus']['color']}"
 					)
 				).' '.
 				$this->Html->tag(

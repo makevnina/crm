@@ -27,13 +27,13 @@ echo $this->Html->tag(
 	'p',
 	'['.$editLink.', '.$deleteLink.']'
 );
-if (! empty($project['Project']['state_id'])) {
+if (! empty($project['Project']['project_status_id'])) {
 	echo $this->Html->tag(
 		'span',
-		$project['State']['name'],
+		$project['ProjectStatus']['name'],
 		array(
 			'class' => 'status',
-			'style' => "background: {$project['State']['color']}"
+			'style' => "background: {$project['ProjectStatus']['color']}"
 		)
 	);
 }

@@ -1,10 +1,4 @@
 <?php
-echo $this->Html->link(
-	'К списку задач',
-	array(
-		'action' => 'listing'
-	)
-);
 echo $this->Html->tag(
 	'h2',
 	$task['Task']['name']
@@ -29,10 +23,10 @@ echo $this->Html->tag(
 );
 echo $this->Html->tag(
 	'span',
-	$task['TaskState']['name'],
+	$task['TaskStatus']['name'],
 	array(
 		'class' => 'status',
-		'style' => "background: {$task['TaskState']['color']}"
+		'style' => "background: {$task['TaskStatus']['color']}"
 	)
 ).' '.
 $this->Html->tag(

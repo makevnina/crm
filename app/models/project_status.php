@@ -1,22 +1,22 @@
 <?php
-class TaskState extends AppModel {
+class ProjectStatus extends AppModel {
 	
-	public $name = 'TaskState';
+	public $name = 'ProjectStatus';
 	
 	public $hasMany = array(
-		'Task'
+		'Project'
 	);
 	
 	public $validate = array(
 		'name' => array(
 			'rule1' => array(
 				'rule' => 'notEmpty',
-				'message' => 'Введите наименование состояния'
+				'message' => 'Введите наименование'
 			),
 			'rule2' => array(
 				'rule' => 'isUnique',
 				'message' => 'Такое состояние уже существует'
 			)
-		)
+		)		
 	);
 }

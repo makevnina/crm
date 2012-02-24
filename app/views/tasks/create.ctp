@@ -28,21 +28,21 @@ echo $this->Form->input(
 );
 $optionsHtml = '';
 $selected_color = '';
-foreach ($task_states as $task_state) {
+foreach ($task_statuses as $task_status) {
 	$selected = false;
 	if (! empty($task)) {
-		if ($task['Task']['task_state_id'] == $task_state['TaskState']['id']) {
+		if ($task['Task']['task_status_id'] == $task_status['TaskStatus']['id']) {
 			$selected = true;
-			$selected_color = $task_state['TaskState']['color'];
+			$selected_color = $task_status['TaskStatus']['color'];
 		}
 	}
 	$optionsHtml .= $this->Html->tag(
 		'option',
-		$task_state['TaskState']['name'],
+		$task_status['TaskStatus']['name'],
 		array(
 			'class' => 'status',
-			'value' => $task_state['TaskState']['id'],
-			'style' => "background: {$task_state['TaskState']['color']}",
+			'value' => $task_status['TaskStatus']['id'],
+			'style' => "background: {$task_status['TaskStatus']['color']}",
 			'selected' => $selected ? 'selected' : ''
 		)
 	);
@@ -52,7 +52,7 @@ $selectHtml = $this->Html->tag(
 	$optionsHtml,
 	array(
 		'id' => 'status',
-		'name' => 'data[Task][task_state_id]',
+		'name' => 'data[Task][task_status_id]',
 		'style' => "background: {$selected_color}"
 	)
 );

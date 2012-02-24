@@ -35,7 +35,7 @@ class Project extends AppModel {
 			'unique' => 'false'
 		),
 		'User',
-		'State'
+		'ProjectStatus'
 	);
 
 	public $hasMany = array(

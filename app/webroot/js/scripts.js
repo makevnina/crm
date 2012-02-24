@@ -90,6 +90,7 @@ $(document).ready(function() {
 		$("#ProjectDiv option[class="+$('#ClientSelect option:selected').attr('class')+"]").show();
 	});
 });
+
 jQuery(function($){
 	$.datepicker.regional['ru'] = {
 		closeText: 'Закрыть',

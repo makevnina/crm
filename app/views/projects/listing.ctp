@@ -46,13 +46,13 @@ else {
 			)
 		);
 		echo $projectNameLink;
-		if ($project['Project']['state_id'] <> 0) {
+		if ($project['Project']['project_status_id'] <> 0) {
 			echo $this->Html->tag(
 				'span',
-				$project['State']['name'],
+				$project['ProjectStatus']['name'],
 				array(
 					'class' => 'status',
-					'style' => "background: {$project['State']['color']}"
+					'style' => "background: {$project['ProjectStatus']['color']}"
 				)
 			);
 		}

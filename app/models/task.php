@@ -7,7 +7,7 @@ class Task extends AppModel {
 		'Client',
 		'User',
 		'Project',
-		'TaskState'
+		'TaskStatus'
 	);
 	
 	public $validate = array(

@@ -8,8 +8,22 @@ class TasksController extends AppController {
 		'Client',
 		'Company',
 		'Project',
-		'TaskState'
+		'TaskStatus'
 	);
+	
+	public function beforeFilter() {
+		$tasks = $this->Task->find('all', array(
+			'fields' => array('Task.id', 'Task.deadline_date', 'Task.task_status_id')
+		));
+		foreach ($tasks as $task) {
+			if (($task['Task']['deadline_date'] < date('Y-m-d')) 
+				AND ($task['Task']['task_status_id'] <> 2)) {
+					$task['Task']['task_status_id'] = 4;
+					$this->Task->id = $task['Task']['id'];
+					$this->Task->save($task['Task']);
+			}
+		}
+	}
 	
 	public function index() {
 		$this->redirect(
@@ -20,18 +34,22 @@ class TasksController extends AppController {
 	}
 	
 	public function listing() {
-		$this->set(
-			'tasks',
-			$this->Task->find(
-				'all'
-			)
-		);
-		$this->set(
-			'companies',
-			$this->Company->find(
-				'all'
-			)
-		);
+		if (empty($this->data)) {
+			$this->data['overdue'] = 1;
+			$this->data['finished'] = 1;
+			$this->data['today'] = 1;
+			$this->data['tomorrow'] = 1;
+			$this->data['this_week'] = 1;
+			$this->data['next_week'] = 1;
+			$this->data['this_month'] = 1;
+			$this->data['next_month'] = 1;
+			$this->data['later'] = 1;
+		}
+		$this->set('task_filter', $this->data);
+		
+		$this->set('sidebar_element', 'task_listing');
+		$this->set('tasks', $this->Task->find('all'));
+		$this->set('companies', $this->Company->find('all'));
 	}
 	
 	public function create() {
@@ -55,40 +73,21 @@ class TasksController extends AppController {
 				'all'
 			)
 		);
-		$this->set(
-			'projects',
-			$this->Project->find(
-				'all'
-			)
-		);
-		$this->set(
-			'task_states',
-			$this->TaskState->find(
-				'all'
-			)
-		);
+		$this->set('projects', $this->Project->find('all'));
+		$this->set('task_statuses', $this->TaskStatus->find('all'));
 	}
 	
 	public function view($id) {
+		$this->set('sidebar_element', 'task_view');
 		$this->set(
 			'task',
 			$this->Task->find(
 				'first',
-				array(
-					'conditions' => array(
-						'Task.id' => $id
-					)
-				)
+				array( 'conditions' => array('Task.id' => $id) )
 			)
 		);
-		$this->set(
-			'companies',
-			$this->Company->find(
-				'all'
-			)
-		);
+		$this->set('companies', $this->Company->find('all'));
 	}
-
 
 	public function edit($id) {
 		$this->Task->id = $id;
@@ -96,12 +95,7 @@ class TasksController extends AppController {
 			$success = $this->Task->save($this->data);
 			if ($success) {
 				$this->Session->SetFlash('Изменения сохранены');
-				$this->redirect(
-					array(
-						'action' => 'view',
-						$id
-					)
-				);
+				$this->redirect( array( 'action' => 'view', $id ) );
 			}
 			else {
 				$this->Session->SetFlash('Не удалось сохранить изменения');
@@ -109,34 +103,12 @@ class TasksController extends AppController {
 		}
 		$this->data = $this->Task->find(
 			'first',
-			array(
-				'conditions' => array(
-					'Task.id' => $id
-				)
-			)
+			array('conditions' => array('Task.id' => $id))
 		);
-		$this->set(
-			'task',
-			$this->data
-		);
-		$this->set(
-			'clients',
-			$this->Client->find(
-				'all'
-			)
-		);
-		$this->set(
-			'projects',
-			$this->Project->find(
-				'all'
-			)
-		);
-		$this->set(
-			'task_states',
-			$this->TaskState->find(
-				'all'
-			)
-		);
+		$this->set('task',$this->data);
+		$this->set('clients', $this->Client->find('all'));
+		$this->set('projects', $this->Project->find('all'));
+		$this->set('task_statuses', $this->TaskStatus->find('all'));
 		$this->render('create');	
 	}
 	

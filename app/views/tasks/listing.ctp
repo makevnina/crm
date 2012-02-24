@@ -1,8 +1,4 @@
 <?php
-echo $this->Html->tag(
-	'h2',
-	'Задачи'
-);
 if (empty($tasks)) {
 	$createLink = $this->Html->link(
 		'Создайте',
@@ -13,13 +9,8 @@ if (empty($tasks)) {
 	echo 'Еще не создано ни одной задачи. '.$createLink.' новую прямо сейчас!';
 }
 else {
-	$createLink = $this->Html->link(
-		'Создать новую задачу',
-		array(
-			'action' => 'create'
-		)
-	);
-	echo $createLink;
+	$finishedTasks = array();
+	$overdueTasks = array();
 	$beforeTasks = array();
 	$yesterdayTasks = array();
 	$todayTasks = array();
@@ -30,12 +21,12 @@ else {
 	$nextMonthTasks = array();
 	$laterTasks = array();
 	foreach ($tasks as $task) {
-		if ($task['Task']['deadline_date'] <= date('Y-m-d', strtotime("-2days"))) {
-			$beforeTasks[] = $task;
+		if ( ($task['Task']['deadline_date'] < date('Y-m-d')) AND ($task['TaskStatus']['name'] == 'выполнена') ) {
+			$finishedTasks[] = $task;
 		}
 		else {
-			if ($this->Time->wasYesterday($task['Task']['deadline_date'])) {
-				$yesterdayTasks[] = $task;
+			if ($task['Task']['deadline_date'] < date('Y-m-d')) {
+				$overdueTasks[] = $task;
 			}
 			else {
 				if ($this->Time->isToday($task['Task']['deadline_date'])) {
@@ -72,67 +63,85 @@ else {
 			}
 		}		
 	}
-	if (! empty($beforeTasks)) {
-		echo $this->Html->tag(
-			'h4',
-			'Раньше'
-		);
-		$viewTasks->viewGroup($beforeTasks, $companies);
+	if ($task_filter['finished'] == 1) {
+		if (! empty($finishedTasks)) {
+			echo $this->Html->tag(
+				'h3',
+				'Завершенные задачи'
+			);
+			$viewTasks->viewGroup($finishedTasks, $companies);
+		}
 	}
-	if (! empty($yesterdayTasks)) {
-		echo $this->Html->tag(
-			'h4',
-			'Вчера'
-		);
-		$viewTasks->viewGroup($yesterdayTasks, $companies);
+	if ($task_filter['overdue'] == 1) {
+		if (! empty($overdueTasks)) {
+			echo $this->Html->tag(
+				'h3',
+				'Просроченные задачи'
+			);
+			$viewTasks->viewGroup($overdueTasks, $companies);
+		}
 	}
-	if (! empty($todayTasks)) {
-		echo $this->Html->tag(
-			'h4',
-			'Сегодня'
-		);
-		$viewTasks->viewGroup($todayTasks, $companies);
+	if ($task_filter['today'] == 1) {
+		if (! empty($todayTasks)) {
+			echo $this->Html->tag(
+				'h3',
+				'Сегодня'
+			);
+			$viewTasks->viewGroup($todayTasks, $companies);
+		}
 	}
-	if (! empty($tomorrowTasks)) {
-		echo $this->Html->tag(
-			'h4',
-			'Завтра'
-		);
-		$viewTasks->viewGroup($tomorrowTasks, $companies);
+	if ($task_filter['tomorrow'] == 1) {
+		if (! empty($tomorrowTasks)) {
+			echo $this->Html->tag(
+				'h3',
+				'Завтра'
+			);
+			$viewTasks->viewGroup($tomorrowTasks, $companies);
+		}
 	}
-	if (! empty($thisWeekTasks)) {
-		echo $this->Html->tag(
-			'h4',
-			'Эта неделя'
-		);
-		$viewTasks->viewGroup($thisWeekTasks, $companies);
+	if ($task_filter['this_week'] == 1) {
+		if (! empty($thisWeekTasks)) {
+			echo $this->Html->tag(
+				'h3',
+				'Эта неделя'
+			);
+			$viewTasks->viewGroup($thisWeekTasks, $companies);
+		}
 	}
-	if (! empty($nextWeekTasks)) {
-		echo $this->Html->tag(
-			'h4',
-			'Следующая неделя'
-		);
-		$viewTasks->viewGroup($nextWeekTasks, $companies);
+	if ($task_filter['next_week'] == 1) {
+		if (! empty($nextWeekTasks)) {
+			echo $this->Html->tag(
+				'h3',
+				'Следующая неделя'
+			);
+			$viewTasks->viewGroup($nextWeekTasks, $companies);
+		}
 	}
-	if (! empty($thisMonthTasks)) {
-		echo $this->Html->tag(
-			'h4',
-			'Этот месяц'
-		);
-		$viewTasks->viewGroup($thisMonthTasks, $companies);
+	if ($task_filter['this_month'] == 1) {
+		if (! empty($thisMonthTasks)) {
+			echo $this->Html->tag(
+				'h3',
+				'Этот месяц'
+			);
+			$viewTasks->viewGroup($thisMonthTasks, $companies);
+		}
 	}
-	if (! empty($nextMonthTasks)) {
-		echo $this->Html->tag(
-			'h4',
-			'Следующий месяц'
-		);
-		$viewTasks->viewGroup($nextMonthTasks, $companies);
+	if ($task_filter['next_month'] == 1) {
+		if (! empty($nextMonthTasks)) {
+			echo $this->Html->tag(
+				'h3',
+				'Следующий месяц'
+			);
+			$viewTasks->viewGroup($nextMonthTasks, $companies);
+		}
 	}
-	if (! empty($laterTasks)) {
-		echo $this->Html->tag(
-			'h4',
-			'Позже'
-		);
-		$viewTasks->viewGroup($laterTasks, $companies);
+	if ($task_filter['later'] == 1) {
+		if (! empty($laterTasks)) {
+			echo $this->Html->tag(
+				'h3',
+				'Позже'
+			);
+			$viewTasks->viewGroup($laterTasks, $companies);
+		}
 	}
 }
