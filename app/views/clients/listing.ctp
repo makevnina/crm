@@ -16,15 +16,22 @@ if (empty($clients)) {
     );
 }
 else {
-   $createLink = $this->Html->link(
-           'Создать нового клиента',
-           array(
-               'action' => 'create'
-           )
-   );
-   echo $createLink;
+	$viewAllClients = true;
+	if (! empty($client_filter)) {
+		foreach ($client_filter as $k => $filter) {
+			if ($filter <> 1) {
+				$viewAllClients = false;
+				break;
+			}
+		}
+	}
    foreach ($clients as $client) {
-		echo $this->Html->tag(
+		if (empty($client_filter[$client['Client']['client_status_id']])) {
+			$client_filter[$client['Client']['client_status_id']] = 0;
+		}
+		if (($viewAllClients)
+			OR ($client_filter[$client['Client']['client_status_id']] == 1)) {
+		$clientName = $this->Html->tag(
 			'h3',
 			$this->Html->link(
 				$client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father'],
@@ -32,10 +39,13 @@ else {
 					'action' => 'view',
 					$client['Client']['id']
 				)
+			),
+			array(
+				'style' => 'display: inline'
 			)
 		);
 		if ($client['Client']['client_status_id'] <> 0) {
-			echo $this->Html->tag(
+			$clientStatus = $this->Html->tag(
 				'span',
 				$client['ClientStatus']['name'],
 				array(
@@ -44,6 +54,13 @@ else {
 				)
 			);
 		}
+		else {
+			$clientStatus = '';
+		}
+		echo $this->Html->tag(
+			'div',
+			$clientName.' '.$clientStatus
+		);
 		if ($client['Company']['id'] <> 0) {
 			echo $this->Html->tag(
 				'h4',
@@ -220,5 +237,6 @@ else {
 				);
 			}
 		}
+			}
    }
 }

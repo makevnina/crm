@@ -8,7 +8,8 @@ class CompaniesController extends AppController {
 		'Client',
 		'Project',
 		'Phone',
-		'Email'
+		'Email',
+		'Task'
 	);
 
 	function index() {
@@ -20,6 +21,7 @@ class CompaniesController extends AppController {
 	}
 
 	function listing() {
+		$this->set('sidebar_element', 'company_listing');
 		$this->set(
 			'companies',
 			$this->Company->find('all')
@@ -66,8 +68,24 @@ class CompaniesController extends AppController {
 	}
 
 	function create() {
+		$this->set('sidebar_element', 'company_create');
 		if ($this->RequestHandler->isPost()) {
 			$success = $this->Company->save($this->data);
+			$company_id = $this->Company->id;
+			if ($success) {
+				if (! empty($this->data['Client'])) {
+					foreach ($this->data['Client'] as $client['id']) {
+						if (! $success) {
+							break;
+						}
+						else {
+							$this->Client->id = $client['id'];
+							$client['company_id'] = $company_id;
+							$success = $this->Client->save($client);
+						}
+					}
+				}
+			}
 			if ($success) {
 				if (! empty($this->data['Phone'])) {
 					$success = $this->Phone->save($this->Company, $this->data['Phone']);
@@ -90,20 +108,14 @@ class CompaniesController extends AppController {
 				$this->Session->SetFlash('Не удалось добавить компанию');
 			}
 		}
-		$this->set(
-			'clients',
-			$this->Client->find(
+		$this->set('clients', $this->Client->find(
 				'all',
-				array(
-					'conditions' => array(
-						'Client.company_id' => 0
-					)
-				)
-			)
-		);
+				array('conditions' => array('Client.company_id' => 0))
+		));
 	}
 
 	function view($id) {
+		$this->set('sidebar_element', 'company_view');
 		$this->set(
 			'company',
 			$this->Company->find(
@@ -112,17 +124,6 @@ class CompaniesController extends AppController {
 					'conditions' => array(
 						'Company.id' => $id
 					)
-				)
-			)
-		);
-		$this->set(
-			'clients',
-			$this->Client->find(
-				'all',
-				array(
-					'conditions' => array(
-						'Client.company_id' => $id
-						)
 				)
 			)
 		);
@@ -152,24 +153,28 @@ class CompaniesController extends AppController {
 				)
 			)
 		);
-		$this->set(
-			'projects',
-			$this->Project->find(
-				'all',
-				array(
-					'conditions' => array(
-						'Project.artifact_id' => $id,
-						'Project.artifact_type' => 'company'
-					)
-				)
-			)
-		);
 	}
 
 	function edit($id) {
+		$this->set('sidebar_element', 'company_create');
 		$this->Company->id = $id;
 		if ($this->RequestHandler->isPost()) {
 			$success = $this->Company->save($this->data);
+			$company_id = $this->Company->id;
+			if ($success) {
+				if (! empty($this->data['Client'])) {
+					foreach ($this->data['Client'] as $client['id']) {
+						if (! $success) {
+							break;
+						}
+						else {
+							$this->Client->id = $client['id'];
+							$client['company_id'] = $company_id;
+							$success = $this->Client->save($client);
+						}
+					}
+				}
+			}
 			if (! empty($this->data['Phone'])) {
 				$success = $this->Phone->save($this->Company, $this->data['Phone']);
 			}
@@ -178,18 +183,17 @@ class CompaniesController extends AppController {
 			}
 			if ($success) {
 				$this->Session->SetFlash('Изменения сохранены');
+				$this->redirect(
+					array(
+						'action' => 'view',
+						$id
+					)
+				);
 			}
 			else {
 				$this->Session->SetFlash('Не удалось сохранить изменения');
 			}
-			$this->redirect(
-				array(
-					'action' => 'view',
-					$id
-				)
-			);
 		}
-		else {
 			$this->data = $this->Company->find(
 				'first',
 				array(
@@ -228,8 +232,11 @@ class CompaniesController extends AppController {
 					)
 				)
 			);
+			$this->set('clients', $this->Client->find(
+				'all',
+				array('conditions' => array('Client.company_id' => 0))
+			));
 			$this->render('create');
-		}
 	}
 
 	function delete($id) {
@@ -240,6 +247,50 @@ class CompaniesController extends AppController {
 				'action' => 'listing'
 			)
 		);
+	}
+	
+	public function company_clients($id) {
+		$this->set('sidebar_element', 'company_view');
+		$this->set('company', $this->Company->find(
+			'first',
+			array('conditions' => array('Company.id' => $id))
+		));
+		$this->set('clients', $this->Client->find(
+			'all',
+			array('conditions' => array('Client.company_id' => $id))
+		));
+		$this->set('phones', $this->Phone->find(
+			'all',
+			array('conditions' => array('artifact_type' => 'client'))
+		));
+		$this->set('emails', $this->Email->find(
+			'all',
+			array('conditions' => array('artifact_type' => 'client'))
+		));
+	}
+
+	public function company_projects($id) {
+		$this->set('sidebar_element', 'company_view');
+		$this->set('company', $this->Company->find(
+			'first',
+			array('conditions' => array('Company.id' => $id))
+		));
+		$this->set('projects', $this->Project->find(
+			'all',
+			array('conditions' => array(
+				'Project.artifact_id' => $id,
+				'Project.artifact_type' => 'company'
+			))
+		));
+	}
+	
+	public function company_tasks($id) {
+		$this->set('sidebar_element', 'company_view');
+		$this->set('company', $this->Company->find(
+			'first',
+			array('conditions' => array('Company.id' => $id))
+		));
+		$this->set('allTasks', $this->Task->find('all'));
 	}
 
 }

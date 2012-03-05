@@ -14,7 +14,8 @@ class Email extends AppModel {
 	public $validate = array(
 		'address' => array(
 			'rule' => array('email', true),
-			'message' => 'Введите корректный e-mail адрес'
+			'message' => 'Введите корректный e-mail адрес',
+			'allowEmpty' => true
 		)
 	);
 	

@@ -1,13 +1,27 @@
 <?php
-echo $this->Html->link(
-	'К списку проектов',
+$projectName = $this->Html->tag(
+	'h2',
+	$project['Project']['name'],
 	array(
-		'action' => 'listing'
+		'style' => 'display: inline'
 	)
 );
+if (! empty($project['Project']['project_status_id'])) {
+	$projectStatus = $this->Html->tag(
+		'span',
+		$project['ProjectStatus']['name'],
+		array(
+			'class' => 'status',
+			'style' => "background: {$project['ProjectStatus']['color']}"
+		)
+	);
+}
+else {
+	$projectStatus = '';
+}
 echo $this->Html->tag(
-	'h2',
-	$project['Project']['name']
+	'div',
+	$projectName.' '.$projectStatus
 );
 $editLink = $this->Html->link(
 	'редактировать',
@@ -27,16 +41,6 @@ echo $this->Html->tag(
 	'p',
 	'['.$editLink.', '.$deleteLink.']'
 );
-if (! empty($project['Project']['project_status_id'])) {
-	echo $this->Html->tag(
-		'span',
-		$project['ProjectStatus']['name'],
-		array(
-			'class' => 'status',
-			'style' => "background: {$project['ProjectStatus']['color']}"
-		)
-	);
-}
 echo $this->Html->tag(
 	'dl',
 	$this->Html->tag(
@@ -93,7 +97,7 @@ if (! empty($project['Project']['description'])) {
 		)
 	);
 }
-if ($project['Project']['start_date'] <> '0000-00-00') {
+if ($project['Project']['start_date'] !== '0000-00-00') {
 	echo $this->Html->tag(
 		'dl',
 		$this->Html->tag(
@@ -105,7 +109,7 @@ if ($project['Project']['start_date'] <> '0000-00-00') {
 		)
 	);
 }
-if ($project['Project']['plan_date'] <> '0000-00-00') {
+if ($project['Project']['plan_date'] !== '0000-00-00') {
 	echo $this->Html->tag(
 		'dl',
 		$this->Html->tag(
@@ -117,7 +121,7 @@ if ($project['Project']['plan_date'] <> '0000-00-00') {
 		)
 	);
 }
-if ($project['Project']['fact_date'] <> '0000-00-00') {
+if ($project['Project']['fact_date'] !== '0000-00-00') {
 	echo $this->Html->tag(
 		'dl',
 		$this->Html->tag(

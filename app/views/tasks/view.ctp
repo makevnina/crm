@@ -1,7 +1,29 @@
 <?php
-echo $this->Html->tag(
+$taskName = $this->Html->tag(
 	'h2',
-	$task['Task']['name']
+	$task['Task']['name'],
+	array(
+		'style' => 'display: inline'
+	)
+);
+$taskStatus = $this->Html->tag(
+	'span',
+	$task['TaskStatus']['name'],
+	array(
+		'class' => 'status',
+		'style' => "background: {$task['TaskStatus']['color']}"
+	)
+);
+$taskDeadline = $this->Html->tag(
+	'span',
+	$task['Task']['deadline_date'].' '.$task['Task']['deadline_time'],
+	array(
+		'class' => 'taskDeadline'
+	)
+);
+echo $this->Html->tag(
+	'div',
+	$taskName.' '.$taskStatus.' '.$taskDeadline
 );
 $editLink = $this->Html->link(
 	'редактировать',
@@ -19,19 +41,7 @@ $deleteLink = $this->Html->link(
 );
 echo $this->Html->tag(
 	'div',
-	$editLink.', '.$deleteLink	
-);
-echo $this->Html->tag(
-	'span',
-	$task['TaskStatus']['name'],
-	array(
-		'class' => 'status',
-		'style' => "background: {$task['TaskStatus']['color']}"
-	)
-).' '.
-$this->Html->tag(
-	'span',
-	$task['Task']['deadline_date'].' '.$task['Task']['deadline_time']
+	'['.$editLink.', '.$deleteLink.']'
 );
 echo $this->Html->tag(
 	'dl',
@@ -112,7 +122,7 @@ if (!empty ($task['Task']['description'])) {
 			$task['Task']['description']
 		),
 		array(
-			'style' => 'border:1px solid #ccc'
+			'style' => 'border:1px solid #ccc; width:55%'
 		)
 	);
 }

@@ -1,21 +1,14 @@
 <?php
-echo $this->Html->tag(
-	'div',
-	$this->Html->link(
-		'Создать новую задачу',
-		array(
-			'action' => 'create',
-			'class' => 'createLink'
-		)
+echo $this->Html->link(
+	'Создать задачу',
+	array(
+		'action' => 'create'
 	)
 );
-echo $this->Html->tag(
-	'div',
-		$this->Html->link(
-		'Все задачи',
-		array(
-			'action' => 'listing'
-		)
+echo $this->Html->link(
+	'Все задачи',
+	array(
+		'action' => 'listing'
 	)
 );
 echo $this->Form->create(

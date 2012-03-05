@@ -1,10 +1,4 @@
 <?php
-echo $this->Html->link(
-        'К списку компаний',
-        array(
-            'action' => 'listing'
-        )
-);
 echo $this->Html->tag(
          'h2',
          'Компания "'.$company['Company']['name'].'"'
@@ -92,44 +86,4 @@ if ($company['Company']['address'] !== '') {
 			$company['Company']['address']
 		)
 	);
-}
-if (! empty($clients)) {
-   echo $this->Html->tag(
-         'h3',
-         'Контактные лица компании:'  
-   );
-   foreach ($clients as $client) {
-      $clientLink = $this->Html->link(
-         $client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father'],
-			array(
-				'controller' => 'clients',
-				'action' => 'view',
-				$client['Client']['id']
-			)
-      );
-		echo $this->Html->tag(
-			'div',
-			$clientLink
-		);
-   }
-}
-if (! empty($projects)) {
-	echo $this->Html->tag(
-		'h3',
-		'Проекты компании:'
-	);
-	foreach ($projects as $project) {
-		$projectLink = $this->Html->link(
-			$project['Project']['name'],
-			array(
-				'controller' => 'projects',
-				'action' => 'view',
-				$project['Project']['id']
-			)
-		);
-		echo $this->Html->tag(
-			'div',
-			$projectLink
-		);
-	}
 }

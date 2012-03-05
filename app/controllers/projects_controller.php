@@ -19,12 +19,19 @@ class ProjectsController extends AppController {
 	}
 	
 	public function listing() {
-		$this->set(
-			'projects',
-			$this->Project->find('all')
-		);
+		$statuses = $this->ProjectStatus->find('all');
+		if (empty($this->data)) {
+			foreach ($statuses as $status) {
+				$this->data[$status['ProjectStatus']['id']] = 1;
+			}
+		}
+		$this->set('project_filter', $this->data);
+		$this->set('sidebar_element', 'project_listing');
+		$this->set('projects', $this->Project->find('all'));
+		$this->set('statuses', $statuses);
 	}
 	public function create() {
+		$this->set('sidebar_element', 'project_create');
 		if ($this->RequestHandler->isPost()) {
 			$success = $this->Project->save($this->data);
 			if ($success) {
@@ -65,6 +72,7 @@ class ProjectsController extends AppController {
 	}
 	
 	public function view($id) {
+		$this->set('sidebar_element', 'project_view');
 		$this->set(
 			'project',
 			$this->Project->find(
@@ -79,6 +87,7 @@ class ProjectsController extends AppController {
 	}
 	
 	public function edit($id) {
+		$this->set('sidebar_element', 'project_create');
 		$this->Project->id = $id;
 		if ($this->RequestHandler->isPost()) {
 			$success = $this->Project->save($this->data);
@@ -95,43 +104,41 @@ class ProjectsController extends AppController {
 				$this->Session->SetFlash('Не удалось сохранить изменения');
 			}
 		}
-		else {
-			$this->data = $this->Project->find(
-				'first',
+		$this->data = $this->Project->find(
+			'first',
+			array(
+				'conditions' => array(
+					'Project.id' => $id
+				)
+			)
+		);
+		$this->set(
+			'project',
+			$this->data
+		);
+		$this->set(
+			'clients',
+			$this->Client->find(
+				'all',
 				array(
 					'conditions' => array(
-						'Project.id' => $id
+						'Client.company_id' => 0
 					)
 				)
-			);
-			$this->set(
-				'project',
-				$this->data
-			);
-			$this->set(
-				'clients',
-				$this->Client->find(
-					'all',
-					array(
-						'conditions' => array(
-							'Client.company_id' => 0
-						)
-					)
-				)
-			);
-			$this->set(
-				'companies',
-				$this->Company->find(
-					'all'
-				)
-			);
-			$this->set(
-				'project_statuses',
-				$this->ProjectStatus->find(
-					'all'
-				)
-			);
-			$this->render('create');
-		}
+			)
+		);
+		$this->set(
+			'companies',
+			$this->Company->find(
+				'all'
+			)
+		);
+		$this->set(
+			'project_statuses',
+			$this->ProjectStatus->find(
+				'all'
+			)
+		);
+		$this->render('create');
 	}
 }

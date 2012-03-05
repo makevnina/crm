@@ -1,13 +1,27 @@
 <?php
-echo $this->Html->link(
-        'К списку клиентов',
-        array(
-            'action' => 'listing'
-        )
-); 
-echo $this->Html->tag(
+$clientName = $this->Html->tag(
     'h2',
-    $client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father']
+    $client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father'],
+	array(
+		'style' => 'display: inline'
+	)
+);
+if ($client['Client']['client_status_id'] <> 0) {
+	$clientStatus = $this->Html->tag(
+		'span',
+		$client['ClientStatus']['name'],
+		array(
+			'class' => 'status',
+			'style' => "background:{$client['ClientStatus']['color']}"
+		)
+	);
+}
+else {
+	$clientStatus = '';
+}
+echo $this->Html->tag(
+	'div',
+	$clientName.' '.$clientStatus
 );
 $editLink = $this->Html->link(
         'редактировать',
@@ -27,21 +41,11 @@ echo $this->Html->tag(
         'p',
         '['.$editLink.', '.$deleteLink.']'
 );
-if (!empty($client['Client']['client_status_id'])) {
-	echo $this->Html->tag(
-		'span',
-		$client['ClientStatus']['name'],
-		array(
-			'class' => 'status',
-			'style' => "background:{$client['ClientStatus']['color']}"
-		)
-	);
-}
 if ($client['Company']['id'] <> 0) {
    echo $this->Html->tag(
 		'h3',
 		$this->Html->link(
-         'Компания '.$client['Company']['name'],
+         'Компания "'.$client['Company']['name'].'"',
          array(
              'controller' => 'companies',
              'action' => 'view',
@@ -62,7 +66,7 @@ if ($client['Client']['position'] <> '') {
 		)
 	);
 }
-if (! empty($phones['Phone']['number'])) {
+if (! empty($phones)) {
 	$phone_list = '';
 	foreach ($phones as $phone) {
 		if ($phone_list !== '') {
@@ -81,7 +85,7 @@ if (! empty($phones['Phone']['number'])) {
 		)
 	);
 }
-if (! empty($emails['Email']['address'])) {
+if (! empty($emails)) {
 	$email_list = '';
 	foreach ($emails as $email) {
 		if ($email_list !== '') {
@@ -100,7 +104,7 @@ if (! empty($emails['Email']['address'])) {
 		)
 	);
 }
-if ($client['Client']['address'] <> '') {
+if (! empty($client['Client']['address'])) {
    echo $this->Html->tag(
 		'dl',
 		$this->Html->tag(

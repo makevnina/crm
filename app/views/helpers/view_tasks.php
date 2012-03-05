@@ -5,7 +5,7 @@ class ViewTasksHelper extends AppHelper {
 	
 	public function viewGroup($tasks, $companies) {
 		foreach ($tasks as $task) {
-			echo $this->Html->tag(
+			$taskNameLink = $this->Html->tag(
 				'h4',
 				$this->Html->link(
 					$task['Task']['name'],
@@ -13,32 +13,39 @@ class ViewTasksHelper extends AppHelper {
 						'action' => 'view',
 						$task['Task']['id']
 					)
+				),
+				array(
+					'style' => 'display: inline'
 				)
 			);
-			echo $this->Html->tag(
+			$taskStatus = $this->Html->tag(
 					'span',
 					$task['TaskStatus']['name'],
 					array(
 						'class' => 'status',
 						'style' => "background: {$task['TaskStatus']['color']}"
 					)
-				).' '.
-				$this->Html->tag(
-					'span',
-					$task['Task']['deadline_date'].' '.$task['Task']['deadline_time']
-			);	
-			$showDetailsLink = $this->Html->link(
-				'+',
-				'javascript:void(0)',
+			);
+			$taskDeadline = $this->Html->tag(
+				'span',
+				$task['Task']['deadline_date'].' '.$task['Task']['deadline_time'],
 				array(
-					'id' => 'toggle_description',
-					'onclick' => "return toggle_details({$task['Task']['id']})"
+					'class' => 'taskDeadline'
 				)
 			);
 			echo $this->Html->tag(
 				'div',
-				$showDetailsLink
-			);		
+				$taskNameLink.' '.$taskStatus.' '.$taskDeadline
+			);
+			echo $this->Html->link(
+				'+',
+				'javascript:void(0)',
+				array(
+					'id' => 'toggle_description',
+					'onclick' => "return toggle_details({$task['Task']['id']})",
+					'style' => 'display: block'
+				)
+			);	
 			$user = $this->Html->tag(
 				'dl',
 				$this->Html->tag(

@@ -45,14 +45,19 @@ class TasksController extends AppController {
 			$this->data['next_month'] = 1;
 			$this->data['later'] = 1;
 		}
-		$this->set('task_filter', $this->data);
-		
+		$this->set('task_filter', $this->data);		
 		$this->set('sidebar_element', 'task_listing');
-		$this->set('tasks', $this->Task->find('all'));
+		$this->set('tasks', $this->Task->find(
+			'all',
+			array(
+				'order' => array('deadline_date ASC', 'deadline_time ASC')
+			)
+		));
 		$this->set('companies', $this->Company->find('all'));
 	}
 	
 	public function create() {
+		$this->set('sidebar_element', 'task_create');
 		if ($this->RequestHandler->isPost()) {
 			$success = $this->Task->save($this->data);
 			if ($success) {
@@ -90,6 +95,7 @@ class TasksController extends AppController {
 	}
 
 	public function edit($id) {
+		$this->set('sidebar_element', 'task_create');
 		$this->Task->id = $id;
 		if ($this->RequestHandler->isPost()) {
 			$success = $this->Task->save($this->data);
@@ -109,7 +115,7 @@ class TasksController extends AppController {
 		$this->set('clients', $this->Client->find('all'));
 		$this->set('projects', $this->Project->find('all'));
 		$this->set('task_statuses', $this->TaskStatus->find('all'));
-		$this->render('create');	
+		$this->render('create');
 	}
 	
 	public function delete($id) {

@@ -8,4 +8,9 @@ td.sidebar {
 	padding: 20px 0 20px 20px;
 	text-align: top;
 }
+#sidebar a {
+	display: block;
+	padding: 0px 0px 5px 0px;
+	font-size: 90%;
+}
 

@@ -1,14 +1,14 @@
 <?php
 if (empty($tasks)) {
 	$createLink = $this->Html->link(
-		'Создайте',
+		'создайте',
 		array(
 			'action' => 'create'
 		)
 	);
-	echo 'Еще не создано ни одной задачи. '.$createLink.' новую прямо сейчас!';
+	echo 'Еще не создано ни одной задачи, '.$createLink.' новую прямо сейчас!';
 }
-else {
+else {	
 	$finishedTasks = array();
 	$overdueTasks = array();
 	$beforeTasks = array();

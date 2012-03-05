@@ -17,24 +17,26 @@ if (empty($projects)) {
 	);
 }
 else {
-	$createLink = $this->Html->link(
-		'Создать новый проект',
-		array(
-			'action' => 'create'
-		)
-	);
-	echo $this->Html->tag(
-		'p',
-		$createLink
-	);
-	
 	$tableHeaders = array(
-			'Дата начала',
-			'Дата планируемого окончания',
-			'Дата фактического окончания'
+		'Дата начала',
+		'Дата планируемого окончания',
+		'Дата фактического окончания'
 	);
-	
+	$viewAllProjects = true;
+	if (! empty($project_filter)) {
+		foreach ($project_filter as $k => $filter) {
+			if ($filter <> 1) {
+				$viewAllProjects = false;
+				break;
+			}
+		}
+	}
 	foreach ($projects as $project) {
+		if (empty($project_filter[$project['Project']['project_status_id']])) {
+			$project_filter[$project['Project']['project_status_id']] = 0;
+		}
+		if (($viewAllProjects)
+			OR ($project_filter[$project['Project']['project_status_id']] == 1)) {
 		$projectNameLink = $this->Html->tag(
 			'h3',
 			$this->Html->link(
@@ -43,11 +45,13 @@ else {
 					'action' => 'view',
 					$project['Project']['id']
 				)
+			),
+			array(
+				'style' => 'display: inline'
 			)
 		);
-		echo $projectNameLink;
 		if ($project['Project']['project_status_id'] <> 0) {
-			echo $this->Html->tag(
+			$projectStatus = $this->Html->tag(
 				'span',
 				$project['ProjectStatus']['name'],
 				array(
@@ -56,6 +60,13 @@ else {
 				)
 			);
 		}
+		else {
+			$projectStatus = '';
+		}
+		echo $this->Html->tag(
+			'div',
+			$projectNameLink.' '.$projectStatus
+		);
 		echo $this->Html->tag(
 			'dl',
 			$this->Html->tag(
@@ -157,15 +168,17 @@ else {
 			$plan_date,
 			$fact_date
 		);
-		
-		echo $this->Html->tag(
-			'table',
-			$this->Html->tableHeaders($tableHeaders).
-			$this->Html->tableCells($tableCells),
-			array(
-				'border' => 1,
-				'class' => "details_block block{$project['Project']['id']}"
-			)			
-		);
+		if ((! empty($start_date)) OR (! empty($plan_date)) OR (! empty($fact_date))) {
+			echo $this->Html->tag(
+				'table',
+				$this->Html->tableHeaders($tableHeaders).
+				$this->Html->tableCells($tableCells),
+				array(
+					'border' => 1,
+					'class' => "details_block block{$project['Project']['id']}"
+				)			
+			);
+		}
+		}
 	}
 }
