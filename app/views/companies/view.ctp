@@ -1,7 +1,25 @@
 <?php
-echo $this->Html->tag(
+$companyName = $this->Html->tag(
 	'h2',
-	'Компания "'.$company['Company']['name'].'"'
+	'Компания "'.$company['Company']['name'].'"',
+	array('style' => 'display: inline')
+);
+if ($company['Company']['state_id'] <> 0) {
+	$companyState = $this->Html->tag(
+		'span',
+		$company['State']['name'].' клиент',
+			array(
+				'class' => 'state',
+				'style' => "background-color:{$company['State']['color']}"
+			)
+	);
+}
+else {
+	$companyState = '';
+}
+echo $this->Html->tag(
+	'div',
+	$companyName.' '.$companyState
 );
 $editLink = $this->Html->link(
 	'редактировать',

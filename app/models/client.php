@@ -5,7 +5,8 @@ class Client extends AppModel {
 
 	public $belongsTo = array(
 		'Company',
-		'ClientStatus'
+		'ClientStatus',
+		'State'
 	);
 
 	public $hasMany = array(

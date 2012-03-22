@@ -44,20 +44,33 @@ $deleteLink = $this->Html->link(
 		'onclick' => "return deleteTask({$task['Task']['id']})"
 	)
 );
+if (! empty($user)) {
+	echo $this->Html->tag(
+		'div',
+		'Добавлена пользователем '
+		. $this->Html->tag(
+		'b',
+		$user['User']['surname'].' '. $user['User']['name']
+		),
+		array('class' => 'taskCreator')
+	);
+}
 echo $this->Html->tag(
 	'div',
 	'['.$editLink.', '.$deleteLink.']'
 );
-echo $this->Html->tag(
-	'dl',
-	$this->Html->tag(
-		'dt',
-		'Ответственный'
-	).$this->Html->tag(
-		'dd',
-		'<ФИО менеджера>'
-	)
-);
+if ($task['Task']['user_id'] <> 0) {
+	echo $this->Html->tag(
+		'dl',
+		$this->Html->tag(
+			'dt',
+			'Ответственный'
+		).$this->Html->tag(
+			'dd',
+			$task['User']['surname'].' '.$task['User']['name']
+		)
+	);
+}
 if (! empty($task['Client']['name'])) {
 	$clientLink = $this->Html->link(
 		$task['Client']['surname'].' '.$task['Client']['name'].' '.$task['Client']['father'],

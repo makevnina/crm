@@ -22,7 +22,7 @@ class Company extends AppModel {
 	);
 	
 	public $belongsTo = array(
-		'ClientStatus'
+		'State'
 	);
     
     public $validate = array(

@@ -63,7 +63,7 @@ h4 a {
 ul, li {
 	margin: 0 12px;
 }
-.status {
+.status, .state {
 	padding: 0.3px 2px 2px 2px;
 	border-radius: 4px;
 	font-size: 70%;
@@ -89,6 +89,10 @@ h4.details_block {
 	color: #644f64;
 	font-weight: normal;
 }
+.taskCreator {
+	color: #6c6c6c;
+	font-size: 80%;
+}
 input#ProjectBudget {
 	width: 70px;
 }
@@ -96,6 +100,24 @@ input#ProjectBudget {
 	background-color: #d7f0da;
 	padding: 2px 15px 2px 15px;
 	font-size: 75%;
+}
+.userType {
+	font-size: 80%;
+	color: #644f64;
+	font-weight: normal;
+}
+.usersTable {
+	width: 80%;
+}
+.usersTable th {
+	font-size: 90%;
+}
+.usersTable td {
+	padding: 6px;
+}
+td .usersTable .editLink, .usersTable .deleteLink {
+	font-size: 75%;
+	width: 50px;
 }
 
 /** Layout **/
@@ -118,6 +140,21 @@ input#ProjectBudget {
 #header h1 a:hover {
 	color: #ddd;
 }
+#header h1#logo {
+	display: inline;
+}
+
+#container #header .login, #container #header .login a {
+	font-size: 11px;
+	color: #fff;
+	text-align: right;
+	float: right;
+}
+#container #header .login {
+	width: 20%;
+	padding-right: 5px;
+}
+
 #content-wrapper {
 	width: 100%;
 }

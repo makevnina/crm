@@ -12,8 +12,56 @@ class ClientsController extends AppController {
 		'ClientStatus',
 		'Task',
 		'TaskStatus',
-		'ProjectStatus'
+		'ProjectStatus',
+		'State'
 	);
+	
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$states = $this->State->find('all');
+		if (empty($states)) {
+			$states = Configure::read('State');
+			if (! empty($states)) {
+				foreach ($states as $state) {
+					$this->State->save($state);
+				}
+			}
+		}
+		$projects = $this->Project->find('all');
+		$knownClientsId = array();
+		if (! empty($projects)) {
+			foreach ($projects as $project) {
+				if (($project['Project']['artifact_id'] <> 0)
+					&& ($project['Project']['artifact_type'] == 'client')) {
+					if ($project['Project']['fact_date'] == '0000-00-00') {
+						$this->Client->updateAll(
+							array('Client.state_id' => 2),
+							array('Client.id' => $project['Project']['artifact_id'])
+						);
+						$knownClientsId[] = $project['Project']['artifact_id'];
+					}
+					else {
+						$this->Client->updateAll(
+							array('Client.state_id' => 3),
+							array('Client.id' => $project['Project']['artifact_id'])
+						);
+						$knownClientsId[] = $project['Project']['artifact_id'];
+					}		
+				}
+			}
+		}		
+		$clients = $this->Client->find('all');
+		if (! empty($clients)) {
+			foreach ($clients as $client) {
+				if (!in_array($client['Client']['id'], $knownClientsId)) {
+					$this->Client->updateAll(
+						array('Client.state_id' => 1),
+						array('Client.id' => $client['Client']['id'])
+					);
+				}
+			}
+		}
+	}
 
 	public function index() {
 		$this->redirect(
@@ -170,22 +218,44 @@ class ClientsController extends AppController {
 		$this->render('create');
 	}
 
-	public function delete($id) {
-		$this->Client->delete($id, $cascade = true);
-		$this->Phone->deleteAll(array(
-			'Phone.artifact_id' => $id,
-			'Phone.artifact_type' => 'client'
-		));
-		$this->Email->deleteAll(array(
-			'Email.artifact_id' => $id,
-			'Email.artifact_type' => 'client'
-		));
-		$this->Session->SetFlash('Клиент успешно удален');
-		$this->redirect(
-			array(
-				'action' => 'listing'
-			)
-		);
+	public function delete($id, $agree) {
+		$success = $this->Client->delete($id, $cascade = true);
+		if ($success) {
+			$this->Phone->deleteAll(array(
+				'Phone.artifact_id' => $id,
+				'Phone.artifact_type' => 'client'
+			));
+			$this->Email->deleteAll(array(
+				'Email.artifact_id' => $id,
+				'Email.artifact_type' => 'client'
+			));
+			if ($agree == 'true') {
+				$this->Task->deleteAll(array('Task.client_id' => $id));
+				$this->Project->deleteAll(array(
+					'Project.artifact_id' => $id,
+					'Project.artifact_type' => 'client'
+				));
+			}
+			else {
+				$this->Task->updateAll(
+					array('Task.artifact_id' => 0),
+					array('Task.client_id' => $id)
+				);
+				$this->Project->updateAll(
+					array('Project.artifact_id' => 0),
+					array(
+						'Project.artifact_id' => $id,
+						'Project.artifact_type' => 'client'
+					)
+				);
+			}
+			$this->Session->SetFlash('Клиент успешно удален');
+			$this->redirect(
+				array(
+					'action' => 'listing'
+				)
+			);
+		}
 	}
 	
 	public function client_tasks($id) {

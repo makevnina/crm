@@ -8,7 +8,8 @@ class TasksController extends AppController {
 		'Client',
 		'Company',
 		'Project',
-		'TaskStatus'
+		'TaskStatus',
+		'User'
 	);
 	
 	public function beforeFilter() {
@@ -105,27 +106,25 @@ class TasksController extends AppController {
 				$this->Session->SetFlash('Не удалось добавить задачу');
 			}
 		}	
-		$this->set(
-			'clients',
-			$this->Client->find(
-				'all'
-			)
-		);
+		$this->set('clients', $this->Client->find('all'));
 		$this->set('projects', $this->Project->find('all'));
 		$this->set('task_statuses', $this->TaskStatus->find('all'));
 		$task_types = Configure::read('Task.type');
 		$this->set('task_types', $task_types);
+		$this->set('users', $this->User->find('all'));
 	}
 	
 	public function view($id) {
 		$this->set('sidebar_element', 'task_view');
-		$this->set(
-			'task',
-			$this->Task->find(
-				'first',
-				array( 'conditions' => array('Task.id' => $id) )
-			)
-		);
+		$task = $this->Task->find('first', array(
+			'conditions' => array('Task.id' => $id)
+		));
+		if ($task['Task']['creator_id'] <> 0) {
+			$this->set('user', $this->User->find('first', array(
+				'conditions' => array('User.id' => $task['Task']['creator_id'])
+			)));
+		}
+		$this->set('task', $task);
 		$this->set('companies', $this->Company->find('all'));
 	}
 
@@ -152,6 +151,7 @@ class TasksController extends AppController {
 		$this->set('task_statuses', $this->TaskStatus->find('all'));
 		$task_types = Configure::read('Task.type');
 		$this->set('task_types', $task_types);
+		$this->set('users', $this->User->find('all'));
 		$this->render('create');
 	}
 	

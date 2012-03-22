@@ -28,13 +28,14 @@ class AppController extends Controller {
 			return $this->redirect(array ('controller' => 'users', 'action' => 'login'));
 		}
 		if ($this->current_user) {
-			$this->isAdmin    = 'admin'    == $this->current_user['User']['type'];
-			$this->isManager  = 'manager'  == $this->current_user['User']['type'];
-			$this->isAnalityc = 'analytic' == $this->current_user['User']['type'];
+			$this->isAdmin    = 'администратор'    == $this->current_user['User']['type'];
+			$this->isManager  = 'менеджер'  == $this->current_user['User']['type'];
+			$this->isAnalyst = 'аналитик' == $this->current_user['User']['type'];
 			if ($isLoginAction) {
 				return $this->redirect(array ('controller' => 'tasks', 'action' => 'listing'));
 			}
-		}
+			$this->set('current_user', $this->current_user);
+		}		
 	}
 	
 }

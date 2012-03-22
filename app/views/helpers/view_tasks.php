@@ -53,16 +53,21 @@ class ViewTasksHelper extends AppHelper {
 					'style' => 'display: block'
 				)
 			);	
-			$user = $this->Html->tag(
-				'dl',
-				$this->Html->tag(
-					'dt',
-					'Ответственный'
-				).$this->Html->tag(
-					'dd',
-					'<ФИО менеджера>'
-				)
-			);
+			if ($task['Task']['user_id'] <> 0) {
+				$user = $this->Html->tag(
+					'dl',
+					$this->Html->tag(
+						'dt',
+						'Ответственный'
+					).$this->Html->tag(
+						'dd',
+						$task['User']['surname'].' '.$task['User']['name']
+					)
+				);
+			}
+			else {
+				$user = '';
+			}
 			if (! empty($task['Client']['name'])) {
 				$clientLink = $this->Html->link(
 					$task['Client']['surname'].' '.$task['Client']['name'].' '.

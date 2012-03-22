@@ -66,6 +66,47 @@ echo $this->Html->tag(
 		)
 	).$selectHtml
 );
+if (! empty($users)) {
+	$usersOptionsHtml = $this->Html->tag(
+		'option',
+		'',
+		array(
+			'class' => 'empty',
+			'value' => 0
+		)
+	);
+	foreach ($users as $user) {
+		$selected = false;
+		if (! empty($task)) {
+			if ($task['Task']['user_id'] == $user['User']['id']) {
+				$selected = true;
+			}
+		}
+		$usersOptionsHtml .= $this->Html->tag(
+			'option',
+			$user['User']['surname'].' '.$user['User']['name'],
+			array(
+				'name' => 'data[Task][user_id]',
+				'value' => $user['User']['id'],
+				'selected' => $selected ? 'selected' : ''
+			)
+		);
+	}
+	$userSelectHtml = $this->Html->tag(
+		'select',
+		$usersOptionsHtml,
+		array(
+			'name' => 'data[Task][user_id]',
+			'id' => 'userSelect'
+		)
+	);
+	echo $this->Html->tag(
+		'div',
+		$this->Html->tag('label', 'Ответственный', array('for' => 'userSelect'))
+		. $userSelectHtml
+	);
+}
+
 $optionsHtml = '';
 $aloneOptionsHtml = $this->Html->tag(
 	'option',

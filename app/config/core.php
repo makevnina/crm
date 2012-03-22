@@ -305,3 +305,15 @@
 	Configure::write(
 		'Task.type', array('звонок', 'встреча', 'письмо', 'событие')
 	);
+	
+	Configure::write(
+		'User.type', array('администратор', 'менеджер', 'аналитик')
+	);
+	
+	Configure::write(
+		'State', array(
+			array('id' => 1, 'name' => 'потенциальный', 'color' => '#ffeeac'),
+			array('id' => 2, 'name' => 'текущий', 'color' => '#acffae'),
+			array('id' => 3, 'name' => 'прежний', 'color' => '#acc1ff')
+		)
+	);

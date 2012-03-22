@@ -26,6 +26,23 @@
 		<div id="container">
 			<div id="header">
 				<h1 id="logo"><?= $this->Html->link('CRM', '/') ?></h1>
+				<span class ="login">
+					<?php
+					if (! empty($current_user)) {
+						if (! empty($current_user['User']['name'])) {
+							$name = $current_user['User']['surname'].' '.$current_user['User']['name'];
+						}
+						else {
+							$name = $current_user['User']['login'];
+						}
+						$logoutLink = $this->Html->link(
+							'Выйти',
+							array('controller' => 'users', 'action' => 'logout')
+						);
+						echo $name.',&nbsp;'.$logoutLink;
+					}
+					?>
+			</span>
 			</div>
 			<div id="navigation_menu"><?= $navigationMenu->render() ?></div>
 			<table id="content-wrapper" cellpadding="0" cellspacing="0">

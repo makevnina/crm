@@ -18,6 +18,19 @@ class ViewClientsHelper extends AppHelper {
 					'style' => 'display: inline'
 				)
 			);
+			if ($client['Client']['state_id'] <> 0) {
+				$clientState = $this->Html->tag(
+					'span',
+					$client['State']['name'].' клиент',
+					array(
+						'class' => 'state',
+						'style' => "background-color:{$client['State']['color']}"
+					)
+				);
+			}
+			else {
+				$clientState = '';
+			}
 			if ($client['Client']['client_status_id'] <> 0) {
 				$clientStatus = $this->Html->tag(
 					'span',
@@ -33,7 +46,7 @@ class ViewClientsHelper extends AppHelper {
 			}
 			echo $this->Html->tag(
 				'div',
-				$clientName.' '.$clientStatus
+				$clientName.' '.$clientState.' '.$clientStatus
 			);
 			if ($client['Client']['position'] <> ''){
 				$position = $this->Html->tag(

@@ -4,8 +4,7 @@ class ClientStatus extends AppModel {
 	public $name = 'ClientStatus';
 	
 	public $hasMany = array(
-		'Client',
-		'Company'
+		'Client'
 	);
 	
 	public $validate = array(

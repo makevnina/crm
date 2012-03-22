@@ -12,8 +12,56 @@ class CompaniesController extends AppController {
 		'Task',
 		'ClientStatus',
 		'ProjectStatus',
-		'TaskStatus'
+		'TaskStatus',
+		'State'
 	);
+	
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$states = $this->State->find('all');
+		if (empty($states)) {
+			$states = Configure::read('State');
+			if (! empty($states)) {
+				foreach ($states as $state) {
+					$this->State->save($state);
+				}
+			}
+		}
+		$projects = $this->Project->find('all');
+		$knownCompaniesId = array();
+		if (! empty($projects)) {
+			foreach ($projects as $project) {
+				if (($project['Project']['artifact_id'] <> 0)
+					&& ($project['Project']['artifact_type'] == 'company')) {
+					if ($project['Project']['fact_date'] == '0000-00-00') {
+						$this->Company->updateAll(
+							array('Company.state_id' => 2),
+							array('Company.id' => $project['Project']['artifact_id'])
+						);
+						$knownCompaniesId[] = $project['Project']['artifact_id'];
+					}
+					else {
+						$this->Company->updateAll(
+							array('Company.state_id' => 3),
+							array('Company.id' => $project['Project']['artifact_id'])
+						);
+						$knownCompaniesId[] = $project['Project']['artifact_id'];
+					}		
+				}
+			}
+		}		
+		$companies = $this->Company->find('all');
+		if (! empty($companies)) {
+			foreach ($companies as $company) {
+				if (!in_array($company['Company']['id'], $knownCompaniesId)) {
+					$this->Company->updateAll(
+						array('Company.state_id' => 1),
+						array('Company.id' => $company['Company']['id'])
+					);
+				}
+			}
+		}
+	}
 
 	function index() {
 		$this->redirect(array('action' => 'listing'));

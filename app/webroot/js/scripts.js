@@ -30,8 +30,12 @@ function open_dialog() {
 }
 
 function deleteClient(id) {
+	var agree = false;
 	if (confirm('Вы действительно хотите удалить клиента?')) {
-		parent.location = '/clients/delete/' + id;
+		if (confirm('Удалить задачи и проекты, связанные с клиентом?')) {
+			agree = true;
+		}
+		parent.location = '/clients/delete/' + id + '/' + agree;
 	}
 }
 
@@ -58,6 +62,12 @@ function deleteProject(id) {
 			agree = true;
 		}
 		parent.location = '/projects/delete/' + id + '/' + agree;
+	}
+}
+
+function deleteUser(id) {
+	if (confirm('Вы действительно хотите удалить пользователя?')) {
+		parent.location = '/users/delete/' + id;
 	}
 }
 

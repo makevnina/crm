@@ -33,3 +33,13 @@ td.sidebar {
 #sidebar label {
 	font-size: 80%;
 }
+
+#sidebar .submenu {
+	padding-left: 20px;
+	background-color: #f7f7f7;
+}
+
+#sidebar .sidebarTitle {
+	font-weight: bold;
+	font-size: 110%;
+}

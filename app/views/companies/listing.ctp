@@ -15,7 +15,7 @@ if (empty($companies)) {
 }
 else {
 	foreach ($companies as $company) {
-		$companyLink = $this->Html->tag(
+		$companyName = $this->Html->tag(
 			'h3',
 			$this->Html->link(
 				$company['Company']['name'],
@@ -23,9 +23,28 @@ else {
 					 'action' => 'view',
 					 $company['Company']['id']
 				)
+			),
+			array(
+				'style' => 'display: inline'
 			)
 		);
-		echo $companyLink;
+		if ($company['Company']['state_id'] <> 0) {
+			$companyState = $this->Html->tag(
+				'span',
+				$company['State']['name'].' клиент',
+					array(
+						'class' => 'state',
+						'style' => "background-color:{$company['State']['color']}"
+					)
+			);
+		}
+		else {
+			$companyState = '';
+		}
+		echo $this->Html->tag(
+			'div',
+			$companyName.' '.$companyState
+		);
 
 		if (! empty($company['Company']['activity'])) {
 			$activity = $this->Html->tag(
