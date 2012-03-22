@@ -23,6 +23,18 @@ echo $this->Html->tag(
 	'div',
 	$projectName.' '.$projectStatus
 );
+if (! empty($project['Project']['budget'])) {
+	echo $budget = $this->Html->tag(
+		'span',
+		$this->Html->tag(
+			'b',
+			$project['Project']['budget']
+		). ' руб.',
+		array(
+			'class' => 'budget'
+		)
+	);
+}
 $editLink = $this->Html->link(
 	'редактировать',
 	array(
@@ -32,9 +44,9 @@ $editLink = $this->Html->link(
 );
 $deleteLink = $this->Html->link(
 	'удалить',
+	'javascript: void(0)',
 	array(
-		'action' => 'delete',
-		$project['Project']['id']
+		'onclick' => "return deleteProject({$project['Project']['id']})"
 	)
 );
 echo $this->Html->tag(

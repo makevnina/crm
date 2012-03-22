@@ -10,7 +10,9 @@ class ClientsController extends AppController {
 		'Phone',
 		'Email',
 		'ClientStatus',
-		'Task'
+		'Task',
+		'TaskStatus',
+		'ProjectStatus'
 	);
 
 	public function index() {
@@ -24,6 +26,7 @@ class ClientsController extends AppController {
 	public function listing() {
 		$statuses = $this->ClientStatus->find('all');
 		if (empty($this->data)) {
+			$this->data[0] = 1;
 			foreach ($statuses as $status) {
 				$this->data[$status['ClientStatus']['id']] = 1;
 			}
@@ -41,6 +44,7 @@ class ClientsController extends AppController {
 			array('conditions' => array('Email.artifact_type' => 'client'))
 		));
 		$this->set('projects', $this->Project->find('all'));
+		$this->set('companies', $this->Company->find('all'));
 	}
 
 	public function create() {
@@ -168,6 +172,14 @@ class ClientsController extends AppController {
 
 	public function delete($id) {
 		$this->Client->delete($id, $cascade = true);
+		$this->Phone->deleteAll(array(
+			'Phone.artifact_id' => $id,
+			'Phone.artifact_type' => 'client'
+		));
+		$this->Email->deleteAll(array(
+			'Email.artifact_id' => $id,
+			'Email.artifact_type' => 'client'
+		));
 		$this->Session->SetFlash('Клиент успешно удален');
 		$this->redirect(
 			array(
@@ -186,6 +198,21 @@ class ClientsController extends AppController {
 			'all',
 			array('conditions' => array('Task.client_id' => $id))
 		));
+		$task_statuses = $this->TaskStatus->find('all');
+		$this->set('task_statuses', $task_statuses);
+		$task_types = Configure::read('Task.type');
+		$this->set('task_types', $task_types);
+		if (empty($this->data)) {
+			if (! empty($task_statuses)) {
+				foreach ($task_statuses as $status) {
+					$this->data[$status['TaskStatus']['id']] = 1;
+				}
+				foreach ($task_types as $type) {
+					$this->data[$type] = 1;
+				}
+			}
+		}
+		$this->set('task_filter', $this->data);
 	}
 	
 	public function client_projects($id) {
@@ -195,6 +222,14 @@ class ClientsController extends AppController {
 			array('conditions' => array('Client.id' => $id))
 		));
 		$this->set('projects', $this->Project->find('all'));
+		$project_statuses = $this->ProjectStatus->find('all');
+		$this->set('project_statuses', $project_statuses);
+		if (empty($this->data)) {
+			foreach ($project_statuses as $status) {
+				$this->data[$status['ProjectStatus']['id']] = 1;
+			}
+		}
+		$this->set('project_filter', $this->data);
 	}
 
 }

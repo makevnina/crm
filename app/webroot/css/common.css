@@ -75,11 +75,27 @@ div.statusName div {
 .details_block {
 	font-size: 90%;
 }
+.details_block .status {
+	font-size: 80%;
+}
 h4.details_block {
 	font-size: 120%;
 }
 .taskDeadline {
 	font-size: 70%;
+}
+.taskType {
+	font-size: 75%;
+	color: #644f64;
+	font-weight: normal;
+}
+input#ProjectBudget {
+	width: 70px;
+}
+.budget {
+	background-color: #d7f0da;
+	padding: 2px 15px 2px 15px;
+	font-size: 75%;
 }
 
 /** Layout **/

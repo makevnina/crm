@@ -94,8 +94,7 @@ foreach ($clients as $client) {
 			array(
 				'value' => $client['Client']['id'],
 				'selected' => $selected ? 'selected' : '',
-				'class' => "company{$client['Client']['company_id']}",
-		//		'id' => "client{$client['Client']['id']}"
+				'class' => "company{$client['Client']['company_id']}"
 			)
 		);
 	}
@@ -106,8 +105,7 @@ foreach ($clients as $client) {
 			array(
 				'value' => $client['Client']['id'],
 				'selected' => $selected ? 'selected' : '',
-				'class' => "client{$client['Client']['id']}",
-			//	'id' => "client{$client['Client']['id']}"
+				'class' => "client{$client['Client']['id']}"
 			)
 		);
 	}
@@ -138,28 +136,6 @@ echo $this->Html->tag(
 	)
 	. $selectHtml
 );
-
-/*$clientsList = array('');
-$clientsCompaniesList = array();
-foreach ($clients as $client) {
-	if ($client['Client']['company_id'] == 0) {
-		$clientsList[$client['Client']['id']] = $client['Client']['surname'].' '.
-			$client['Client']['name'].' '.$client['Client']['father'];
-	}
-	else {
-		$clientsCompaniesList['Компания "'.$client['Company']['name'].'"'][$client['Client']['id']] = $client['Client']['surname'].' '.
-			$client['Client']['name'].' '.$client['Client']['father'];
-	}
-}
-echo $this->Form->input(
-	'client_id',
-	array(
-		'label' => 'Клиент',
-		'type' => 'select',
-		'options' =>	$clientsList+$clientsCompaniesList,
-		'id' => 'ClientSelect'
-	)
-);*/
 $projectOptionsHtml = $this->Html->tag(
 	'option',
 	'',
@@ -191,7 +167,8 @@ foreach ($projects as $project) {
 		$project['Project']['name'],
 		array(
 			'value' => $project['Project']['id'],
-			'class' => $projectClass
+			'class' => $projectClass,
+			'selected' => $selected ? 'selected' : ''
 		)
 	);
 }
@@ -214,41 +191,43 @@ echo $this->Html->tag(
 		'id' => 'ProjectDiv'
 	)
 );
-
-/*$projectList = array('');
-foreach ($projects as $project) {
-	$projectList[$project['Project']['id']] = $project['Project']['name'];
-}
-$ProjectInput = $this->Form->input(
-	'project_id',
-	array(
-		'label' => 'Проект',
-		'type' => 'select',
-		'options' => $projectList
-	)
-);
-echo $this->Html->tag(
-	'div',
-	$ProjectInput,
-	array(
-		'id' => 'ProjectSelect',
-		'style' => 'padding: 0'
-	)
-);*/
-
-echo $this->Form->input(
-	'type',
-	array(
-		'label' => 'Тип',
-		'type' => 'select',
-		'options' => array(
-			'звонок',
-			'встреча',
-			'письмо',
-			'событие'
+if (! empty($task_types)) {
+	$typeOptionsHtml = '';
+	foreach ($task_types as $type) {
+		$selected = false;
+		if (! empty($task)) {
+			if ($task['Task']['type'] == $type) {
+				$selected = true;
+			}
+		}
+		$typeOptionsHtml .= $this->Html->tag(
+			'option',
+			$type,
+			array(
+				'name' => 'data[Task][type]',
+				'value' => $type,
+				'selected' => $selected ? 'selected' : ''
+			)
+		);
+	}
+	$typeSelectHtml = $this->Html->tag(
+		'select',
+		$typeOptionsHtml,
+		array(
+			'name' => 'data[Task][type]',
+			'id' => 'typeSelect'
 		)
-	)
-);
+	);
+	echo $this->Html->tag(
+		'div',
+		$this->Html->tag(
+			'label',
+			'Тип',
+			array('for' => 'typeSelect')
+		)
+		. $typeSelectHtml
+	);
+}
 echo $this->Form->input(
 	'description',
 	array(

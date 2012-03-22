@@ -14,3 +14,22 @@ td.sidebar {
 	font-size: 90%;
 }
 
+#sidebar label.titleLabel {
+	padding: 5px;
+	background-color: #dfdfdf;
+	margin-top: 5px;
+}
+
+#sidebar label.statusLabel {
+	display: inline;
+	padding: 0.3px 2px 2px 2px;
+	border-radius: 4px;
+	font-size: 75%;
+}
+
+.filterDiv {
+	padding: 0;
+}
+#sidebar label {
+	font-size: 80%;
+}

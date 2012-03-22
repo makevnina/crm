@@ -1,29 +1,17 @@
 <?php
-$companyNameLink = $this->Html->link(
-	$company['Company']['name'],
+$projectNameLink = $this->Html->link(
+	$project['Project']['name'],
 	array(
 		'action' => 'view',
-		$company['Company']['id']
+		$project['Project']['id']
 	)
 );
 echo $this->Html->tag(
 	'h2',
-	'Компания: "'.$companyNameLink.'"'
+	'Проект: '.$projectNameLink
 );
-$clientsIdArray = array();
-if (! empty($company['Client'])) {
-	foreach ($company['Client'] as $client) {
-		$clientsIdArray[] = $client['id'];
-	}
-}
-$tasks = array();
-foreach ($allTasks as $task) {
-	if (in_array($task['Task']['client_id'], $clientsIdArray)) {
-		$tasks[] = $task;
-	}
-}
-if ( (empty($clientsIdArray)) OR (empty($tasks)) ) {
-	echo 'Нет задач, связанных с контактными лицами данной компании.';
+if (empty($tasks)) {
+	echo 'Нет задач, связанных с данным проектом.';
 }
 else {
 	$filterTasksArray = array();
@@ -40,13 +28,13 @@ else {
 		}
 	}
 	$tasks = $filterTasksArray;
-	if (empty($tasks)) {
+	if (empty ($tasks)) {
 		echo 'Нет задач, удовлетворяющих условиям фильтра.';
 	}
 	else {
 		echo $this->Html->tag(
 			'h3',
-			'Задачи по контактным лицам компании:'
+			'Задачи по проекту:'
 		);
 		foreach ($tasks as $task) {
 			$taskNameLink = $this->Html->tag(
@@ -112,6 +100,21 @@ else {
 						$task['Client']['id']
 					)
 				);
+				$companyLink = '';
+				if ($task['Client']['company_id'] !== 0) {
+					foreach ($companies as $company) {
+						if ($company['Company']['id'] == $task['Client']['company_id']) {
+							$companyLink = ' ('.$this->Html->link(
+								'компания "'.$company['Company']['name'].'"',
+								array(
+									'controller' => 'companies',
+									'action' => 'view',
+									$company['Company']['id']
+								)
+							).')';
+						}
+					}
+				}
 				echo $this->Html->tag(
 					'dl',
 					$this->Html->tag(
@@ -119,28 +122,7 @@ else {
 						'Клиент'
 					).$this->Html->tag(
 						'dd',
-						$clientLink
-					),
-					array('class' => "details_block block{$task['Task']['id']}")
-				);
-			}
-			if (!empty($task['Project']['name'])) {
-				$projectLink = $this->Html->link(
-					$task['Project']['name'],
-					array(
-						'controller' => 'projects',
-						'action' => 'view',
-						$task['Project']['id']
-					)
-				);
-				echo $this->Html->tag(
-					'dl',
-					$this->Html->tag(
-						'dt',
-						'Проект'
-					).$this->Html->tag(
-						'dd',
-						$projectLink
+						$clientLink.$companyLink
 					),
 					array('class' => "details_block block{$task['Task']['id']}")
 				);

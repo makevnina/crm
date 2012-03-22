@@ -23,23 +23,28 @@ class Email extends AppModel {
 		$artifact_type = Inflector::underscore($model->name);
 		$email_list = array();
 		$email_new_list = array();
+		$success = true;
 		foreach ($emails as $k => $email) {
 			if ($k !== 'new') {
-				$email_list[] = array(
-					'Email' => array(
-						'id' => $k,
-						'address' => $email
-					)
-				);
+				if ($email !== '') {
+					$email_list[] = array(
+						'Email' => array(
+							'id' => $k,
+							'address' => $email
+						)
+					);
+				}
 			}
 		}
 		if (! empty($emails['new'])) {
 			foreach ($emails['new'] as $email) {
-				$email_new_list[] = array(
-					'artifact_id' => $model->id,
-					'artifact_type' => $artifact_type,
-					'address' => $email
-				);
+				if ($email !== '') {
+					$email_new_list[] = array(
+						'artifact_id' => $model->id,
+						'artifact_type' => $artifact_type,
+						'address' => $email
+					);
+				}
 			}
 			foreach ($email_new_list as $email) {
 				$success = $this->insert($email);

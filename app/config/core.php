@@ -301,3 +301,7 @@
  *
  */
 	Cache::config('default', array('engine' => 'File'));
+	
+	Configure::write(
+		'Task.type', array('звонок', 'встреча', 'письмо', 'событие')
+	);

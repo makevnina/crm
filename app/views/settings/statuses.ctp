@@ -42,15 +42,31 @@ if ($this->action == 'task_statuses') {
 	);
 }
 echo $title;
-$current_number = 0;
+if (empty($current_number)) {
+	$current_number = 0;
+}
 foreach ($statuses as $status) {
-	$statusNameInput = $this->Form->input(
+	$statusDisabled = false;
+	if (! empty($status['ProjectStatus']['id'])) {
+		if (($status['ProjectStatus']['id'] == 1)
+			OR ($status['ProjectStatus']['id'] == 2)) {
+			$statusDisabled = true;
+		}
+	}
+	if (! empty($status['TaskStatus']['id'])) {
+		if (($status['TaskStatus']['id'] == 1)
+			OR ($status['TaskStatus']['id'] == 2)) {
+			$statusDisabled = true;
+		}
+	}
+	$statusName = $this->Form->input(
 		'name',
 		array(
 			'label' => 'Наименование статуса',
 			'name' => "data[{$modelName}][{$status[$modelName]['id']}][name]",
 			'value' => $status[$modelName]['name'],
-			'class' => 'statusName'
+			'class' => 'statusName',
+			'disabled' => $statusDisabled ? true : false
 		)
 	);
 	$statusColor = $this->Html->tag(
@@ -83,7 +99,7 @@ foreach ($statuses as $status) {
 	);
 	echo $this->Html->tag(
 		'div',
-		$statusId.$statusNameInput.$statusColor,
+		$statusId.$statusName.$statusColor,
 		array(
 			'class' => 'statusName'
 		)

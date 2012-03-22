@@ -26,6 +26,13 @@ class ViewTasksHelper extends AppHelper {
 						'style' => "background: {$task['TaskStatus']['color']}"
 					)
 			);
+			$taskType = $this->Html->tag(
+				'span',
+				$task['Task']['type'],
+				array(
+					'class' => 'taskType'
+				)
+			);
 			$taskDeadline = $this->Html->tag(
 				'span',
 				$task['Task']['deadline_date'].' '.$task['Task']['deadline_time'],
@@ -35,7 +42,7 @@ class ViewTasksHelper extends AppHelper {
 			);
 			echo $this->Html->tag(
 				'div',
-				$taskNameLink.' '.$taskStatus.' '.$taskDeadline
+				$taskNameLink.' '.$taskStatus.' '.$taskType.' '.$taskDeadline
 			);
 			echo $this->Html->link(
 				'+',

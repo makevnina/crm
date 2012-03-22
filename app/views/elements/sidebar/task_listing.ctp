@@ -17,139 +17,99 @@ echo $this->Form->create(
 		'action' => 'listing'
 	)
 );
-echo $this->Form->checkbox(
-	'',
-	array(
-		'name' => 'data[finished]',
-		'checked' => $task_filter['finished'] ? 'checked' : '',
-		'id' => 'finishedCheckbox'
-	)
+$taskTimeStatuses = array(
+	'finished' => 'Завершенные',
+	'overdue' => 'Просроченные',
+	'today' => 'Сегодня',
+	'tomorrow' => 'Завтра',
+	'this_week' => 'Эта неделя',
+	'next_week' => 'Следующая неделя',
+	'this_month' => 'Этот месяц',
+	'next_month' => 'Следующий месяц',
+	'later' => 'Позже'
 );
-echo $this->Html->tag(
-	'label',
-	'Завершенные',
-	array(
-		'for' => 'finishedCheckbox'
-	)
-);
-echo $this->Form->checkbox(
-	'',
-	array(
-		'name' => 'data[overdue]',
-		'checked' => $task_filter['overdue'] ? 'checked' : '',
-		'id' => 'overdueCheckbox'
-	)
-);
-echo $this->Html->tag(
-	'label',
-	'Просроченные',
-	array(
-		'for' => 'overdueCheckbox'
-	)
-);
-echo $this->Form->checkbox(
-	'',
-	array(
-		'name' => 'data[today]',
-		'checked' => $task_filter['today'] ? 'checked' : '',
-		'id' => 'todayCheckbox'
-	)
-);
-echo $this->Html->tag(
-	'label',
-	'Сегодня',
-	array(
-		'for' => 'todayCheckbox'
-	)
-);
-echo $this->Form->checkbox(
-	'',
-	array(
-		'name' => 'data[tomorrow]',
-		'checked' => $task_filter['tomorrow'] ? 'checked' : '',
-		'id' => 'tomorrowCheckbox'
-	)
-);
-echo $this->Html->tag(
-	'label',
-	'Завтра',
-	array(
-		'for' => 'tomorrowCheckbox'
-	)
-);
-echo $this->Form->checkbox(
-	'',
-	array(
-		'name' => 'data[this_week]',
-		'checked' => $task_filter['this_week'] ? 'checked' : '',
-		'id' => 'thisWeekCheckbox'
-	)
-);
-echo $this->Html->tag(
-	'label',
-	'Эта неделя',
-	array(
-		'for' => 'thisWeekCheckbox'
-	)
-);
-echo $this->Form->checkbox(
-	'',
-	array(
-		'name' => 'data[next_week]',
-		'checked' => $task_filter['next_week'] ? 'checked' : '',
-		'id' => 'nextWeekCheckbox'
-	)
-);
-echo $this->Html->tag(
-	'label',
-	'Следующая неделя',
-	array(
-		'for' => 'nextWeekCheckbox'
-	)
-);
-echo $this->Form->checkbox(
-	'',
-	array(
-		'name' => 'data[this_month]',
-		'checked' => $task_filter['this_month'] ? 'checked' : '',
-		'id' => 'thisMonthCheckbox'
-	)
-);
-echo $this->Html->tag(
-	'label',
-	'Этот месяц',
-	array(
-		'for' => 'thisMonthCheckbox'
-	)
-);
-echo $this->Form->checkbox(
-	'',
-	array(
-		'name' => 'data[next_month]',
-		'checked' => $task_filter['next_month'] ? 'checked' : '',
-		'id' => 'nextMonthCheckbox'
-	)
-);
-echo $this->Html->tag(
-	'label',
-	'Следующий месяц',
-	array(
-		'for' => 'nextMonthCheckbox'
-	)
-);
-echo $this->Form->checkbox(
-	'',
-	array(
-		'name' => 'data[later]',
-		'checked' => $task_filter['later'] ? 'checked' : '',
-		'id' => 'laterCheckbox'
-	)
-);
-echo $this->Html->tag(
-	'label',
-	'Позже',
-	array(
-		'for' => 'laterCheckbox'
-	)
-);
+foreach ($taskTimeStatuses as $timeKey => $timeValue) {
+	$timeCheckbox = $this->Form->checkbox(
+		'',
+		array(
+			'name' => "data[{$timeKey}]",
+			'checked' => $task_filter[$timeKey] ? 'checked' : '',
+			'id' => $timeKey.'Checkbox'
+		)
+	);
+	$timeLabel = $this->Html->tag(
+		'label',
+		$timeValue,
+		array(
+			'for' => $timeKey.'Checkbox'
+		)
+	);
+	echo $this->Html->tag(
+		'div',
+		$timeCheckbox.$timeLabel,
+		array(
+			'class' => 'filterDiv'
+		)
+	);
+}
+if (! empty($statuses)) {
+	echo $this->Html->tag(
+		'label',
+		'Статус задачи:',
+		array('class' => 'titleLabel')
+	);
+	foreach ($statuses as $status) {
+		$taskCheckbox = $this->Form->checkbox(
+			'',
+			array(
+				'name' => "data[{$status['TaskStatus']['id']}]",
+				'checked' => $task_filter[$status['TaskStatus']['id']] ? 'checked' : '',
+				'id' => 'taskStatus'.$status['TaskStatus']['id']
+			)
+		);
+		$taskLabel = $this->Html->tag(
+			'label',
+			$status['TaskStatus']['name'],
+			array(
+				'for' => 'taskStatus'.$status['TaskStatus']['id'],
+				'style' => "background-color: {$status['TaskStatus']['color']}",
+				'class' => 'statusLabel'
+			)
+		);
+		echo $this->Html->tag(
+			'div',
+			$taskCheckbox.$taskLabel,
+			array('class' => 'filterDiv')
+		);
+	}
+}
+if (! empty($task_types)) {
+	echo $this->Html->tag(
+		'label',
+		'Тип задачи:',
+		array('class' => 'titleLabel')
+	);
+	foreach ($task_types as $type) {
+		$typeCheckbox = $this->Form->checkbox(
+			'',
+			array(
+				'name' => "data[{$type}]",
+				'checked' => $task_filter[$type] ? 'checked' : '',
+				'id' => 'taskType'.$type
+			)
+		);
+		$typeLabel = $this->Html->tag(
+			'label',
+			$type,
+			array(
+				'for' => 'taskType'.$type
+			)
+		);
+		echo $this->Html->tag(
+			'div',
+			$typeCheckbox.$typeLabel,
+			array('class' => 'filterDiv')
+		);
+	}
+}
 echo $this->Form->end('Показать');

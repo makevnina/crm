@@ -3,7 +3,6 @@ echo $this->Html->tag(
 	'h2',
 	$this->action == 'create' ? 'Создание нового клиента' : 'Редактирование клиента'
 );
-
 if ($this->action == 'create') {
    echo $this->Form->create(
       'Client',
@@ -12,42 +11,40 @@ if ($this->action == 'create') {
       )
    );
 }
-
 if ($this->action == 'edit') {
    echo $this->Form->create(
-           'Client',
-           array(
-               'action' => 'edit',
-               $client['Client']['id']
-           )
+		'Client',
+		array(
+			'action' => 'edit',
+			$client['Client']['id']
+		)
    );
 }
-
 echo $this->Form->input(
-        'surname',
-        array(
-            'label' => 'Фамилия'
-        )
+	'surname',
+	array(
+		'label' => 'Фамилия'
+	)
 );
 echo $this->Form->input(
-        'name',
-        array(
-            'label' => 'Имя'
-        )
+	'name',
+	array(
+		'label' => 'Имя'
+	)
 );
 echo $this->Form->input(
-        'father',
-        array(
-            'label' => 'Отчество'
-        )
+	'father',
+	array(
+		'label' => 'Отчество'
+	)
 );
-
 $optionsHtml = '';
 $optionsHtml .= $this->Html->tag(
 	'option',
 	'',
 	array(
 		'class' => 'status',
+		'value' => 0,
 		'style' => 'background: #ffffff'
 	)
 );
@@ -80,14 +77,11 @@ $selectHtml = $this->Html->tag(
 		'style' => "background-color:{$selected_color}"
 	)
 );
-
 echo $this->Html->tag(
 	'div',
 	$this->Html->tag('label', 'Статус', array ('for' => 'status'))
 	. $selectHtml
 );
-
-
 echo $this->Html->link(
 	'Создать новую компанию',
 	'javascript:void(0)',
@@ -152,7 +146,6 @@ echo $this->Html->tag(
 		'class' => 'phone_block'
 	)
 );
-
 if (! empty($emails)) {
 	$email_input = '';
 	foreach ($emails as $email) {
@@ -191,12 +184,11 @@ echo $this->Html->tag(
 		'class' => 'email_block'
 	)
 );
-
 echo $this->Form->input(
-        'address',
-        array(
-            'label' => 'Адрес'
-        )
+	'address',
+	array(
+		'label' => 'Адрес'
+	)
 );
 echo $this->Form->end(
 	$this->action == 'create' ? 'Создать' : 'Сохранить'

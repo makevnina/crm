@@ -8,7 +8,21 @@ if (empty($tasks)) {
 	);
 	echo 'Еще не создано ни одной задачи, '.$createLink.' новую прямо сейчас!';
 }
-else {	
+else {
+	$filterTasksArray = array();
+	$filterArray = array();
+	foreach ($task_filter as $key => $value) {
+		if ($value) {
+			$filterArray[] = $key;
+		}
+	}
+	foreach ($tasks as $task) {
+		if ((in_array($task['Task']['task_status_id'], $filterArray))
+			AND (in_array($task['Task']['type'], $filterArray))) {
+			$filterTasksArray[] = $task;
+		}
+	}
+	$tasks = $filterTasksArray;
 	$finishedTasks = array();
 	$overdueTasks = array();
 	$beforeTasks = array();

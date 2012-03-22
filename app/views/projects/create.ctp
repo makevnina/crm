@@ -135,6 +135,30 @@ foreach ($project_statuses as $status) {
 		)
 	);
 }
+if (! empty($project['Project']['budget'])) {
+	$budget = $project['Project']['budget'];
+}
+else {
+	$budget = 0;
+}
+$budgetInput = $this->Html->tag(
+	'input',
+	'',
+	array(
+		'name' => 'data[Project][budget]',
+		'value' => $budget,
+		'id' => 'ProjectBudget'
+	)
+);
+echo $this->Html->tag(
+	'div',
+	$this->Html->tag(
+		'label',
+		'Бюджет',
+		array('for' => 'ProjectBudget')
+	)
+	. $budgetInput.' руб.'
+);
 $selectHtml = $this->Html->tag(
 	'select',
 	$optionsHtml,
@@ -150,7 +174,7 @@ echo $this->Html->tag(
 		'label',
 		'Статус проекта',
 		array(
-			'for' => 'state'
+			'for' => 'status'
 		)
 	).$selectHtml
 );

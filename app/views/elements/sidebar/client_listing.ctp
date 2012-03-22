@@ -18,8 +18,13 @@ if (! empty($statuses)) {
 			'action' => 'listing'
 		)
 	);
+	echo $this->Html->tag(
+		'label',
+		'Статус клиента:',
+		array('class' => 'titleLabel')
+	);
 	foreach ($statuses as $status) {
-		echo $this->Form->checkbox(
+		$clientCheckbox = $this->Form->checkbox(
 			'',
 			array(
 				'name' => "data[{$status['ClientStatus']['id']}]",
@@ -27,10 +32,19 @@ if (! empty($statuses)) {
 				'id' => $status['ClientStatus']['id']
 			)
 		);
-		echo $this->Html->tag(
+		$clientLabel = $this->Html->tag(
 			'label',
 			$status['ClientStatus']['name'],
-			array('for' => $status['ClientStatus']['id'])
+			array(
+				'for' => $status['ClientStatus']['id'],
+				'style' => "background-color: {$status['ClientStatus']['color']}",
+				'class' => 'statusLabel'
+			)
+		);
+		echo $this->Html->tag(
+			'div',
+			$clientCheckbox.$clientLabel,
+			array('class' => 'filterDiv')
 		);
 	}
 	echo $this->Form->end('Показать');

@@ -129,40 +129,20 @@ else {
 			$detailsDiv = '';
 		}
 		if (! empty($clients)) {
-			$viewClientLinks = array();
+			$clientsArray = array();
 			foreach ($clients as $client) {
 				if ($client['Client']['company_id'] == $company['Company']['id']) {
-					$viewClientLinks[] = $this->Html->link(
-						$client['Client']['surname'].' '.$client['Client']['name'].' '.$client['Client']['father'],
-						array(
-							'controller' => 'clients',
-							'action' => 'view',
-							$client['Client']['id']
-						)
-					);
+					$clientsArray[] = $client;
 				}
 			}
-		}
-		else {
-			$viewClientLinks = '';
 		}
 		if (! empty($projects)) {
-			$projectArrayLink = array();
+			$projectsArray = array();
 			foreach ($projects as $project) {
 				if ($project['Project']['artifact_id'] == $company['Company']['id']) {
-					$projectArrayLink[] = $this->Html->link(
-						$project['Project']['name'],
-						array(
-							'controller' => 'projects',
-							'action' => 'view',
-							$project['Project']['id']
-						)
-					);
+					$projectsArray[] = $project;
 				}
 			}
-		}
-		else {
-			$projectArrayLink = '';
 		}
 		$showDetailsLink = $this->Html->link(
 			'+',
@@ -172,13 +152,13 @@ else {
 				'onclick' => "return toggle_details({$company['Company']['id']});"
 			)
 		);
-		if ((! empty($detailsDiv)) OR (!empty($viewClientLinks)) OR (! empty($projectArrayLink))) {
+		if ((! empty($detailsDiv)) OR (!empty($viewClientLinks)) OR (! empty($projectsArray))) {
 			echo $showDetailsLink;
 		}
 		if (!empty ($detailsDiv)) {
 			echo $detailsDiv;
 		}
-		if (! empty($viewClientLinks)) {
+		if (! empty($clientsArray)) {
 			echo $this->Html->tag(
 				'h4',
 				'Контактные лица компании:',
@@ -186,17 +166,39 @@ else {
 					'class' => "details_block block{$company['Company']['id']}"
 				)
 			);
-			foreach ($viewClientLinks as $viewClientLink) {
+			foreach ($clientsArray as $client) {
+				$clientName = $this->Html->link(
+					$client['Client']['surname'].' '.$client['Client']['name']
+					. ' '.$client['Client']['father'],
+					array(
+						'controller' => 'clients',
+						'action' => 'view',
+						$client['Client']['id']
+					)
+				);
+				if ($client['Client']['client_status_id'] <> 0) {
+					$clientStatus = $this->Html->tag(
+						'span',
+						$client['ClientStatus']['name'],
+						array(
+							'style' => "background-color: {$client['ClientStatus']['color']}",
+							'class' => 'status'
+						)
+					);
+				}
+				else {
+					$clientStatus = '';
+				}
 				echo $this->Html->tag(
 					'div',
-					$viewClientLink,
+					$clientName.' '.$clientStatus,
 					array(
 						'class' => "details_block block{$company['Company']['id']}"
 					)
 				);
 			}
 		}
-		if (! empty($projectArrayLink)) {
+		if (! empty($projectsArray)) {
 			echo $this->Html->tag(
 				'h4',
 				'Проекты компании:',
@@ -204,10 +206,28 @@ else {
 					'class' => "details_block block{$company['Company']['id']}"
 				)
 			);
-			foreach ($projectArrayLink as $projectLink) {
+			foreach ($projectsArray as $project) {
+				$projectNameLink = $this->Html->link(
+					$project['Project']['name'],
+					array(
+						'controller' => 'projects',
+						'action' => 'view',
+						$project['Project']['id']
+					)
+				);
+				if ($project['Project']['project_status_id'] <> 0) {
+					$projectStatus = $this->Html->tag(
+						'span',
+						$project['ProjectStatus']['name'],
+						array(
+							'class' => 'status',
+							'style' => "background-color: {$project['ProjectStatus']['color']}"
+						)
+					);
+				}
 				echo $this->Html->tag(
 					'div',
-					$projectLink,
+					$projectNameLink.' '.$projectStatus,
 					array(
 						'class' => "details_block block{$company['Company']['id']}"
 					)

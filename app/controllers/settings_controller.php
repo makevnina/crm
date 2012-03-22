@@ -10,6 +10,7 @@ class SettingsController extends AppController {
 	);
 	
 	public function beforeFilter() {
+		parent::beforeFilter();
 		$this->set('sidebar_element', 'settings');
 	}
 	

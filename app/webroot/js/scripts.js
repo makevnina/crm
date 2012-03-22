@@ -29,6 +29,38 @@ function open_dialog() {
 	$('#dialogform').dialog({modal:true});
 }
 
+function deleteClient(id) {
+	if (confirm('Вы действительно хотите удалить клиента?')) {
+		parent.location = '/clients/delete/' + id;
+	}
+}
+
+function deleteCompany(id) {
+	var agree = false;
+	if (confirm('Вы действительно хотите удалить компанию?')) {
+		if (confirm('Удалить контактных лиц данной компании?')) {
+			agree = true;
+		}
+		parent.location = '/companies/delete/' + id + '/' + agree;
+	}
+}
+
+function deleteTask(id) {
+	if (confirm('Вы действительно хотите удалить задачу?')) {
+		parent.location = '/tasks/delete/' + id;
+	}
+}
+
+function deleteProject(id) {
+	var agree = false;
+	if (confirm('Вы действительно хотите удалить проект?')) {
+		if (confirm('Удалить задачи, связанные с проектом?')) {
+			agree = true;
+		}
+		parent.location = '/projects/delete/' + id + '/' + agree;
+	}
+}
+
 $(document).ready(function() {
 	$('.details_block').hide();
 	
@@ -83,10 +115,12 @@ $(document).ready(function() {
 		);	
 	}
 	$('#ProjectDiv option').hide();
+	$('#ProjectDiv option[id="emptyOption"]').show();
 	$("#ProjectDiv option[class="+$('#ClientSelect option:selected').attr('class')+"]").show();
 	$('#ClientSelect').change(function() {
 		$('#ProjectDiv option').hide();
 		$('#ProjectDiv option[id="emptyOption"]').attr('selected', 'selected');		
+		$('#ProjectDiv option[id="emptyOption"]').show();
 		$("#ProjectDiv option[class="+$('#ClientSelect option:selected').attr('class')+"]").show();
 	});
 });

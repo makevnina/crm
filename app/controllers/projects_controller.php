@@ -7,8 +7,32 @@ class ProjectsController extends AppController {
 		'Project',
 		'Client',
 		'Company',
-		'ProjectStatus'
+		'ProjectStatus',
+		'Task',
+		'TaskStatus'
 	);
+	
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$statuses = $this->ProjectStatus->find('all');
+		if (empty ($statuses)) {
+			$statuses = array(
+				array(
+					'id' => 1,
+					'name' => 'успешно завершен',
+					'color' => '#fff8a5'
+				),
+				array(
+					'id' => 2,
+					'name' => 'закрыт без завершения',
+					'color' => '#cacaca'
+				)
+			);
+			foreach ($statuses as $status) {
+				$this->ProjectStatus->save($status);
+			}
+		}
+	}
 	
 	public function index() {
 		$this->redirect(
@@ -27,7 +51,12 @@ class ProjectsController extends AppController {
 		}
 		$this->set('project_filter', $this->data);
 		$this->set('sidebar_element', 'project_listing');
-		$this->set('projects', $this->Project->find('all'));
+		$this->set('projects', $this->Project->find(
+			'all',
+			array(
+				'order' => array('start_date ASC')
+			)
+		));
 		$this->set('statuses', $statuses);
 	}
 	public function create() {
@@ -104,41 +133,60 @@ class ProjectsController extends AppController {
 				$this->Session->SetFlash('Не удалось сохранить изменения');
 			}
 		}
-		$this->data = $this->Project->find(
-			'first',
-			array(
-				'conditions' => array(
-					'Project.id' => $id
-				)
+		$this->data = $this->Project->find('first', array(
+			'conditions' => array(
+				'Project.id' => $id
 			)
-		);
-		$this->set(
-			'project',
-			$this->data
-		);
-		$this->set(
-			'clients',
-			$this->Client->find(
-				'all',
-				array(
-					'conditions' => array(
-						'Client.company_id' => 0
-					)
-				)
+		));
+		$this->set('project', $this->data);
+		$this->set('clients', $this->Client->find('all', array(
+			'conditions' => array(
+				'Client.company_id' => 0
 			)
-		);
-		$this->set(
-			'companies',
-			$this->Company->find(
-				'all'
-			)
-		);
-		$this->set(
-			'project_statuses',
-			$this->ProjectStatus->find(
-				'all'
-			)
-		);
+		)));
+		$this->set('companies', $this->Company->find('all'));
+		$this->set('project_statuses', $this->ProjectStatus->find('all'));
 		$this->render('create');
+	}
+	
+	public function delete($id, $agree) {
+		$success = $this->Project->delete($id);
+		if ($agree == 'true') {
+			$success = $this->Task->deleteAll(array(
+				'Task.project_id' => $id
+			));
+		}
+		if ($success) {
+			$this->Session->SetFlash('Проект успешно удален');
+			$this->redirect(array('action' => 'listing'));
+		}
+	}
+
+	public function project_tasks($id) {
+		$this->set('sidebar_element', 'project_view');
+		$this->set('project', $this->Project->find(
+			'first',
+			array('conditions' => array('Project.id' => $id))
+		));
+		$this->set('tasks', $this->Task->find(
+			'all',
+			array('conditions' => array('Task.project_id' => $id))
+		));
+		$this->set('companies', $this->Company->find('all'));
+		$task_statuses = $this->TaskStatus->find('all');
+		$this->set('task_statuses', $task_statuses);
+		$task_types = Configure::read('Task.type');
+		$this->set('task_types', $task_types);
+		if (empty($this->data)) {
+			if (! empty($task_statuses)) {
+				foreach ($task_statuses as $status) {
+					$this->data[$status['TaskStatus']['id']] = 1;
+				}
+				foreach ($task_types as $type) {
+					$this->data[$type] = 1;
+				}
+			}
+		}
+		$this->set('task_filter', $this->data);
 	}
 }

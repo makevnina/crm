@@ -31,11 +31,11 @@ $editLink = $this->Html->link(
         )
 );
 $deleteLink = $this->Html->link(
-        'удалить',
-        array(
-            'action' => 'delete',
-            $client['Client']['id']
-        )
+	'удалить',
+	'javascript: void(0)',
+	array(
+		'onclick' => "return deleteClient({$client['Client']['id']});"
+	)
 );
 echo $this->Html->tag(
         'p',

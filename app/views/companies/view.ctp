@@ -1,21 +1,21 @@
 <?php
 echo $this->Html->tag(
-         'h2',
-         'Компания "'.$company['Company']['name'].'"'
+	'h2',
+	'Компания "'.$company['Company']['name'].'"'
 );
 $editLink = $this->Html->link(
-        'редактировать',
-        array(
-            'action' => 'edit',
-            $company['Company']['id']
-        )
+	'редактировать',
+	array(
+		'action' => 'edit',
+		$company['Company']['id']
+	)
 );
 $deleteLink = $this->Html->link(
-        'удалить',
-        array(
-            'action' => 'delete',
-            $company['Company']['id']
-        )
+	'удалить',
+	'javascript: void(0)',
+	array(
+		'onclick' => "return deleteCompany({$company['Company']['id']})"
+	)
 );
 echo $this->Html->tag(
         'p',

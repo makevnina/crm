@@ -25,6 +25,11 @@ echo $this->Html->tag(
 	'div',
 	$taskName.' '.$taskStatus.' '.$taskDeadline
 );
+echo $this->Html->tag(
+	'div',
+	$task['Task']['type'],
+	array('class' => 'taskType')
+);
 $editLink = $this->Html->link(
 	'редактировать',
 	array(
@@ -34,9 +39,9 @@ $editLink = $this->Html->link(
 );
 $deleteLink = $this->Html->link(
 	'удалить',
+	'javascript: void(0)',
 	array(
-		'action' => 'delete',
-		$task['Task']['id']
+		'onclick' => "return deleteTask({$task['Task']['id']})"
 	)
 );
 echo $this->Html->tag(
