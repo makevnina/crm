@@ -40,12 +40,16 @@ function deleteClient(id) {
 }
 
 function deleteCompany(id) {
-	var agree = false;
+	var clientAgree = false;
+	var projectAgree = false;
 	if (confirm('Вы действительно хотите удалить компанию?')) {
 		if (confirm('Удалить контактных лиц данной компании?')) {
-			agree = true;
+			clientAgree = true;
 		}
-		parent.location = '/companies/delete/' + id + '/' + agree;
+		if (confirm('Удалить проекты данной компании?')) {
+			projectAgree = true;
+		}
+		parent.location = '/companies/delete/' + id + '/' + clientAgree + '/' + projectAgree;
 	}
 }
 

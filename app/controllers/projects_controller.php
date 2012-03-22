@@ -156,6 +156,12 @@ class ProjectsController extends AppController {
 				'Task.project_id' => $id
 			));
 		}
+		else {
+			$this->Task->updateAll(
+				array('Task.project_id' => 0),
+				array('Task.project_id' => $id)
+			);
+		}
 		if ($success) {
 			$this->Session->SetFlash('Проект успешно удален');
 			$this->redirect(array('action' => 'listing'));

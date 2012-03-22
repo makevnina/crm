@@ -228,9 +228,9 @@ class CompaniesController extends AppController {
 			$this->render('create');
 	}
 
-	function delete($id, $agree) {
+	function delete($id, $clientsAgree, $projectsAgree) {
 		$this->Company->delete($id);
-		if ($agree == 'true') {
+		if ($clientsAgree == 'true') {
 			$clients = $this->Client->find('all',	array(
 				'conditions' => array('Client.company_id' => $id)
 			));
@@ -247,6 +247,27 @@ class CompaniesController extends AppController {
 			$this->Client->deleteAll(array(
 				'Client.company_id' => $id
 			));
+		}
+		else {
+			$this->Client->updateAll(
+				array('Client.company_id' => 0),
+				array('Client.company_id' => $id)
+			);
+		}
+		if ($projectsAgree == 'true') {
+			$this->Project->deleteAll(array(
+				'Project.artifact_id' => $id,
+				'Project.artifact_type' => 'company'
+			));
+		}
+		else {
+			$this->Project->updateAll(
+				array('Project.artifact_id' => 0),
+				array(
+					'Project.artifact_id' => $id,
+					'Project.artifact_type' => 'company'
+				)
+			);
 		}
 		$this->Phone->deleteAll(array(
 			'Phone.artifact_id' => $id,
