@@ -71,7 +71,6 @@ echo $this->Html->tag(
 		'class' => 'phone_block'
 	)
 );
-
 if (! empty($emails)) {
 	$email_input = '';
 	foreach ($emails as $email) {
@@ -116,21 +115,45 @@ echo $this->Form->input(
 		'label' => 'Адрес'
 	)
 );
+$optionsHtml = '';
+if (! empty($company)) {
+	if (! empty($company['Client'])) {
+		$thisCompanyClientList = array();
+		foreach ($company['Client'] as $client) {
+			$optionsHtml .=$this->Html->tag(
+				'option',
+				$client['surname'].' '.$client['name'].' '.$client['father'],
+				array(
+					'value' => $client['id'],
+					'selected' => 'selected'
+				)
+			);
+		}
+	}
+}
 if (! empty($clients)) {
 	$clientList = array();
 	foreach ($clients as $client) {
 		$clientList[$client['Client']['id']] = $client['Client']['surname']
 			.' '.$client['Client']['name'].' '.$client['Client']['father'];
+		$optionsHtml .= $this->Html->tag(
+			'option',
+			$client['Client']['surname']
+			.' '.$client['Client']['name'].' '.$client['Client']['father'],
+			array(
+				'value' => $client['Client']['id']
+			)
+		);
 	}
-	$selectForm = $this->Form->select(
-		'Client.company_id',
-		$clientList,
-		Null,
+}
+if (! empty($optionsHtml)) {
+	$clientSelect = $this->Html->tag(
+		'select',
+		$optionsHtml,
 		array(
-			'name' => 'data[Client]',
-			'multiple' => true,
-			'style' => 'display: inline; width: auto; height: auto',
-			'id' => 'companyContacts'
+			'name' => 'data[Client][]',
+			'id' => 'clientSelect',
+			'multiple' => true
 		)
 	);
 	echo $this->Html->tag(
@@ -138,10 +161,9 @@ if (! empty($clients)) {
 		$this->Html->tag(
 			'label',
 			'Контактные лица',
-			array(
-				'for' => 'companyContacts'
-			)
-		).$selectForm
+			array('for' => 'clientSelect')
+		)
+		. $clientSelect
 	);
 }
 echo $this->Form->end($this->action == 'create' ? 'Создать' : 'Сохранить');

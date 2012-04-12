@@ -6,35 +6,6 @@ $projectName = $this->Html->tag(
 		'style' => 'display: inline'
 	)
 );
-if (! empty($project['Project']['project_status_id'])) {
-	$projectStatus = $this->Html->tag(
-		'span',
-		$project['ProjectStatus']['name'],
-		array(
-			'class' => 'status',
-			'style' => "background: {$project['ProjectStatus']['color']}"
-		)
-	);
-}
-else {
-	$projectStatus = '';
-}
-echo $this->Html->tag(
-	'div',
-	$projectName.' '.$projectStatus
-);
-if (! empty($project['Project']['budget'])) {
-	echo $budget = $this->Html->tag(
-		'span',
-		$this->Html->tag(
-			'b',
-			$project['Project']['budget']
-		). ' руб.',
-		array(
-			'class' => 'budget'
-		)
-	);
-}
 $editLink = $this->Html->link(
 	'редактировать',
 	array(
@@ -49,21 +20,61 @@ $deleteLink = $this->Html->link(
 		'onclick' => "return deleteProject({$project['Project']['id']})"
 	)
 );
-echo $this->Html->tag(
-	'p',
-	'['.$editLink.', '.$deleteLink.']'
+$editBar = $this->Html->tag(
+	'span',
+	'['.$editLink.', '.$deleteLink.']',
+	array('class' => 'editBar')
 );
 echo $this->Html->tag(
-	'dl',
-	$this->Html->tag(
-		'dt',
-		'Ответственный'
-	).$this->Html->tag(
-		'dd',
-		'<ФИО менеджера>'
-	)
+	'div',
+	$projectName.' '.$editBar
 );
-if (!empty($project['Project']['artifact_id'])) {
+if (! empty($project['Project']['project_status_id'])) {
+	$projectStatus = $this->Html->tag(
+		'span',
+		$project['ProjectStatus']['name'],
+		array(
+			'class' => 'status',
+			'style' => "background: {$project['ProjectStatus']['color']}"
+		)
+	);
+}
+else {
+	$projectStatus = '';
+}
+if (! empty($project['Project']['budget'])) {
+	$budget = $this->Html->tag(
+		'span',
+		$this->Html->tag(
+			'b',
+			$project['Project']['budget']
+		). ' руб.',
+		array(
+			'class' => 'budget'
+		)
+	);
+}
+else {
+	$budget = '';
+}
+echo $this->Html->tag(
+	'div',
+	$projectStatus.' '.$budget,
+	array('class' => 'statusBar')
+);
+if ($project['Project']['user_id'] <> 0) {
+	echo $this->Html->tag(
+		'dl',
+		$this->Html->tag(
+			'dt',
+			'Ответственный'
+		).$this->Html->tag(
+			'dd',
+			$project['User']['surname'].' '.$project['User']['name']
+		)
+	);
+}
+if ($project['Project']['artifact_id'] <> 0) {
 	if ($project['Project']['artifact_type'] == 'client') {
 		$clientLink = $this->Html->link(
 			$project['Client']['surname'].' '.

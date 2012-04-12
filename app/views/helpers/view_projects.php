@@ -52,16 +52,18 @@ class ViewProjectsHelper extends AppHelper {
 					)
 				);
 			}
-			echo $this->Html->tag(
-				'dl',
-				$this->Html->tag(
-					'dt',
-					'Ответственный'
-				).$this->Html->tag(
-					'dd',				
-					'<ФИО менеджера>'
-				)
-			);
+			if ($project['Project']['user_id'] <> 0) {
+				echo $this->Html->tag(
+					'dl',
+					$this->Html->tag(
+						'dt',
+						'Ответственный'
+					).$this->Html->tag(
+						'dd',				
+						$project['User']['surname'].' '.$project['User']['name']
+					)
+				);
+			}
 			if ($project['Project']['artifact_id'] <> 0) {
 				if ($project['Project']['artifact_type'] == 'client') {
 					$clientLink = $this->Html->link(
@@ -97,18 +99,6 @@ class ViewProjectsHelper extends AppHelper {
 				);
 			}
 			if (! empty($project['Project']['description'])) {
-				$showDescriptionLink = $this->Html->link(
-					'+',
-					'javascript:void(0)',
-					array(
-						'id' => 'toggle_description',
-						'onclick' => "return toggle_details({$project['Project']['id']});"
-					)
-				);
-				echo $this->Html->tag(
-					'div',
-					$showDescriptionLink
-				);
 				$descriptionTitle = $this->Html->tag(
 					'div',
 					$this->Html->tag(
@@ -117,7 +107,7 @@ class ViewProjectsHelper extends AppHelper {
 					)
 				);
 
-				echo $this->Html->tag(
+				$description = $this->Html->tag(
 					'div',
 					$descriptionTitle.$this->Html->tag(
 						'div',
@@ -129,7 +119,9 @@ class ViewProjectsHelper extends AppHelper {
 					)
 				);
 			}
-
+			else {
+				$description = '';
+			}
 			if ($project['Project']['start_date'] <> '0000-00-00') {
 				$start_date = $project['Project']['start_date'];
 			}
@@ -148,13 +140,13 @@ class ViewProjectsHelper extends AppHelper {
 			else {
 				$fact_date = '';
 			}
-			$tableCells = array(
-				$start_date,
-				$plan_date,
-				$fact_date
-			);
 			if ((! empty($start_date)) OR (! empty($plan_date)) OR (! empty($fact_date))) {
-				echo $this->Html->tag(
+				$tableCells = array(
+					$start_date,
+					$plan_date,
+					$fact_date
+				);
+				$dateTable = $this->Html->tag(
 					'table',
 					$this->Html->tableHeaders($tableHeaders).
 					$this->Html->tableCells($tableCells),
@@ -164,6 +156,24 @@ class ViewProjectsHelper extends AppHelper {
 					)			
 				);
 			}
-		}		
+			else {
+				$tableCells = '';
+				$dateTable = '';
+			}
+			if (! empty($description) OR ! empty($tableCells)) {
+				echo $this->Html->link(
+					'+',
+					'javascript:void(0)',
+					array(
+						'id' => 'toggle_description',
+						'onclick' => "return toggle_details({$project['Project']['id']});"
+					)
+				);
+			}
+			echo $this->Html->tag(
+				'div',
+				$description.$dateTable
+			);
+		}
 	}
 }

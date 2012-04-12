@@ -37,7 +37,7 @@ else {
 			}
 		}
 		if (! empty($aloneClientsArray)) {
-			$viewClients->viewGroup($aloneClientsArray);
+			$viewClients->viewGroup($aloneClientsArray, $projects);
 		}
 		$companyClientsArray = array();
 		foreach ($companies as $company) {
@@ -47,7 +47,7 @@ else {
 				}
 			}
 			if (! empty($companyClientsArray[$company['Company']['name']])) {
-				echo $this->Html->tag(
+				$companyName = $this->Html->tag(
 					'h3',
 					'Компания "'.$this->Html->link(
 						$company['Company']['name'],
@@ -56,9 +56,27 @@ else {
 							'action' => 'view',
 							$company['Company']['id']
 						)
-					).'"'
+					).'"',
+					array('style' => 'display: inline')
 				);
-				$viewClients->viewGroup($companyClientsArray[$company['Company']['name']]);
+				if ($company['Company']['state_id'] <> 0) {
+					$companyState = $this->Html->tag(
+						'span',
+						$company['State']['name'].' клиент',
+						array(
+							'class' => 'state',
+							'style' => "background-color: {$company['State']['color']}"
+						)
+					);
+				}
+				else {
+					$companyState = '';
+				}
+				echo $this->Html->tag(
+					'div',
+					$companyName.' '.$companyState
+				);
+				$viewClients->viewGroup($companyClientsArray[$company['Company']['name']], $projects);
 			}
 		}
 	}

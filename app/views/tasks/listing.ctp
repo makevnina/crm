@@ -90,7 +90,8 @@ else {
 		if (! empty($overdueTasks)) {
 			echo $this->Html->tag(
 				'h3',
-				'Просроченные задачи'
+				'Просроченные задачи',
+				array('class' => 'overdueTasksTitle')
 			);
 			$viewTasks->viewGroup($overdueTasks, $companies);
 		}

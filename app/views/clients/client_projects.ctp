@@ -76,7 +76,7 @@ if (! empty($projects)) {
 						),
 						array('style' => 'display: inline')
 					);
-					if (! empty($project['Project']['project_status_id'])) {
+					if (! empty($project['ProjectStatus']['name'])) {
 						$projectStatus = $this->Html->tag(
 							'span',
 							$project['ProjectStatus']['name'],
@@ -89,7 +89,7 @@ if (! empty($projects)) {
 					else {
 						$projectStatus = '';
 					}
-					if (! empty($project['Project']['budget'])) {
+					if ($project['Project']['budget'] <> 0) {
 						$budget = $this->Html->tag(
 							'span',
 							$this->Html->tag(
@@ -115,17 +115,19 @@ if (! empty($projects)) {
 							'onclick' => "return toggle_details({$project['Project']['id']})"
 						)
 					);
-					echo $this->Html->tag(
-						'dl',
-						$this->Html->tag(
-							'dt',
-							'Ответственный'
-						).$this->Html->tag(
-							'dd',
-							'<ФИО менеджера>'
-						),
-						array('class' => "details_block block{$project['Project']['id']}")
-					);
+					if (! empty($project['User']['name'])) {
+						echo $this->Html->tag(
+							'dl',
+							$this->Html->tag(
+								'dt',
+								'Ответственный'
+							).$this->Html->tag(
+								'dd',
+								$project['User']['name']
+							),
+							array('class' => "details_block block{$project['Project']['id']}")
+						);
+					}
 					if (! empty($project['Project']['description'])) {
 						echo $this->Html->tag(
 							'dl',
@@ -178,14 +180,6 @@ if (! empty($projects)) {
 							array('class' => "details_block block{$project['Project']['id']}")
 						);
 					}
-					echo $this->Html->tag(
-						'div',
-						$this->Html->tag(
-							'b',
-							'<Комментарии>'
-						),
-						array('class' => "details_block block{$project['Project']['id']}")
-					);
 				}
 			}
 		}

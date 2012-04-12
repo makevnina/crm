@@ -53,7 +53,8 @@ class ClientsController extends AppController {
 		$clients = $this->Client->find('all');
 		if (! empty($clients)) {
 			foreach ($clients as $client) {
-				if (!in_array($client['Client']['id'], $knownClientsId)) {
+				if ((!in_array($client['Client']['id'], $knownClientsId))
+						&& ($client['Client']['company_id'] == 0)) {
 					$this->Client->updateAll(
 						array('Client.state_id' => 1),
 						array('Client.id' => $client['Client']['id'])

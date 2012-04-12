@@ -6,6 +6,29 @@ $clientName = $this->Html->tag(
 		'style' => 'display: inline'
 	)
 );
+$editLink = $this->Html->link(
+        'редактировать',
+        array(
+            'action' => 'edit',
+            $client['Client']['id']
+        )
+);
+$deleteLink = $this->Html->link(
+	'удалить',
+	'javascript: void(0)',
+	array(
+		'onclick' => "return deleteClient({$client['Client']['id']});"
+	)
+);
+$editBar = $this->Html->tag(
+	'span',
+	'['.$editLink.', '.$deleteLink.']',
+	array('class' => 'editBar')
+);
+echo $this->Html->tag(
+	'div',
+	$clientName.' '.$editBar
+);
 if ($client['Client']['state_id'] <> 0) {
 	$clientState = $this->Html->tag(
 		'span',
@@ -34,25 +57,8 @@ else {
 }
 echo $this->Html->tag(
 	'div',
-	$clientName.' '.$clientState.' '.$clientStatus
-);
-$editLink = $this->Html->link(
-        'редактировать',
-        array(
-            'action' => 'edit',
-            $client['Client']['id']
-        )
-);
-$deleteLink = $this->Html->link(
-	'удалить',
-	'javascript: void(0)',
-	array(
-		'onclick' => "return deleteClient({$client['Client']['id']});"
-	)
-);
-echo $this->Html->tag(
-        'p',
-        '['.$editLink.', '.$deleteLink.']'
+	$clientState.' '.$clientStatus,
+	array('class' => 'statusBar')
 );
 if ($client['Company']['id'] <> 0) {
    echo $this->Html->tag(
@@ -87,16 +93,18 @@ if (! empty($phones)) {
 		}
 		$phone_list .= $phone['Phone']['number'];
 	}
-	echo $this->Html->tag(
-		'dl',
-		$this->Html->tag(
-		'dt',
-		'Телефон: ').
-		$this->Html->tag(
-			'dd',
-			$phone_list
-		)
-	);
+	if (! empty($phone_list)) {
+		echo $this->Html->tag(
+			'dl',
+			$this->Html->tag(
+			'dt',
+			'Телефон: ').
+			$this->Html->tag(
+				'dd',
+				$phone_list
+			)
+		);
+	}
 }
 if (! empty($emails)) {
 	$email_list = '';
@@ -106,16 +114,18 @@ if (! empty($emails)) {
 		}
 		$email_list .= $email['Email']['address'];
 	}
-	echo $this->Html->tag(
-		'dl',
-		$this->Html->tag(
-		'dt',
-		'E-mail: ').
-		$this->Html->tag(
-			'dd',
-			$email_list
-		)
-	);
+	if (! empty($email_list)) {
+		echo $this->Html->tag(
+			'dl',
+			$this->Html->tag(
+			'dt',
+			'E-mail: ').
+			$this->Html->tag(
+				'dd',
+				$email_list
+			)
+		);
+	}
 }
 if (! empty($client['Client']['address'])) {
    echo $this->Html->tag(

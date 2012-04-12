@@ -3,7 +3,7 @@
 -- Server version:               5.5.15 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2012-03-23 02:02:44
+-- Date/time:                    2012-03-28 10:20:33
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -42,6 +42,22 @@ CREATE TABLE IF NOT EXISTS `client_statuses` (
   `color` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+
+
+-- Dumping structure for table crm.comments
+DROP TABLE IF EXISTS `comments`;
+CREATE TABLE IF NOT EXISTS `comments` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `artifact_id` int(10) unsigned NOT NULL,
+  `artifact_type` enum('client','company','project','task') NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
+  `text` varchar(500) NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
@@ -126,8 +142,8 @@ CREATE TABLE IF NOT EXISTS `project_statuses` (
 DROP TABLE IF EXISTS `states`;
 CREATE TABLE IF NOT EXISTS `states` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) NOT NULL,
-  `color` varchar(50) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `color` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

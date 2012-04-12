@@ -3,7 +3,7 @@ class ViewClientsHelper extends AppHelper {
 	
 	public $helpers = array('Html');
 	
-	public function viewGroup($clients) {
+	public function viewGroup($clients, $projects) {
 		foreach ($clients as $client) {
 			$clientName = $this->Html->tag(
 				'h4',
@@ -156,26 +156,25 @@ class ViewClientsHelper extends AppHelper {
 					}
 				}
 			}
-			$DetailsLink = $this->Html->link(
-				'+',
-				'javascript:void(0)',
-				array (
-					'class' => 'toggle_details',
-					'onclick' => "return toggle_details({$client['Client']['id']});"
-				)
-			);
-			echo $this->Html->tag(
-				'div',
-				$DetailsLink
-			);
-			echo $this->Html->tag(
-				'div',
-				$position.$address.$phone_numbers.$email_addresses,
-				array(
-					'class' => "details_block block{$client['Client']['id']}",
-					'id' => "block_{$client['Client']['id']}"
-				)
-			);
+			if (! empty($position) OR ! empty($address) OR ! empty($phone_numbers)
+				OR ! empty($email_addresses) OR !empty($projectsArray)) {
+				echo $this->Html->link(
+					'+',
+					'javascript:void(0)',
+					array (
+						'class' => 'toggle_details',
+						'onclick' => "return toggle_details({$client['Client']['id']});"
+					)
+				);
+				echo $this->Html->tag(
+					'div',
+					$position.$address.$phone_numbers.$email_addresses,
+					array(
+						'class' => "details_block block{$client['Client']['id']}",
+						'id' => "block_{$client['Client']['id']}"
+					)
+				);
+			}
 			if (! empty($projectsArray)) {
 				echo $this->Html->tag(
 					'h4',

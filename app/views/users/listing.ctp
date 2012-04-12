@@ -30,18 +30,27 @@ if (! empty($users)) {
 			array('class' => 'editLink')
 		);
 		$deleteLink = $this->Html->link(
-			'X',
+			'удалить',
 			'javascript: void(0)',
 			array(
 				'onclick' => "return deleteUser({$user['User']['id']})",
 				'class' => 'deleteLink'
 			)
 		);
+		$editPassword = $this->Html->link(
+			'Сменить пароль',
+			array(
+				'action' => 'edit_password',
+				$user['User']['id']
+			),
+			array('class' => 'editPassword')
+		);
 		$tableCells[] = array(
 			$userNameLink,
 			$userType,
 			$editLink,
-			$deleteLink
+			$deleteLink,
+			$editPassword
 		);
 	}
 	echo $this->Html->tag(

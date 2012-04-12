@@ -18,14 +18,19 @@ class ViewTasksHelper extends AppHelper {
 					'style' => 'display: inline'
 				)
 			);
-			$taskStatus = $this->Html->tag(
-					'span',
-					$task['TaskStatus']['name'],
-					array(
-						'class' => 'status',
-						'style' => "background: {$task['TaskStatus']['color']}"
-					)
-			);
+			if ($task['Task']['task_status_id'] <> 0) {
+				$taskStatus = $this->Html->tag(
+						'span',
+						$task['TaskStatus']['name'],
+						array(
+							'class' => 'status',
+							'style' => "background: {$task['TaskStatus']['color']}"
+						)
+				);
+			}
+			else {
+				$taskStatus = '';
+			}
 			$taskType = $this->Html->tag(
 				'span',
 				$task['Task']['type'],
@@ -44,15 +49,6 @@ class ViewTasksHelper extends AppHelper {
 				'div',
 				$taskNameLink.' '.$taskStatus.' '.$taskType.' '.$taskDeadline
 			);
-			echo $this->Html->link(
-				'+',
-				'javascript:void(0)',
-				array(
-					'id' => 'toggle_description',
-					'onclick' => "return toggle_details({$task['Task']['id']})",
-					'style' => 'display: block'
-				)
-			);	
 			if ($task['Task']['user_id'] <> 0) {
 				$user = $this->Html->tag(
 					'dl',
@@ -152,13 +148,24 @@ class ViewTasksHelper extends AppHelper {
 			else {
 				$description = '';
 			}
-			echo $this->Html->tag(
-				'div',
-				$user.$client.$project.$description,
-				array(
-					'class' => "details_block block{$task['Task']['id']}"
-				)
-			);
+			if (! empty($user) OR ! empty($client) OR ! empty($project) OR (! empty($description))) {
+				echo $this->Html->link(
+					'+',
+					'javascript:void(0)',
+					array(
+						'id' => 'toggle_description',
+						'onclick' => "return toggle_details({$task['Task']['id']})",
+						'style' => 'display: block'
+					)
+				);
+				echo $this->Html->tag(
+					'div',
+					$user.$client.$project.$description,
+					array(
+						'class' => "details_block block{$task['Task']['id']}"
+					)
+				);
+			}
 		}
 	}
 }

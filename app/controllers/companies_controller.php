@@ -168,18 +168,37 @@ class CompaniesController extends AppController {
 		$this->Company->id = $id;
 		if ($this->RequestHandler->isPost()) {
 			$success = $this->Company->save($this->data);
-			$company_id = $this->Company->id;
+			$clients = $this->Client->find('all', array(
+				'conditions' => array('Client.company_id' => $id)
+			));
 			if ($success) {
 				if (! empty($this->data['Client'])) {
-					foreach ($this->data['Client'] as $client['id']) {
+					if (! empty($clients)) {
+						foreach ($clients as $client) {
+							if (! in_array($client['Client']['id'], $this->data['Client'])) {
+								$client['Client']['company_id'] = 0;
+								$this->Client->save($client);
+							}
+						}
+					}
+					foreach ($this->data['Client'] as $client_id) {
 						if (! $success) {
+							die();
 							break;
 						}
 						else {
-							$this->Client->id = $client['id'];
-							$client['company_id'] = $company_id;
-							$success = $this->Client->save($client);
+							$this->Client->id = $client_id;
+							$newClient['company_id'] = $id;
+							$success = $this->Client->save($newClient);
 						}
+					}
+				}
+				else {
+					if (! empty($clients)) {
+						$this->Client->updateAll(
+							array('Client.company_id' => 0),
+							array('Client.company_id' => $id)
+						);
 					}
 				}
 			}

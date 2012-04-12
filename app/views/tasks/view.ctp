@@ -1,4 +1,9 @@
 <?php
+$taskType = $this->Html->tag(
+	'span',
+	$task['Task']['type'],
+	array('class' => 'taskType')
+);
 $taskName = $this->Html->tag(
 	'h2',
 	$task['Task']['name'],
@@ -21,15 +26,6 @@ $taskDeadline = $this->Html->tag(
 		'class' => 'taskDeadline'
 	)
 );
-echo $this->Html->tag(
-	'div',
-	$taskName.' '.$taskStatus.' '.$taskDeadline
-);
-echo $this->Html->tag(
-	'div',
-	$task['Task']['type'],
-	array('class' => 'taskType')
-);
 $editLink = $this->Html->link(
 	'редактировать',
 	array(
@@ -44,6 +40,21 @@ $deleteLink = $this->Html->link(
 		'onclick' => "return deleteTask({$task['Task']['id']})"
 	)
 );
+$editBar = $this->Html->tag(
+	'span',
+	'['.$editLink.', '.$deleteLink.']',
+	array('class' => 'editBar')
+);
+echo $this->Html->tag(
+	'div',
+	$taskName.' '.$editBar
+);
+echo $this->Html->tag(
+	'div',
+	$taskType.' '.$taskStatus.' '.$taskDeadline,
+	array('class' => 'statusBar')
+);
+
 if (! empty($user)) {
 	echo $this->Html->tag(
 		'div',
@@ -55,10 +66,6 @@ if (! empty($user)) {
 		array('class' => 'taskCreator')
 	);
 }
-echo $this->Html->tag(
-	'div',
-	'['.$editLink.', '.$deleteLink.']'
-);
 if ($task['Task']['user_id'] <> 0) {
 	echo $this->Html->tag(
 		'dl',

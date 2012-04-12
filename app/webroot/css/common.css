@@ -93,6 +93,9 @@ h4.details_block {
 	color: #6c6c6c;
 	font-size: 80%;
 }
+.overdueTasksTitle {
+	color: #ff0000;
+}
 input#ProjectBudget {
 	width: 70px;
 }
@@ -115,9 +118,19 @@ input#ProjectBudget {
 .usersTable td {
 	padding: 6px;
 }
-td .usersTable .editLink, .usersTable .deleteLink {
+td .usersTable .editLink, .usersTable .deleteLink, .editPassword {
 	font-size: 75%;
 	width: 50px;
+}
+.editBar {
+	font-size: 80%;
+	padding: 10px 0 10px 0;
+}
+.statusBar {
+	margin: 5px 0 20px 0;
+}
+#clientSelect {
+	width: auto;
 }
 
 /** Layout **/

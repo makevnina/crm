@@ -55,6 +55,37 @@ class UsersController extends AppController {
 		}
 	}
 	
+	public function edit_password($id) {
+		$this->set('sidebar_element', 'settings');
+		$this->set('user', $this->User->find('first', array(
+			'conditions' => array('User.id' => $id)
+		)));
+		if ($this->RequestHandler->isPost()) {
+			if (empty($this->data['User']['password'])) {
+				$this->Session->SetFlash('Введите пароль');
+			}
+			else {
+				if (empty($this->data['User']['confirmation_password'])) {
+					$this->Session->SetFlash('Введите подтверждение пароля');
+				}
+				else {
+					if ($this->data['User']['password'] !== $this->data['User']['confirmation_password']) {
+						$this->Session->SetFlash('Введенные пароли не совпадают');
+					}
+					else {
+						$this->data['User']['password'] = md5($this->data['User']['password']);
+						$this->User->id = $id;
+						$success = $this->User->save($this->data);
+						if ($success) {
+							$this->Session->SetFlash('Пароль успешно изменен');
+							$this->redirect(array('action' => 'listing'));
+						}
+					}
+				}
+			}
+		}
+	}
+	
 	public function listing() {
 		$this->set('sidebar_element', 'settings');
 		$this->set('controller_name', 'users');
