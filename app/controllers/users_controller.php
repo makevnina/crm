@@ -40,75 +40,99 @@ class UsersController extends AppController {
 	}
 	
 	public function register() {
-		$types = Configure::read('User.type');
-		$this->set('types', $types);
 		$this->set('sidebar_element', 'settings');
-		if ($this->RequestHandler->isPost()) {
-			if (! empty($this->data['User']['password'])) {
-				$this->data['User']['password'] = md5($this->data['User']['password']);
+		if ($this->isAdmin) {
+			$this->set('isAdmin', true);
+			$types = Configure::read('User.type');
+			$this->set('types', $types);
+			if ($this->RequestHandler->isPost()) {
+				if (! empty($this->data['User']['password'])) {
+					$this->data['User']['password'] = md5($this->data['User']['password']);
+				}
+				$success = $this->User->save($this->data);
+				if ($success) {
+					$this->Session->SetFlash('Пользователь успешно добавлен');
+					$this->redirect(array('action' => 'listing'));
+				}
 			}
-			$success = $this->User->save($this->data);
-			if ($success) {
-				$this->Session->SetFlash('Пользователь успешно добавлен');
-				$this->redirect(array('action' => 'listing'));
-			}
+		}
+		else {
+			$this->set('isAdmin', false);
 		}
 	}
 	
 	public function edit_password($id) {
 		$this->set('sidebar_element', 'settings');
-		$this->set('user', $this->User->find('first', array(
-			'conditions' => array('User.id' => $id)
-		)));
-		if ($this->RequestHandler->isPost()) {
-			if (empty($this->data['User']['password'])) {
-				$this->Session->SetFlash('Введите пароль');
-			}
-			else {
-				if (empty($this->data['User']['confirmation_password'])) {
-					$this->Session->SetFlash('Введите подтверждение пароля');
+		if ($this->isAdmin) {
+			$this->set('isAdmin', true);
+			$this->set('user', $this->User->find('first', array(
+				'conditions' => array('User.id' => $id)
+			)));
+			if ($this->RequestHandler->isPost()) {
+				if (empty($this->data['User']['password'])) {
+					$this->Session->SetFlash('Введите пароль');
 				}
 				else {
-					if ($this->data['User']['password'] !== $this->data['User']['confirmation_password']) {
-						$this->Session->SetFlash('Введенные пароли не совпадают');
+					if (empty($this->data['User']['confirmation_password'])) {
+						$this->Session->SetFlash('Введите подтверждение пароля');
 					}
 					else {
-						$this->data['User']['password'] = md5($this->data['User']['password']);
-						$this->User->id = $id;
-						$success = $this->User->save($this->data);
-						if ($success) {
-							$this->Session->SetFlash('Пароль успешно изменен');
-							$this->redirect(array('action' => 'listing'));
+						if ($this->data['User']['password'] !== $this->data['User']['confirmation_password']) {
+							$this->Session->SetFlash('Введенные пароли не совпадают');
+						}
+						else {
+							$this->data['User']['password'] = md5($this->data['User']['password']);
+							$this->User->id = $id;
+							$success = $this->User->save($this->data);
+							if ($success) {
+								$this->Session->SetFlash('Пароль успешно изменен');
+								$this->redirect(array('action' => 'listing'));
+							}
 						}
 					}
 				}
 			}
 		}
+		else {
+			$this->set('isAdmin', false);
+		}
 	}
 	
 	public function listing() {
 		$this->set('sidebar_element', 'settings');
-		$this->set('controller_name', 'users');
-		$this->set('users', $this->User->find('all'));
+		if ($this->isAdmin) {
+			$this->set('isAdmin', true);
+			$this->set('controller_name', 'users');
+			$this->set('users', $this->User->find('all'));
+		}
+		else {
+			$this->set('isAdmin', false);
+		}
 	}
 	
 	public function edit($id) {
 		$this->set('sidebar_element', 'settings');
-		$this->User->id = $id;	
-		if ($this->RequestHandler->isPost()) {
-			$success = $this->User->save($this->data);
-			if ($success) {
-				$this->Session->SetFlash('Изменения сохранены');
-				$this->redirect(array('action' => 'listing'));
+		if ($this->isAdmin) {
+			$this->set('isAdmin', true);
+			$this->User->id = $id;	
+			if ($this->RequestHandler->isPost()) {
+				$success = $this->User->save($this->data);
+				if ($success) {
+					$this->Session->SetFlash('Изменения сохранены');
+					$this->redirect(array('action' => 'listing'));
+				}
 			}
+			$this->data = $this->User->find('first', array(
+				'conditions' => array('User.id' => $id)
+			));
+			$this->set('user', $this->data);
+			$types = Configure::read('User.type');
+			$this->set('types', $types);
 		}
-		$this->data = $this->User->find('first', array(
-			'conditions' => array('User.id' => $id)
-		));
-		$this->set('user', $this->data);
-		$types = Configure::read('User.type');
-		$this->set('types', $types);
-		$this->render('register');	
+		else {
+			$this->set('isAdmin', false);
+		}
+		$this->render('register');
 	}
 	
 	public function delete($id) {

@@ -22,6 +22,10 @@ class NavigationMenuHelper extends AppHelper {
 			'link' => array ('controller' => 'companies', 'action' => 'listing')
 		),
 		array(
+			'title' => 'Отчеты',
+			'link' => array('controller' => 'reports')
+		),
+		array(
 			'title' => 'Настройки',
 			'link' => array('controller' => 'settings')
 		)

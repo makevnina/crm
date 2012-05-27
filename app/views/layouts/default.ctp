@@ -14,10 +14,10 @@
 		echo $this->Html->css('sidebar');
 		echo $this->Html->css('jPicker-1.1.6');
 		echo $this->Html->css('jPicker');
-		echo $this->Html->script(array('jquery-1.7.1.min.js', 'scripts'));
-		echo $this->Html->script(array('jpicker-1.1.6.min.js', 'scripts'));
-		echo $this->Html->script(array('scripts.js', 'scripts'));
-		echo $this->Html->script(array('jquery-ui-1.8.17.custom.min.js', 'scripts'));
+		echo $this->Html->script('jquery-1.7.1.min.js');
+		echo $this->Html->script('jpicker-1.1.6.min.js');
+		echo $this->Html->script('scripts.js');
+		echo $this->Html->script('jquery-ui-1.8.17.custom.min.js');
 
 		echo $scripts_for_layout;
 		?>

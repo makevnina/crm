@@ -9,29 +9,13 @@ class ProjectsController extends AppController {
 		'Company',
 		'ProjectStatus',
 		'Task',
-		'TaskStatus'
+		'TaskStatus',
+		'User'
 	);
 	
 	public function beforeFilter() {
 		parent::beforeFilter();
-		$statuses = $this->ProjectStatus->find('all');
-		if (empty ($statuses)) {
-			$statuses = array(
-				array(
-					'id' => 1,
-					'name' => 'успешно завершен',
-					'color' => '#fff8a5'
-				),
-				array(
-					'id' => 2,
-					'name' => 'закрыт без завершения',
-					'color' => '#cacaca'
-				)
-			);
-			foreach ($statuses as $status) {
-				$this->ProjectStatus->save($status);
-			}
-		}
+		
 	}
 	
 	public function index() {
@@ -50,10 +34,12 @@ class ProjectsController extends AppController {
 			}
 		}
 		$this->set('project_filter', $this->data);
-		$this->set('sidebar_element', 'project_listing');
+		$this->set('sidebar_element', 'project_listing');		
 		$this->set('projects', $this->Project->find(
 			'all',
 			array(
+				'conditions' => $this->isAdmin ? ''
+					: array('Project.user_id' => $this->current_user['User']['id']),
 				'order' => array('start_date ASC')
 			)
 		));
@@ -75,44 +61,21 @@ class ProjectsController extends AppController {
 				$this->Session->SetFlash('Не удалось добавить проект');
 			}
 		}
-		$this->set(
-			'clients',
-			$this->Client->find(
-				'all',
-				array(
-					'conditions' => array(
-						'Client.company_id' => 0
-					)
-				)
-			)
-		);
-		$this->set(
-			'companies',
-			$this->Company->find(
-				'all'
-			)
-		);
-		$this->set(
-			'project_statuses',
-			$this->ProjectStatus->find(
-				'all'
-			)
-		);
+		$this->set('clients', $this->Client->find('all',
+				array('conditions' => array('Client.company_id' => 0))
+		));
+		$this->set('companies', $this->Company->find('all'));
+		$this->set('project_statuses', $this->ProjectStatus->find('all'));
+		$this->set('users', $this->User->find('all'));
 	}
 	
 	public function view($id) {
 		$this->set('sidebar_element', 'project_view');
-		$this->set(
-			'project',
-			$this->Project->find(
-				'first',
-				array(
-					'conditions' => array(
-						'Project.id' => $id
-					)
-				)
-			)
-		);
+		$this->set('project', $this->Project->find('first',
+				array('conditions' => $this->isAdmin ? array('Project.id' => $id)
+					: array('Project.id' => $id,
+						'Project.user_id' => $this->current_user['User']['id']))
+		));
 	}
 	
 	public function edit($id) {
@@ -122,21 +85,14 @@ class ProjectsController extends AppController {
 			$success = $this->Project->save($this->data);
 			if ($success) {
 				$this->Session->SetFlash('Изменения сохранены');
-				$this->redirect(
-					array(
-						'action' => 'view',
-						$id
-					)
-				);
+				$this->redirect(array('action' => 'view', $id));
 			}
 			else {
 				$this->Session->SetFlash('Не удалось сохранить изменения');
 			}
 		}
 		$this->data = $this->Project->find('first', array(
-			'conditions' => array(
-				'Project.id' => $id
-			)
+			'conditions' => array('Project.id' => $id)
 		));
 		$this->set('project', $this->data);
 		$this->set('clients', $this->Client->find('all', array(
@@ -146,6 +102,7 @@ class ProjectsController extends AppController {
 		)));
 		$this->set('companies', $this->Company->find('all'));
 		$this->set('project_statuses', $this->ProjectStatus->find('all'));
+		$this->set('users', $this->User->find('all'));
 		$this->render('create');
 	}
 	

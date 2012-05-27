@@ -1,18 +1,10 @@
-function add_phone() {
-	var phone_field = $('div.phone_block div.input:first-child').clone();
-	phone_field.find('input').val('');
-	phone_field.find('input').attr('name', 'data[Phone][new][]');
-	$('div.phone_block div.input:first-child').after(phone_field);
+$('a.add_field').live('click', function(){
+	var field = $(this).parent().find('div.input').first().clone();
+	field.find('input').val('');
+	field.find('input').attr('name', 'data[Phone][new][]');
+	$(this).parent().find('div.input').last().after(field);
 	return false;
-}
-
-function add_email() {
-	var email_field = $('div.email_block div.input:first-child').clone();
-	email_field.find('input').val('');
-	email_field.find('input').attr('name', 'data[Email][new][]');
-	$('div.email_block div.input:first-child').after(email_field);
-	return false;
-}
+});
 
 function toggle_details(block_id) {
 	if ($(".block" + block_id).is(":visible")) {
@@ -23,10 +15,6 @@ function toggle_details(block_id) {
 		$(".block" + block_id).show();
 		return false;
 	}
-}
-
-function open_dialog() {
-	$('#dialogform').dialog({modal:true});
 }
 
 function deleteClient(id) {
@@ -75,11 +63,36 @@ function deleteUser(id) {
 	}
 }
 
+function create_company_dialog() {
+	var dialog = $('<div style="display:none" class="loading"></div>').appendTo('body');
+	// open the dialog
+	dialog.dialog({
+		// add a close listener to prevent adding multiple divs to the document
+		close: function(event, ui) {
+			// remove div with all data and events
+			dialog.remove();
+		},
+		modal: true,
+		position: 'top'
+	});
+	var url = '/companies/create';
+	dialog.load(
+		url, 
+		{}, // omit this param object to issue a GET request instead a POST request, otherwise you may provide post parameters within the object
+		function (responseText, textStatus, XMLHttpRequest) {
+			// remove the loading class
+			dialog.removeClass('loading');
+		}
+	);
+	//prevent the browser to follow the link
+	return false;
+}
+
 $(document).ready(function() {
 	$('.details_block').hide();
 	
 	$(function() {
-		$('.datepicker').datepicker($.datepicker.regional["ru"]);
+//		$('.datepicker').datepicker($.datepicker.regional["ru"]);
 		$( ".datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});
 		$( ".datepicker" ).datepicker( "option", "dateFormat", 'yy-mm-dd' );
 	});

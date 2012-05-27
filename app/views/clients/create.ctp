@@ -38,68 +38,69 @@ echo $this->Form->input(
 		'label' => 'Отчество'
 	)
 );
-$optionsHtml = '';
-$optionsHtml .= $this->Html->tag(
-	'option',
-	'',
-	array(
-		'class' => 'status',
-		'value' => 0,
-		'style' => 'background: #ffffff'
-	)
-);
-$selected_color = '';
-foreach ($client_statuses as $status) {
-	$selected = false;
-	if (! empty($client)) {
-		if ($client['Client']['client_status_id'] == $status['ClientStatus']['id']) {
-			$selected = true;
-			$selected_color = $status['ClientStatus']['color'];
-		}
-	}
+if (! empty($client_statuses)) {
+	$optionsHtml = '';
 	$optionsHtml .= $this->Html->tag(
 		'option',
-		$status['ClientStatus']['name'],
+		'',
 		array(
 			'class' => 'status',
-			'value' => $status['ClientStatus']['id'],
-			'style' => "background: {$status['ClientStatus']['color']}",
-			'selected' => $selected ? 'selected' : ''
+			'value' => 0,
+			'style' => 'background: #ffffff'
 		)
 	);
+	$selected_color = '';
+	foreach ($client_statuses as $status) {
+		$selected = false;
+		if (! empty($client)) {
+			if ($client['Client']['client_status_id'] == $status['ClientStatus']['id']) {
+				$selected = true;
+				$selected_color = $status['ClientStatus']['color'];
+			}
+		}
+		$optionsHtml .= $this->Html->tag(
+			'option',
+			$status['ClientStatus']['name'],
+			array(
+				'class' => 'status',
+				'value' => $status['ClientStatus']['id'],
+				'style' => "background: {$status['ClientStatus']['color']}",
+				'selected' => $selected ? 'selected' : ''
+			)
+		);
+	}
+	$selectHtml = $this->Html->tag(
+		'select',
+		$optionsHtml,
+		array (
+			'id'=> 'status',
+			'name' => 'data[Client][client_status_id]',
+			'style' => "background-color:{$selected_color}"
+		)
+	);
+	echo $this->Html->tag(
+		'div',
+		$this->Html->tag('label', 'Статус', array ('for' => 'status'))
+		. $selectHtml
+	);
 }
-$selectHtml = $this->Html->tag(
-	'select',
-	$optionsHtml,
-	array (
-		'id'=> 'status',
-		'name' => 'data[Client][client_status_id]',
-		'style' => "background-color:{$selected_color}"
-	)
-);
-echo $this->Html->tag(
-	'div',
-	$this->Html->tag('label', 'Статус', array ('for' => 'status'))
-	. $selectHtml
-);
+if (! empty($companies)) {
+$companiesList = array('');
+	foreach ($companies as $company) {
+	$companiesList[$company['Company']['id']] = $company['Company']['name'];
+	}
+	echo $this->Form->input(
+			'company_id',
+			array(
+				'label' => 'Компания',
+				'type' => 'select',
+				'options' => $companiesList
+			)
+	);
+}
 echo $this->Html->link(
 	'Создать новую компанию',
-	'javascript:void(0)',
-	array(
-		'onclick' => 'return open_dialog();'
-	)
-);
-$companiesList = array('');
-foreach ($companies as $company) {
-   $companiesList[$company['Company']['id']] = $company['Company']['name'];
-}
-echo $this->Form->input(
-        'company_id',
-        array(
-            'label' => 'Компания',
-            'type' => 'select',
-            'options' => $companiesList
-        )
+	'javascript:create_company_dialog()'
 );
 echo $this->Form->input(
 	'position',
@@ -107,9 +108,8 @@ echo $this->Form->input(
 		'label' => 'Должность'
 	)
 );
-
 if (! empty ($phones)) {
-	$phone_input = '';
+	$phone_input = '';	
 	foreach ($phones as $phone) {
 		$phone_input .= $this->Form->input(
 			'phone',
@@ -135,9 +135,7 @@ else {
 $add_phone_link = $this->Html->link(
 	'Добавить телефон',
 	'javascript:void(0)',
-	array(
-		'onclick' => 'return add_phone();'
-	)
+	array('class' => 'add_field')
 );
 echo $this->Html->tag(
 	'div',
@@ -173,9 +171,7 @@ else {
 $add_email_link = $this->Html->link(
 	'Добавить e-mail',
 	'javascript:void(0)',
-	array(
-		'onclick' => 'return add_email();'
-	)
+	array('class' => 'add_field')
 );
 echo $this->Html->tag(
 	'div',
@@ -193,86 +189,3 @@ echo $this->Form->input(
 echo $this->Form->end(
 	$this->action == 'create' ? 'Создать' : 'Сохранить'
 );
-
-
-
-
-
-
-
-
-
-
-echo $this->Form->create(
-		'Company',
-		array(
-			'action' => 'create',
-			'id' => 'dialogform',
-			'style' => 'display:none'
-		)
-	);
-
-echo $this->Form->input(
-	'name',
-	array(
-		'label' => 'Название'
-	)
-);
-echo $this->Form->input(
-	'activity',
-	array(
-		'label' => 'Сфера деятельности'
-	)
-);
-$phone_input = $this->Form->input(
-	'phone',
-	array(
-		'label' => 'Телефон',
-		'name' => 'data[Phone][new][]',
-		'type' => 'text'
-	)
-);
-$add_phone_link = $this->Html->link(
-	'Добавить телефон',
-	'javascript:void(0)',
-	array(
-		'onclick' => 'return add_phone();'
-	)
-);
-echo $this->Html->tag(
-	'div',
-	$phone_input.$add_phone_link,
-	array(
-		'class' => 'phone_block'
-	)
-);
-$email_input = $this->Form->input(
-	'email',
-	array(
-		'label' => 'E-mail',
-		'name' => 'data[Email][new][]',
-		'type' => 'text'
-	)
-);
-$add_email_link = $this->Html->link(
-	'Добавить e-mail',
-	'javascript:void(0)',
-	array(
-		'onclick' => 'return add_email();'
-	)
-);
-echo $this->Html->tag(
-	'div',
-	$email_input.$add_email_link,
-	array(
-		'class' => 'email_block'
-	)
-);
-
-echo $this->Form->input(
-	'address',
-	array(
-		'label' => 'Адрес'
-	)
-);
-echo $this->Form->end('Создать');

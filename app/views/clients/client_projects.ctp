@@ -11,23 +11,24 @@ echo $this->Html->tag(
 	'h2',
 	'Клиент: '.$clientNameLink
 );
-if (! empty($projects)) {
-	if ($client['Client']['company_id'] == 0) {
-		$artifact_id = $client['Client']['id'];
-		$artifact_type = 'client';
-		$title = $this->Html->tag(
-			'h3',
-			'Проекты клиента:'
-		);
-	}
-	else {
-		$artifact_id = $client['Client']['company_id'];
-		$artifact_type = 'company';
-		$title = $this->Html->tag(
-			'h3',
-			'Проекты компании клиента:'
-		);
-	}
+if ($client['Client']['company_id'] == 0) {
+	$artifact_id = $client['Client']['id'];
+	$artifact_type = 'client';
+	$title = $this->Html->tag(
+		'h3',
+		'Проекты клиента:'
+	);
+}
+else {
+	$artifact_id = $client['Client']['company_id'];
+	$artifact_type = 'company';
+	$title = $this->Html->tag(
+		'h3',
+		'Проекты компании клиента:'
+	);
+}
+echo $title;
+if (! empty($projects)) {	
 	$allClientProjects = array();
 	foreach ($projects as $project) {
 		if (($project['Project']['artifact_id'] == $artifact_id)
@@ -36,10 +37,7 @@ if (! empty($projects)) {
 		}
 	}
 	$projects = $allClientProjects;
-	if (empty ($projects)) {
-		echo 'Нет проектов, связанных с клиентом.';
-	}
-	else {
+	
 		$filterProjectsArray = array();
 		$filterArray = array();
 		foreach ($project_filter as $key => $value) {
@@ -57,7 +55,6 @@ if (! empty($projects)) {
 			echo 'Нет проектов, удовлетворяющих условиям фильтра.';
 		}
 		else {
-			echo $title;
 			foreach ($projects as $project) {
 				if ( (($project['Project']['artifact_id'] == $client['Client']['id'])
 						AND ($project['Project']['artifact_type'] == 'client'))
@@ -183,5 +180,11 @@ if (! empty($projects)) {
 				}
 			}
 		}
-	}
 }
+else {
+	if ($artifact_type == 'client') {
+		echo 'Нет проектов, связанных с клиентом.';
+	} else {
+		echo 'Нет проектов, связанных с компанией клиента.';
+	}
+	}

@@ -114,25 +114,43 @@ echo $this->Form->input(
 		'id' => 'artifact_type'
 	)
 );
-$optionsHtml = '';
-$selected_color = '';
-foreach ($project_statuses as $status) {
-	$selected = false;
-	if (! empty($project)) {
-		if ($project['Project']['project_status_id'] == $status['ProjectStatus']['id']) {
-			$selected = true;
-			$selected_color = $status['ProjectStatus']['color'];
+if (! empty($users)) {
+	$optionsHtml = '';
+	$userArray = array();
+	foreach ($users as $user) {
+		$selected = false;
+		if (! empty($project)) {
+			if ($user['User']['id'] == $project['Project']['user_id']) {
+				$selected = true;
+			}
 		}
+		$optionsHtml .= $this->Html->tag(
+			'option',
+			$user['User']['surname'].' '.$user['User']['name'],
+			array(
+				'class' => 'user',
+				'value' => $user['User']['id'],
+				'selected' => $selected ? 'selected' : ''
+			)
+		);
 	}
-	$optionsHtml .= $this->Html->tag(
-		'option',
-		$status['ProjectStatus']['name'],
+	$selectHtml = $this->Html->tag(
+		'select',
+		$optionsHtml,
 		array(
-			'class' => 'status',
-			'value' => $status['ProjectStatus']['id'],
-			'style' => "background: {$status['ProjectStatus']['color']}",
-			'selected' => $selected ? 'selected' : ''
+			'id' => 'user',
+			'name' => 'data[Project][user_id]'
 		)
+	);
+	echo $this->Html->tag(
+		'div',
+		$this->Html->tag(
+			'label',
+			'Ответственный',
+			array(
+				'for' => 'user'
+			)
+		).$selectHtml
 	);
 }
 if (! empty($project['Project']['budget'])) {
@@ -159,6 +177,27 @@ echo $this->Html->tag(
 	)
 	. $budgetInput.' руб.'
 );
+$optionsHtml = '';
+$selected_color = '';
+foreach ($project_statuses as $status) {
+	$selected = false;
+	if (! empty($project)) {
+		if ($project['Project']['project_status_id'] == $status['ProjectStatus']['id']) {
+			$selected = true;
+			$selected_color = $status['ProjectStatus']['color'];
+		}
+	}
+	$optionsHtml .= $this->Html->tag(
+		'option',
+		$status['ProjectStatus']['name'],
+		array(
+			'class' => 'status',
+			'value' => $status['ProjectStatus']['id'],
+			'style' => "background: {$status['ProjectStatus']['color']}",
+			'selected' => $selected ? 'selected' : ''
+		)
+	);
+}
 $selectHtml = $this->Html->tag(
 	'select',
 	$optionsHtml,

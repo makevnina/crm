@@ -79,15 +79,16 @@ class ViewClientsHelper extends AppHelper {
 			}
 			else {
 				$address = '';
-			}		
-			if (! empty($phones)) {
+			}
+			if (! empty($client['Phone'])) {
 				$phone_list = '';
-				foreach ($phones as $phone) {
-					if ($phone['Phone']['artifact_id'] == $client['Client']['id']) {
+				foreach ($client['Phone'] as $phone) {
+					if (($phone['artifact_id'] == $client['Client']['id']) 
+						AND ($phone['artifact_type'] == 'client')) {
 						if ($phone_list !== ''){
 							$phone_list .= ', ';
 						}
-						$phone_list .= $phone['Phone']['number'];
+						$phone_list .= $phone['number'];
 					}				
 				}
 				if (! empty($phone_list)) {
@@ -110,14 +111,15 @@ class ViewClientsHelper extends AppHelper {
 			else {
 				$phone_numbers = '';
 			}
-			if (! empty($emails)) {
+			if (! empty($client['Email'])) {
 				$email_list = '';
-				foreach ($emails as $email) {
-					if ($email['Email']['artifact_id'] == $client['Client']['id']) {
+				foreach ($client['Email'] as $email) {
+					if (($email['artifact_id'] == $client['Client']['id'])
+							AND ($email['artifact_type'] == 'client')) {
 						if ($email_list !== '') {
 							$email_list .= ', ';
 						}
-						$email_list .= $email['Email']['address'];
+						$email_list .= $email['address'];
 					}
 				}
 				if (! empty($email_list)) {

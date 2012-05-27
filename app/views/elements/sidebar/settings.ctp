@@ -1,35 +1,39 @@
 <?php
-if ($this->params['controller'] == 'users') {
-	echo $this->Html->tag(
-		'label',
-		'Пользователи',
-		array('class' => 'sidebarTitle')
-	);
-	echo $this->Html->link(
-		'Список пользователей',
-		array(
-			'controller' => 'users',
-			'action' => 'listing'
-		),
-		array('class' => 'submenu')
-	);
-	echo $this->Html->link(
-		'Регистрация',
-		array(
-			'controller' => 'users',
-			'action' => 'register'
-		),
-		array('class' => 'submenu')
-	);
-}
-else {
-	echo $this->Html->link(
-		'Пользователи',
-		array(
-			'controller' => 'users',
-			'action' => 'listing'
-		)
-	);
+if (! empty($isAdmin)) {
+	if ($isAdmin) {
+		if ($this->params['controller'] == 'users') {
+			echo $this->Html->tag(
+				'label',
+				'Пользователи',
+				array('class' => 'sidebarTitle')
+			);
+			echo $this->Html->link(
+				'Список пользователей',
+				array(
+					'controller' => 'users',
+					'action' => 'listing'
+				),
+				array('class' => 'submenu')
+			);
+			echo $this->Html->link(
+				'Регистрация',
+				array(
+					'controller' => 'users',
+					'action' => 'register'
+				),
+				array('class' => 'submenu')
+			);
+		}
+		else {
+			echo $this->Html->link(
+				'Пользователи',
+				array(
+					'controller' => 'users',
+					'action' => 'listing'
+				)
+			);
+		}
+	}
 }
 if ($this->action == 'client_statuses') {
 	echo $this->Html->tag(

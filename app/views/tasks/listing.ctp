@@ -35,7 +35,7 @@ else {
 	$nextMonthTasks = array();
 	$laterTasks = array();
 	foreach ($tasks as $task) {
-		if ( ($task['Task']['deadline_date'] < date('Y-m-d')) AND ($task['TaskStatus']['name'] == 'выполнена') ) {
+		if ( $task['TaskStatus']['name'] == 'выполнена' ) {
 			$finishedTasks[] = $task;
 		}
 		else {

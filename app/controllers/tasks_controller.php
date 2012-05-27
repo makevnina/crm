@@ -25,32 +25,10 @@ class TasksController extends AppController {
 					$this->Task->save($task['Task']);
 			}
 		}
-		$statuses = $this->TaskStatus->find('all');
-		if (empty ($statuses)) {
-			$statuses = array(
-					array(
-						'id' => 1,
-						'name' => 'выполнена',
-						'color' => '#fff8a5'
-					),
-					array(
-						'id' => 2,
-						'name' => 'просрочена',
-						'color' => '#ff0000'
-					)
-			);
-			foreach ($statuses as $status) {
-				$this->TaskStatus->save($status);
-			}
-		}
 	}
 	
 	public function index() {
-		$this->redirect(
-			array(
-				'action' => 'listing'
-			)
-		);
+		$this->redirect(array('action' => 'listing'));
 	}
 	
 	public function listing() {
@@ -84,6 +62,8 @@ class TasksController extends AppController {
 		$this->set('tasks', $this->Task->find(
 			'all',
 			array(
+				'conditions' => $this->isAdmin ? ''
+					: array('Task.user_id' => $this->current_user['User']['id']),
 				'order' => array('deadline_date ASC', 'deadline_time ASC')
 			)
 		));
@@ -117,14 +97,16 @@ class TasksController extends AppController {
 	public function view($id) {
 		$this->set('sidebar_element', 'task_view');
 		$task = $this->Task->find('first', array(
-			'conditions' => array('Task.id' => $id)
+			'conditions' => $this->isAdmin ? array('Task.id' => $id)
+				: array('Task.id' => $id,
+					'Task.user_id' => $this->current_user['User']['id'])
 		));
+		$this->set('task', $task);
 		if ($task['Task']['creator_id'] <> 0) {
 			$this->set('user', $this->User->find('first', array(
 				'conditions' => array('User.id' => $task['Task']['creator_id'])
 			)));
 		}
-		$this->set('task', $task);
 		$this->set('companies', $this->Company->find('all'));
 	}
 

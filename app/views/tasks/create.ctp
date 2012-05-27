@@ -28,24 +28,26 @@ echo $this->Form->input(
 );
 $optionsHtml = '';
 $selected_color = '';
-foreach ($task_statuses as $task_status) {
-	$selected = false;
-	if (! empty($task)) {
-		if ($task['Task']['task_status_id'] == $task_status['TaskStatus']['id']) {
-			$selected = true;
-			$selected_color = $task_status['TaskStatus']['color'];
+if (! empty($task_statuses)) {
+	foreach ($task_statuses as $task_status) {
+		$selected = false;
+		if (! empty($task)) {
+			if ($task['Task']['task_status_id'] == $task_status['TaskStatus']['id']) {
+				$selected = true;
+				$selected_color = $task_status['TaskStatus']['color'];
+			}
 		}
+		$optionsHtml .= $this->Html->tag(
+			'option',
+			$task_status['TaskStatus']['name'],
+			array(
+				'class' => 'status',
+				'value' => $task_status['TaskStatus']['id'],
+				'style' => "background: {$task_status['TaskStatus']['color']}",
+				'selected' => $selected ? 'selected' : ''
+			)
+		);
 	}
-	$optionsHtml .= $this->Html->tag(
-		'option',
-		$task_status['TaskStatus']['name'],
-		array(
-			'class' => 'status',
-			'value' => $task_status['TaskStatus']['id'],
-			'style' => "background: {$task_status['TaskStatus']['color']}",
-			'selected' => $selected ? 'selected' : ''
-		)
-	);
 }
 $selectHtml = $this->Html->tag(
 	'select',
@@ -151,14 +153,16 @@ foreach ($clients as $client) {
 		);
 	}
 }
-foreach ($optionsHtml as $k=>$option) {
-	$optgroupHtml .= $this->Html->tag(
-			'optgroup',
-			$option,
-			array(
-				'label' => 'Компания "'.$k.'"'
-			)
-		);
+if (! empty($optionsHtml)) {
+	foreach ($optionsHtml as $k=>$option) {
+		$optgroupHtml .= $this->Html->tag(
+				'optgroup',
+				$option,
+				array(
+					'label' => 'Компания "'.$k.'"'
+				)
+			);
+	}
 }
 $selectHtml = $this->Html->tag(
 	'select',

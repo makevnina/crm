@@ -12,6 +12,12 @@ class SettingsController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->set('sidebar_element', 'settings');
+		if ($this->isAdmin) {
+			$this->set('isAdmin', true);
+		}
+		else {
+			$this->set('isAdmin', false);
+		}
 	}
 	
 	public function index() {
