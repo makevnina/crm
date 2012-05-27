@@ -32,7 +32,6 @@ h1 {
 	font-size: 100%;
 }
 h2 {
-	background:#fff;
 	color: #F6A828;
 	font-family:'Gill Sans','lucida grande', helvetica, arial, sans-serif;
 	font-size: 190%;
@@ -376,7 +375,7 @@ input, textarea {
 	font-size: 100%;
 	font-family: "frutiger linotype", "lucida grande", "verdana", sans-serif;
 	padding: 0.5%;
-	width:25%;
+	width:200px;
 }
 select {
 	clear: both;

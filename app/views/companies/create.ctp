@@ -60,8 +60,8 @@ else {
 $add_phone_link = $this->Html->link(
 	'Добавить телефон',
 	'javascript:void(0)',
-	array(
-		'onclick' => 'return add_phone();'
+	array (
+		'class' => 'add_field'
 	)
 );
 echo $this->Html->tag(
@@ -99,7 +99,7 @@ $add_email_link = $this->Html->link(
 	'Добавить e-mail',
 	'javascript:void(0)',
 	array(
-		'onclick' => 'return add_email();'
+		'class' => 'add_field'
 	)
 );
 echo $this->Html->tag(

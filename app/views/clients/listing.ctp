@@ -18,7 +18,7 @@ if (empty($clients)) {
 else {
 	$clientFilterArray = array();
 	if (empty($client_filter[0])) {
-		$client_filter[0] = 0;
+		$client_filter[0] = 1;
 	}
 	foreach ($clients as $client) {
 		if (($client_filter[$client['Client']['client_status_id']] == 1)) {

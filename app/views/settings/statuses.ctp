@@ -84,7 +84,7 @@ if (! empty($statuses)) {
 			array(
 				'style' => 'display: none',
 				'name' => "data[{$modelName}][{$status[$modelName]['id']}][color]",
-				'class' => 'hiddenStatusColor',
+				'class' => "hiddenStatusColor color{$current_number}",
 				'id' => "block{$current_number}",
 				'value' => $status[$modelName]['color']
 			)
@@ -101,11 +101,46 @@ if (! empty($statuses)) {
 		echo $this->Html->tag(
 			'div',
 			$statusId.$statusName.$statusColor,
-			array(
-				'class' => 'statusName'
-			)
+			array('class' => 'statusName')
 		);
 		$current_number += 1;
 	}
-	echo $this->Form->end('Сохранить');
 }
+$add_status_title = $this->Html->tag(
+	'h3',
+	'Добавить новый статус'
+);
+$statusName = $this->Form->input(
+	'name',
+	array(
+		'label' => 'Наименование статуса',
+		'name' => "data[new][{$modelName}][name]",
+		'class' => 'statusName'
+	)
+);
+$statusColor = $this->Html->tag(
+	'span',
+	'',
+	array(
+		'class' => 'Expandable',
+		'id' => "color{$current_number}"
+	)
+);
+echo $this->Html->tag(
+	'input',
+	'',
+	array(
+		'style' => 'display: none',
+		'name' => "data[new][{$modelName}][color]",
+		'class' => "hiddenStatusColor color{$current_number}",
+		'id' => "block{$current_number}",
+		'value' => '#C2F9F5'
+	)
+);
+echo $this->Html->tag(
+	'div',
+	$add_status_title.$statusName.$statusColor,
+	array('class' => 'statusName')
+);
+echo $this->Form->end('Сохранить');
+

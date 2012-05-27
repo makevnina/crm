@@ -73,7 +73,8 @@ function create_company_dialog() {
 			dialog.remove();
 		},
 		modal: true,
-		position: 'top'
+		position: 'top',
+		width: 500
 	});
 	var url = '/companies/create';
 	dialog.load(
@@ -82,6 +83,41 @@ function create_company_dialog() {
 		function (responseText, textStatus, XMLHttpRequest) {
 			// remove the loading class
 			dialog.removeClass('loading');
+			$('#clientSelect').parent().remove();
+			
+			var initForm = function() {
+				var form = $('#CompanyCreateForm');
+				form.submit(function(){
+					$.ajax({
+						url: form.attr('action'),
+						type: form.attr('method'),
+						data: form.serialize(),
+						beforeSend: function() {
+							dialog.addClass('loading');
+						},
+						complete: function(jqXHR, textStatus) {
+							dialog.removeClass('loading');
+							if ('application/json' == jqXHR.getResponseHeader('Content-type')) {
+								var company = $.parseJSON(jqXHR.responseText);
+								$('#ClientCompanyId').append(
+									$('<option />')
+										.val(company.Company.id)
+										.text(company.Company.name)
+								)
+									.val(company.Company.id);
+								dialog.remove();
+							}
+							else {
+								dialog.html(jqXHR.responseText);
+								initForm();
+								$('#clientSelect').parent().remove();
+							}
+						}
+					});
+					return false;
+				});
+			};
+			initForm();
 		}
 	);
 	//prevent the browser to follow the link
@@ -135,9 +171,9 @@ $(document).ready(function() {
 		},
 		function(color, context) {
 			var all = color.val('all');
-			var status_color = '#'+all.hex;
-			$('#block4').attr('value', status_color);
-			alert(status_color);
+			var status_color = '#'+all.hex;	
+			var block_class = '.'+$(this).attr('id');
+			$(block_class).attr('value', status_color);
 		}
 		);	
 	}

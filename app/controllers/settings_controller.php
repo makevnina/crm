@@ -27,12 +27,26 @@ class SettingsController extends AppController {
 	public function client_statuses() {
 		if ($this->RequestHandler->isPost()) {
 			$success = true;
-			foreach ($this->data['ClientStatus'] as $status) {
-				if (! $success) {
-					break;
+			if (! empty($this->data['new'])){
+				foreach ($this->data['new'] as $new_status) {
+					if(! empty($new_status['name'])) {
+						$success = $this->ClientStatus->save($new_status);
+					}
 				}
-				$this->ClientStatus->id = $status['id'];
-				$success = $this->ClientStatus->save($status);
+			}
+			if (! empty($this->data['ClientStatus'])) {
+				foreach ($this->data['ClientStatus'] as $status) {
+					if (! $success) {
+						break;
+					}
+					$this->ClientStatus->id = $status['id'];
+					if (! empty($status['name'])) {
+						$success = $this->ClientStatus->save($status);
+					}
+					else {
+						$success = $this->ClientStatus->delete($status['id']);
+					}
+				}
 			}
 			$this->Session->SetFlash($success
 				? 'Изменения сохранены'
@@ -47,12 +61,28 @@ class SettingsController extends AppController {
 	public function project_statuses() {
 		if ($this->RequestHandler->isPost()) {
 			$success = true;
-			foreach ($this->data['ProjectStatus'] as $status) {
-				if (! $success) {
-					break;
+			if (! empty($this->data['new'])){
+				foreach ($this->data['new'] as $new_status) {
+					if(! empty($new_status['name'])) {
+						$success = $this->ProjectStatus->save($new_status);
+					}
 				}
-				$this->ProjectStatus->id = $status['id'];
-				$success = $this->ProjectStatus->save($status);
+			}
+			if (! empty($this->data['ProjectStatus'])) {
+				foreach ($this->data['ProjectStatus'] as $status) {
+					if (! $success) {
+						break;
+					}
+					$this->ProjectStatus->id = $status['id'];
+					if (! empty($status['name'])) {
+						$success = $this->ProjectStatus->save($status);
+					}
+					else {
+						if (($status['id'] <> 1) AND ($status['id'] <> 2)) {
+							$success = $this->ProjectStatus->delete($status['id']);
+						}
+					}
+				}
 			}
 			$this->Session->SetFlash($success
 				? 'Изменения сохранены'
@@ -67,12 +97,28 @@ class SettingsController extends AppController {
 	public function task_statuses() {
 		if ($this->RequestHandler->isPost()) {
 			$success = true;
-			foreach ($this->data['TaskStatus'] as $status) {
-				if (! $success) {
-					break;
+			if (! empty($this->data['new'])){
+				foreach ($this->data['new'] as $new_status) {
+					if(! empty($new_status['name'])) {
+						$success = $this->TaskStatus->save($new_status);
+					}
 				}
-				$this->TaskStatus->id = $status['id'];
-				$success = $this->TaskStatus->save($status);
+			}
+			if (! empty($this->data['TaskStatus'])) {
+				foreach ($this->data['TaskStatus'] as $status) {
+					if (! $success) {
+						break;
+					}
+					$this->TaskStatus->id = $status['id'];
+					if (! empty($status['name'])) {
+						$success = $this->TaskStatus->save($status);
+					}
+					else {
+						if (($status['id'] <> 1) AND ($status['id'] <> 2)) {
+							$success = $this->TaskStatus->delete($status['id']);
+						}
+					}
+				}
 			}
 			$this->Session->SetFlash($success
 				? 'Изменения сохранены'
