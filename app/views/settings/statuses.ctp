@@ -42,6 +42,13 @@ if ($this->action == 'task_statuses') {
 	);
 }
 echo $title;
+echo $this->Html->tag(
+	'div',
+	'Для удаления статуса сотрите его наименование',
+	array(
+		'style' => 'color: #b2b2b2; font-size: 12px'
+	)
+);
 if (empty($current_number)) {
 	$current_number = 0;
 }

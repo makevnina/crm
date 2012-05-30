@@ -36,7 +36,10 @@ echo $this->Form->input(
 );
 $optgroupHtml = $this->Html->tag(
 	'option',
-	''
+	'',
+	array(
+		'value' => 0
+	)
 );
 if (!empty($clients)) {
 	$clientOptionsHtml = '';

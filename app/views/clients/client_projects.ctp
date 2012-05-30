@@ -18,6 +18,7 @@ if ($client['Client']['company_id'] == 0) {
 		'h3',
 		'Проекты клиента:'
 	);
+	$art_type = 'клиента';
 }
 else {
 	$artifact_id = $client['Client']['company_id'];
@@ -28,7 +29,7 @@ else {
 	);
 }
 echo $title;
-if (! empty($projects)) {	
+if (! empty($projects)) {
 	$allClientProjects = array();
 	foreach ($projects as $project) {
 		if (($project['Project']['artifact_id'] == $artifact_id)
@@ -37,7 +38,10 @@ if (! empty($projects)) {
 		}
 	}
 	$projects = $allClientProjects;
-	
+	if (empty ($projects)) {
+		echo 'Нет проектов '.$art_type.'.';
+	}
+	else {	
 		$filterProjectsArray = array();
 		$filterArray = array();
 		foreach ($project_filter as $key => $value) {
@@ -112,7 +116,7 @@ if (! empty($projects)) {
 							'onclick' => "return toggle_details({$project['Project']['id']})"
 						)
 					);
-					if (! empty($project['User']['name'])) {
+					if (! empty($project['User'])) {
 						echo $this->Html->tag(
 							'dl',
 							$this->Html->tag(
@@ -120,7 +124,7 @@ if (! empty($projects)) {
 								'Ответственный'
 							).$this->Html->tag(
 								'dd',
-								$project['User']['name']
+								$project['User']['surname'].' '.$project['User']['name']
 							),
 							array('class' => "details_block block{$project['Project']['id']}")
 						);
@@ -180,11 +184,13 @@ if (! empty($projects)) {
 				}
 			}
 		}
+	}
 }
 else {
 	if ($artifact_type == 'client') {
 		echo 'Нет проектов, связанных с клиентом.';
-	} else {
+	}
+	else {
 		echo 'Нет проектов, связанных с компанией клиента.';
 	}
-	}
+}

@@ -129,12 +129,14 @@ class CompaniesController extends AppController {
 					);
 					exit();
 				}
-				$this->Session->SetFlash('Компания создана');
-				$this->redirect(
-					array(
-						'action' => 'listing'
-					)
-				);
+				else {
+					$this->Session->SetFlash('Компания создана');
+					$this->redirect(
+						array(
+							'action' => 'listing'
+						)
+					);
+				}
 			}
 			else {
 				$this->Session->SetFlash('Не удалось добавить компанию');
@@ -350,10 +352,19 @@ class CompaniesController extends AppController {
 		));
 		$this->set('projects', $this->Project->find(
 			'all',
-			array('conditions' => array(
-				'Project.artifact_id' => $id,
-				'Project.artifact_type' => 'company'
-			))
+			array(
+				'conditions' => $this->isAdmin ?
+					array(
+						'Project.artifact_id' => $id,
+						'Project.artifact_type' => 'company'
+					)
+					: array(
+						'Project.artifact_id' => $id,
+						'Project.artifact_type' => 'company',
+						'Project.user_id' => $this->current_user['User']['id']
+					),
+				'order' => array('start_date ASC')
+			)
 		));
 		$project_statuses = $this->ProjectStatus->find('all');
 		$this->set('project_statuses', $project_statuses);
@@ -374,6 +385,8 @@ class CompaniesController extends AppController {
 		$this->set('allTasks', $this->Task->find(
 			'all',
 			array(
+				'conditions' => $this->isAdmin ? ''
+					: array('Task.user_id' => $this->current_user['User']['id']),
 				'order' => array('deadline_date ASC', 'deadline_time ASC')
 			)
 		));

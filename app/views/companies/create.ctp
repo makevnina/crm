@@ -165,5 +165,9 @@ if (! empty($optionsHtml)) {
 		)
 		. $clientSelect
 	);
+	echo $this->Html->link(
+		'Создать нового клиента',
+		'javascript:create_client_dialog()'
+	);
 }
 echo $this->Form->end($this->action == 'create' ? 'Создать' : 'Сохранить');

@@ -117,6 +117,10 @@ input#ProjectBudget {
 .usersTable td {
 	padding: 6px;
 }
+.sales_funnel_user {
+	color: #909090;
+	margin-bottom: 15px;
+}
 td .usersTable .editLink, .usersTable .deleteLink, .editPassword {
 	font-size: 75%;
 	width: 50px;

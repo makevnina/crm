@@ -23,7 +23,7 @@ class AppController extends Controller {
 	
 	public $isAdmin;
 	public $isManager;
-	public $isAnalytic;
+	public $isAnalyst;
 	
 	public function beforeFilter() {
 		$isLoginAction = $this->params['controller'] == 'users' && $this->params['action'] == 'login';

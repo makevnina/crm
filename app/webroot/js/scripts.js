@@ -124,6 +124,70 @@ function create_company_dialog() {
 	return false;
 }
 
+function create_client_dialog() {
+	var dialog = $('<div style="display:none" class="loading"></div>').appendTo('body');
+	// open the dialog
+	dialog.dialog({
+		// add a close listener to prevent adding multiple divs to the document
+		close: function(event, ui) {
+			// remove div with all data and events
+			dialog.remove();
+		},
+		modal: true,
+		position: 'top',
+		width: 500
+	});
+	var url = '/clients/create';
+	dialog.load(
+		url, 
+		{}, // omit this param object to issue a GET request instead a POST request, otherwise you may provide post parameters within the object
+		function (responseText, textStatus, XMLHttpRequest) {
+			// remove the loading class
+			dialog.removeClass('loading');
+			$('#ClientCompanyId').parent().remove();
+			$('#CreateNewCompanyLink').remove();
+			
+			var initForm = function() {
+				var form = $('#ClientCreateForm');
+				form.submit(function(){
+					$.ajax({
+						url: form.attr('action'),
+						type: form.attr('method'),
+						data: form.serialize(),
+						beforeSend: function() {
+							dialog.addClass('loading');
+						},
+						complete: function(jqXHR, textStatus) {
+							dialog.removeClass('loading');
+							if ('application/json' == jqXHR.getResponseHeader('Content-type')) {
+								var client = $.parseJSON(jqXHR.responseText);
+								$('#clientSelect').append(
+									$('<option />')
+										.val(client.Client.id)
+										.text([client.Client.name, client.Client.surname, client.Client.father].join(' '))
+								);
+								$('#clientSelect').val(
+									$.merge($('#clientSelect').val(), [client.Client.id])
+								);
+								dialog.remove();
+							}
+							else {
+								dialog.html(jqXHR.responseText);
+								initForm();
+								$('#clientSelect').parent().remove();
+							}
+						}
+					});
+					return false;
+				});
+			};
+			initForm();
+		}
+	);
+	//prevent the browser to follow the link
+	return false;
+}
+
 $(document).ready(function() {
 	$('.details_block').hide();
 	

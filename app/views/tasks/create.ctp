@@ -69,14 +69,7 @@ echo $this->Html->tag(
 	).$selectHtml
 );
 if (! empty($users)) {
-	$usersOptionsHtml = $this->Html->tag(
-		'option',
-		'',
-		array(
-			'class' => 'empty',
-			'value' => 0
-		)
-	);
+	$usersOptionsHtml = '';
 	foreach ($users as $user) {
 		$selected = false;
 		if (! empty($task)) {
@@ -114,6 +107,7 @@ $aloneOptionsHtml = $this->Html->tag(
 	'option',
 	'',
 	array(
+		'value' => 0,
 		'class' => 'empty'
 	)
 );
@@ -185,6 +179,7 @@ $projectOptionsHtml = $this->Html->tag(
 	'option',
 	'',
 	array(
+		'value' => 0,
 		'class' => 'empty',
 		'id' => 'emptyOption'
 	)
@@ -293,6 +288,13 @@ echo $this->Form->input(
 	array(
 		'label' => 'Время дедлайна',
 		'type' => 'time'
+	)
+);
+echo $this->Form->input(
+	'creator_id',
+	array(
+		'value' => $current_user_id,
+		'type' => 'hidden'
 	)
 );
 echo $this->Form->end($this->action == 'create' ? 'Создать' : 'Сохранить');

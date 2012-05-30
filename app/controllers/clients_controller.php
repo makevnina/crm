@@ -65,11 +65,7 @@ class ClientsController extends AppController {
 	}
 
 	public function index() {
-		$this->redirect(
-			array(
-				'action' => 'listing'
-			)
-		);
+		$this->redirect(array('action' => 'listing'));
 	}
 
 	public function listing() {
@@ -84,14 +80,12 @@ class ClientsController extends AppController {
 		$this->set('statuses', $statuses);
 		$this->set('sidebar_element', 'client_listing');
 		$this->set('clients', $this->Client->find('all'));
-		$this->set('phones', $this->Phone->find(
-			'all',
-			array('conditions' => array('Phone.artifact_type' => 'client'))
-		));
-		$this->set('emails',	$this->Email->find(
-			'all',
-			array('conditions' => array('Email.artifact_type' => 'client'))
-		));
+		$this->set('phones', $this->Phone->find('all', array(
+			'conditions' => array('Phone.artifact_type' => 'client')
+		)));
+		$this->set('emails',	$this->Email->find('all', array(
+			'conditions' => array('Email.artifact_type' => 'client')
+		)));
 		$this->set('projects', $this->Project->find('all'));
 		$this->set('companies', $this->Company->find('all'));
 	}
@@ -111,25 +105,30 @@ class ClientsController extends AppController {
 				}
 			}
 			if ($success) {
-				$this->Session->SetFlash('Клиент создан');
-				$this->redirect(
-					array(
-						'action' => 'listing'
-					)
-				);
+				if ($this->RequestHandler->isAjax()) {
+					header('Content-type: application/json');
+					echo json_encode(
+						$this->Client->find('first', array (
+							'conditions' => array (
+								'Client.id' => $this->Client->id
+							)
+						))
+					);
+					exit();
+				}
+				else {
+					$this->Session->SetFlash('Клиент создан');
+					$this->redirect(
+						array('action' => 'listing')
+					);
+				}
 			}
 			else {
 				$this->Session->SetFlash('Не удалось добавить клиента');
 			}
 		}
-		$this->set(
-			'companies',
-			$this->Company->find('all')
-		);
-		$this->set(
-			'client_statuses',
-			$this->ClientStatus->find('all')
-		);
+		$this->set('companies', $this->Company->find('all'));
+		$this->set('client_statuses', $this->ClientStatus->find('all'));
 	}
 
 	public function view($id) {
@@ -179,9 +178,7 @@ class ClientsController extends AppController {
 			}
 			if ($success) {
 				$this->Session->SetFlash('Изменения сохранены');
-				$this->redirect(
-					array('action' => 'view', $id)
-				);
+				$this->redirect(array('action' => 'view', $id));
 			}
 			else {
 				$this->Session->SetFlash('Не удалось сохранить изменения');
@@ -189,32 +186,24 @@ class ClientsController extends AppController {
 		}
 		$this->data = $this->Client->find(
 			'first',
-			array(
-				'conditions' => array('Client.id' => $id)
-			)
+			array('conditions' => array('Client.id' => $id))
 		);
 		$this->set('client', $this->data);
 		$this->set('companies', $this->Company->find('all'));
-		$this->set('phones', $this->Phone->find(
-			'all',
-			array(
-				'fields' => 'id, number',
-				'conditions' => array(
-					'Phone.artifact_id' => $id,
-					'Phone.artifact_type' => 'client'
-				)
+		$this->set('phones', $this->Phone->find('all', array(
+			'fields' => 'id, number',
+			'conditions' => array(
+				'Phone.artifact_id' => $id,
+				'Phone.artifact_type' => 'client'
 			)
-		));
-		$this->set('emails', $this->Email->find(
-			'all',
-			array(
-				'fields' => 'id, address',
-				'conditions' => array(
-					'Email.artifact_id' => $id,
-					'Email.artifact_type' => 'client'
-				)
+		)));
+		$this->set('emails', $this->Email->find('all', array(
+			'fields' => 'id, address',
+			'conditions' => array(
+				'Email.artifact_id' => $id,
+				'Email.artifact_type' => 'client'
 			)
-		));
+		)));
 		$this->set('client_statuses', $this->ClientStatus->find('all'));
 		$this->render('create');
 	}
@@ -251,11 +240,7 @@ class ClientsController extends AppController {
 				);
 			}
 			$this->Session->SetFlash('Клиент успешно удален');
-			$this->redirect(
-				array(
-					'action' => 'listing'
-				)
-			);
+			$this->redirect(array('action' => 'listing'));
 		}
 	}
 	
@@ -267,7 +252,13 @@ class ClientsController extends AppController {
 		));
 		$this->set('tasks', $this->Task->find(
 			'all',
-			array('conditions' => array('Task.client_id' => $id))
+			array('conditions' => $this->isAdmin ?
+				array('Task.client_id' => $id)
+				: array(
+					'Task.client_id' => $id,
+					'Task.user_id' => $this->current_user['User']['id']
+				)
+			)
 		));
 		$task_statuses = $this->TaskStatus->find('all');
 		$this->set('task_statuses', $task_statuses);
@@ -292,7 +283,11 @@ class ClientsController extends AppController {
 			'first',
 			array('conditions' => array('Client.id' => $id))
 		));
-		$this->set('projects', $this->Project->find('all'));
+		$this->set('projects', $this->Project->find('all', array(
+			'conditions' => $this->isAdmin ? ''
+				: array('Project.user_id' => $this->current_user['User']['id']),
+			'order' => array('start_date ASC')
+		)));
 		$project_statuses = $this->ProjectStatus->find('all');
 		$this->set('project_statuses', $project_statuses);
 		if (empty($this->data)) {

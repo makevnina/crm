@@ -100,7 +100,8 @@ $companiesList = array('');
 }
 echo $this->Html->link(
 	'Создать новую компанию',
-	'javascript:create_company_dialog()'
+	'javascript:create_company_dialog()',
+	array ('id' => 'CreateNewCompanyLink')
 );
 echo $this->Form->input(
 	'position',

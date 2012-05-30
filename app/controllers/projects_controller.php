@@ -10,7 +10,8 @@ class ProjectsController extends AppController {
 		'ProjectStatus',
 		'Task',
 		'TaskStatus',
-		'User'
+		'User',
+		'CompletedProject'
 	);
 	
 	public function beforeFilter() {
@@ -38,7 +39,7 @@ class ProjectsController extends AppController {
 		$this->set('projects', $this->Project->find(
 			'all',
 			array(
-				'conditions' => $this->isAdmin ? ''
+				'conditions' => $this->isAdmin||$this->isAnalyst ? ''
 					: array('Project.user_id' => $this->current_user['User']['id']),
 				'order' => array('start_date ASC')
 			)
@@ -72,7 +73,8 @@ class ProjectsController extends AppController {
 	public function view($id) {
 		$this->set('sidebar_element', 'project_view');
 		$this->set('project', $this->Project->find('first',
-				array('conditions' => $this->isAdmin ? array('Project.id' => $id)
+				array('conditions' => $this->isAdmin||$this->isAnalyst
+					? array('Project.id' => $id)
 					: array('Project.id' => $id,
 						'Project.user_id' => $this->current_user['User']['id']))
 		));
@@ -82,7 +84,38 @@ class ProjectsController extends AppController {
 		$this->set('sidebar_element', 'project_create');
 		$this->Project->id = $id;
 		if ($this->RequestHandler->isPost()) {
+			$update_project = $this->data;
+			$project = $this->Project->find('first', array(
+				'conditions' => array('Project.id' => $id)
+			));
+			if ((($update_project['Project']['project_status_id'] == 1)
+				OR ($update_project['Project']['project_status_id'] == 2))
+				AND ($project['Project']['project_status_id'] <> $update_project['Project']['project_status_id'])) {
+				$this->data['Project']['fact_date'] = date('Y-m-d');
+			}
+			if (($update_project['Project']['project_status_id'] <> 1)
+				AND ($update_project['Project']['project_status_id'] <> 2)
+				AND (($project['Project']['project_status_id'] == 1)
+					OR ($project['Project']['project_status_id'] == 2))) {
+				$this->data['Project']['fact_date'] = '0000-00-00';
+			}
 			$success = $this->Project->save($this->data);
+			if (($project['Project']['project_status_id'] == 2)
+				AND ($update_project['Project']['project_status_id'] <> 2)) {
+				$completedProject = $this->CompletedProject->find('first', array(
+					'conditions' => array('CompletedProject.project_id' => $id)
+				));
+				$this->CompletedProject->delete($completedProject['CompletedProject']['id']);
+			}
+			if ($update_project['Project']['project_status_id'] == 2) {				
+				if ($project['Project']['project_status_id'] <> 2) {
+					$last_status = array(
+						'project_id' => $id,
+						'last_status_id' => $project['Project']['project_status_id']
+					);
+					$this->CompletedProject->save($last_status);
+				}
+			}
 			if ($success) {
 				$this->Session->SetFlash('Изменения сохранены');
 				$this->redirect(array('action' => 'view', $id));

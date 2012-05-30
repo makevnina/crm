@@ -89,17 +89,19 @@ else {
 					'onclick' => "return toggle_details({$project['Project']['id']});"
 				)
 			);
-			echo $this->Html->tag(
-				'dl',
-				$this->Html->tag(
-					'dt',
-					'Ответственный'
-				).$this->Html->tag(
-					'dd',
-					'<ФИО менеджера>'
-				),
-				array('class' => "details_block block{$project['Project']['id']}")
-			);
+			if (! empty($project['User'])) {
+				echo $this->Html->tag(
+					'dl',
+					$this->Html->tag(
+						'dt',
+						'Ответственный'
+					).$this->Html->tag(
+						'dd',
+						$project['User']['surname'].' '.$project['User']['name']
+					),
+					array('class' => "details_block block{$project['Project']['id']}")
+				);
+			}
 			if (! empty($project['Project']['description'])) {
 				echo $this->Html->tag(
 					'dl',

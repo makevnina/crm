@@ -16,6 +16,7 @@ class Project extends AppModel {
 			)
 		)
 	);
+	public $hasOne = array('CompletedProject');
 
 	public $belongsTo = array(
 		'Client' => array(

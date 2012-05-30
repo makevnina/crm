@@ -56,13 +56,13 @@ if (! empty($task)) {
 		array('class' => 'statusBar')
 	);
 
-	if (! empty($user)) {
+	if (! empty($creator)) {
 		echo $this->Html->tag(
 			'div',
 			'Добавлена пользователем '
 			. $this->Html->tag(
 			'b',
-			$user['User']['surname'].' '. $user['User']['name']
+			$creator['User']['surname'].' '. $creator['User']['name']
 			),
 			array('class' => 'taskCreator')
 		);

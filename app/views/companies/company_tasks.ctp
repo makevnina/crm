@@ -92,17 +92,19 @@ else {
 					'onclick' => "return toggle_details({$task['Task']['id']});"
 				)
 			);
-			echo $this->Html->tag(
-				'dl',
-				$this->Html->tag(
-					'dt',
-					'Ответственный'
-				).$this->Html->tag(
-					'dd',
-					'<ФИО менеджера>'
-				),
-				array('class' => "details_block block{$task['Task']['id']}")
-			);
+			if (! empty($task['User'])) {
+				echo $this->Html->tag(
+					'dl',
+					$this->Html->tag(
+						'dt',
+						'Ответственный'
+					).$this->Html->tag(
+						'dd',
+						$task['User']['surname'].' '.$task['User']['name']
+					),
+					array('class' => "details_block block{$task['Task']['id']}")
+				);
+			}
 			if (! empty($task['Client']['name'])) {
 				$clientLink = $this->Html->link(
 					$task['Client']['surname'].' '.$task['Client']['name'].' '.$task['Client']['father'],

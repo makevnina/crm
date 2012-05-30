@@ -4,7 +4,8 @@ class ProjectStatus extends AppModel {
 	public $name = 'ProjectStatus';
 	
 	public $hasMany = array(
-		'Project'
+		'Project',
+		'CompletedProject' => array('foreignKey' => 'last_status_id')
 	);
 	
 	public $validate = array(

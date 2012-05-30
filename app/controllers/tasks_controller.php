@@ -76,11 +76,7 @@ class TasksController extends AppController {
 			$success = $this->Task->save($this->data);
 			if ($success) {
 				$this->Session->SetFlash('Задача создана');
-				$this->redirect(
-					array(
-						'action' => 'listing'
-					)
-				);
+				$this->redirect(array('action' => 'listing'));
 			}
 			else {
 				$this->Session->SetFlash('Не удалось добавить задачу');
@@ -92,6 +88,7 @@ class TasksController extends AppController {
 		$task_types = Configure::read('Task.type');
 		$this->set('task_types', $task_types);
 		$this->set('users', $this->User->find('all'));
+		$this->set('current_user_id', $this->current_user['User']['id']);
 	}
 	
 	public function view($id) {
@@ -102,10 +99,11 @@ class TasksController extends AppController {
 					'Task.user_id' => $this->current_user['User']['id'])
 		));
 		$this->set('task', $task);
+		$creator = $this->User->find('first', array(
+				'conditions' => array('User.id' => $task['Task']['creator_id'])));
+		
 		if ($task['Task']['creator_id'] <> 0) {
-			$this->set('user', $this->User->find('first', array(
-				'conditions' => array('User.id' => $task['Task']['creator_id'])
-			)));
+			$this->set('creator', $creator);
 		}
 		$this->set('companies', $this->Company->find('all'));
 	}
@@ -134,6 +132,7 @@ class TasksController extends AppController {
 		$task_types = Configure::read('Task.type');
 		$this->set('task_types', $task_types);
 		$this->set('users', $this->User->find('all'));
+		$this->set('current_user_id', $this->current_user['User']['id']);
 		$this->render('create');
 	}
 	
