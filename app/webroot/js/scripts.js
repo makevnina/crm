@@ -13,6 +13,11 @@ $('a.add_email').live('click', function(){
 	return false;
 });
 
+$(function() {
+	$( "#sortable" ).sortable();
+	$( "#sortable" ).disableSelection();
+});
+
 function toggle_details(block_id) {
 	if ($(".block" + block_id).is(":visible")) {
 		$(".block" + block_id).hide();
@@ -257,6 +262,19 @@ $(document).ready(function() {
 		$('#ProjectDiv option[id="emptyOption"]').attr('selected', 'selected');		
 		$('#ProjectDiv option[id="emptyOption"]').show();
 		$("#ProjectDiv option[class="+$('#ClientSelect option:selected').attr('class')+"]").show();
+	});
+	
+	$('#ProjectStatusStagesForm').submit(function(){
+		var result = $('#sortable').sortable('toArray');
+		$.ajax({
+			type: 'POST',
+			url: '/reports/stages',
+			data: {
+				data: {sort: result}
+			}
+		});
+
+		return false;
 	});
 });
 

@@ -135,7 +135,24 @@ td .usersTable .editLink, .usersTable .deleteLink, .editPassword {
 #clientSelect {
 	width: auto;
 }
-
+#sortable { list-style-type: none; margin: 0; padding: 0; width: 25%; }
+	#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 12px; height: auto; }
+	#sortable li span { position: absolute; margin-left: -1.3em; }
+	
+.projects_table {
+	width: 399px;
+	align:center;
+}
+#content-wrapper table.projects_table td{	
+	vertical-align: middle;
+	text-align: center;
+	width: 133px;
+}
+.description {
+	border: 1px solid #ccc;
+	width: 400px
+}
+	
 /** Layout **/
 #container {
 	text-align: left;

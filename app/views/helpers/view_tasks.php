@@ -141,7 +141,7 @@ class ViewTasksHelper extends AppHelper {
 						$task['Task']['description']
 					),
 					array(
-						'style' => 'border: 1px solid #ccc; width: 32%'
+						'class' => 'description'
 					)
 				);
 			}

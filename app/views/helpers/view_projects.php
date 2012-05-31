@@ -114,8 +114,7 @@ class ViewProjectsHelper extends AppHelper {
 						$project['Project']['description']
 					),
 					array(
-						'class' => "details_block block{$project['Project']['id']}",
-						'style' => 'border: 1px solid #ccc; width: 32%'
+						'class' => "description details_block block{$project['Project']['id']}"
 					)
 				);
 			}
@@ -152,7 +151,7 @@ class ViewProjectsHelper extends AppHelper {
 					$this->Html->tableCells($tableCells),
 					array(
 						'border' => 1,
-						'class' => "details_block block{$project['Project']['id']}"
+						'class' => "projects_table details_block block{$project['Project']['id']}"
 					)			
 				);
 			}

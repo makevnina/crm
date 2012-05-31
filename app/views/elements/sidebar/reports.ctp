@@ -4,6 +4,13 @@ echo $this->Html->link(
 	array('action' => 'sales_funnel')
 );
 if ($this->action == 'sales_funnel') {
+	echo $this->Html->link(
+		'Этапы проекта',
+		array(
+			'action' => 'stages',
+			''
+		)
+	);
 	if ($userOK) {
 		if (! empty($users)) {
 			echo $this->Form->create(
