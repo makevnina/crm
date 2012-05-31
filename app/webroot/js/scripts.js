@@ -166,8 +166,9 @@ function create_client_dialog() {
 										.val(client.Client.id)
 										.text([client.Client.name, client.Client.surname, client.Client.father].join(' '))
 								);
+								var selectedClients = $('#clientSelect').val() || [];
 								$('#clientSelect').val(
-									$.merge($('#clientSelect').val(), [client.Client.id])
+									$.merge(selectedClients, [client.Client.id])
 								);
 								dialog.remove();
 							}
