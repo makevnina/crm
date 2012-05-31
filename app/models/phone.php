@@ -27,6 +27,9 @@ class Phone extends AppModel {
 						)
 					);
 				}
+				else {
+					$this->delete($k);
+				}
 			}
 		}
 		if (! empty ($phones['new'])) {

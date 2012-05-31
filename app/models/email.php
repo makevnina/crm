@@ -11,13 +11,13 @@ class Email extends AppModel {
 			'foreignKey' => 'artifact_id'
 		)
 	);
-	public $validate = array(
+/*	public $validate = array(
 		'address' => array(
 			'rule' => array('email', true),
 			'message' => 'Введите корректный e-mail адрес',
 			'allowEmpty' => true
 		)
-	);
+	);*/
 	
 	public function save(& $model, $emails) {
 		$artifact_type = Inflector::underscore($model->name);
@@ -33,6 +33,9 @@ class Email extends AppModel {
 							'address' => $email
 						)
 					);
+				}
+				else {
+					$this->delete($k);
 				}
 			}
 		}

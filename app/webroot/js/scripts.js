@@ -1,7 +1,14 @@
-$('a.add_field').live('click', function(){
+$('a.add_phone').live('click', function(){
 	var field = $(this).parent().find('div.input').first().clone();
 	field.find('input').val('');
 	field.find('input').attr('name', 'data[Phone][new][]');
+	$(this).parent().find('div.input').last().after(field);
+	return false;
+});
+$('a.add_email').live('click', function(){
+	var field = $(this).parent().find('div.input').first().clone();
+	field.find('input').val('');
+	field.find('input').attr('name', 'data[Email][new][]');
 	$(this).parent().find('div.input').last().after(field);
 	return false;
 });

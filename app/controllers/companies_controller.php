@@ -217,11 +217,9 @@ class CompaniesController extends AppController {
 			}
 			if (! empty($this->data['Phone'])) {
 				$success = $this->Phone->save($this->Company, $this->data['Phone']);
-				vd($success);
 			}
 			if (! empty($this->data['Email'])) {
 				$success = $this->Email->save($this->Company, $this->data['Email']);
-				vd($success);
 			}
 			if ($success) {
 				$this->Session->SetFlash('Изменения сохранены');
