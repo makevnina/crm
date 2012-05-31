@@ -52,4 +52,21 @@ class ReportsController extends AppController {
 		$this->set('completed_projects', $this->CompletedProject->find('all'));
 		$this->set('users', $this->User->find('all'));
 	}
+	
+	public function stages() {
+		if ($this->RequestHandler->isPost() && ! empty($this->data)) {
+			$stages = $this->data;
+			$num = 1;
+			foreach ($stages['sort'] as $stage) {
+				$this->ProjectStatus->UpdateAll(
+					array('ProjectStatus.number' => $num),
+					array('ProjectStatus.id' => $stage)					
+				);
+				$num += 1;
+			}
+		}
+		$this->set('project_statuses', $this->ProjectStatus->find('all', array(
+			'order' => array('number ASC')
+		)));
+	}
 }
