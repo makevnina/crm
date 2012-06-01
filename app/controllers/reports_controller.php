@@ -13,6 +13,15 @@ class ReportsController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$this->set('sidebar_element', 'reports');
+		$project_statuses = $this->ProjectStatus->find('all');
+		$num = 1;
+		foreach ($project_statuses as $status) {
+			if ($status['ProjectStatus']['number'] == 0) {
+				$status['ProjectStatus']['number'] = $num;
+				$this->ProjectStatus->save($status);
+			}
+			$num += 1;
+		}
 	}
 	
 	public function index() {
