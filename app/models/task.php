@@ -10,6 +10,12 @@ class Task extends AppModel {
 		'TaskStatus'
 	);
 	
+	public $hasMany = array(
+		'Comment' => array(
+			'foreignKey' => 'artifact_id'
+		)
+	);
+	
 	public $validate = array(
 		'name' => array(
 			'rule1' => array(

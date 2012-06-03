@@ -22,8 +22,12 @@ class Client extends AppModel {
 				array ('Project.artifact_type' => 'client')
 			),
 		),
-		'Task'
+		'Task',
+		'Comment' => array(
+			'foreignKey' => 'artifact_id'
+		)
 	);
+	
 
 	public $validate = array(
 		'surname' => array(

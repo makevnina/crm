@@ -14,7 +14,8 @@ class AppController extends Controller {
 		'ViewTasks',
 		'ViewClients',
 		'ViewProjects',
-		'Time'
+		'Time',
+		'ViewComments'
 	);
 	public $uses = array(
 		'ProjectStatus',

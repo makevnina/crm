@@ -152,10 +152,7 @@ if (! empty($task)) {
 			)
 		);
 	}
-	echo $this->Html->tag(
-		'b',
-		'<Комментарии>'
-	);
+	$viewComments->viewGroup('task', $task['Task']['id'], $comments);
 }
 else {
 	echo 'Ошибка доступа.';

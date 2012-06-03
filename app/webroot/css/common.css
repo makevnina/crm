@@ -152,6 +152,44 @@ td .usersTable .editLink, .usersTable .deleteLink, .editPassword {
 	border: 1px solid #ccc;
 	width: 400px
 }
+div.new_comment {
+	margin-top: 15px;
+}
+div.new_comment, div.new_comment div {
+	padding: 0;
+}
+div.new_comment textarea {
+	height: 80px;
+	width: 500px;
+}
+div.comment {
+	margin-top: 10px;
+	border: 1px solid #ccc;
+	width: 500px;
+}
+h3.comment_title {
+	font-size: 16px;
+	margin-top: 15px;
+}
+div.new_comment label {
+	color: #1C94C4;
+	font-size: 14px;
+}
+.comment_user {
+	color: #afafaf;
+	font-size: 11px;
+	font-weight: bold;
+}
+.comment_text {
+	height: auto;
+	width: 500px;
+	padding: 5px;
+	font-size: 12px;
+}
+.comment_time {
+	color: #afafaf;
+	font-size: 10px;
+}
 	
 /** Layout **/
 #container {

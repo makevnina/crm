@@ -157,13 +157,7 @@ if (! empty($project)) {
 			)
 		);
 	}
-	echo $this->Html->tag(
-		'div',
-		$this->Html->tag(
-			'b',
-			'<Комментарии>'
-		)
-	);
+	$viewComments->viewGroup('project', $project['Project']['id'], $comments);
 }
 else {
 	echo 'Ошибка доступа';
