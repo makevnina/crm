@@ -71,7 +71,7 @@ class ClientsController extends AppController {
 	public function listing() {
 		$statuses = $this->ClientStatus->find('all');
 		if (empty($this->data)) {
-			$this->data[0] = 1;
+			//$this->data[0] = 1;
 			foreach ($statuses as $status) {
 				$this->data[$status['ClientStatus']['id']] = 1;
 			}
