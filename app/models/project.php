@@ -40,6 +40,9 @@ class Project extends AppModel {
 	);
 
 	public $hasMany = array(
-		'Task' 
+		'Task',
+		'Comment' => array(
+			'foreignKey' => 'artifact_id'
+		)
 	);
 }

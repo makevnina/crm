@@ -18,6 +18,9 @@ class Company extends AppModel {
 			'conditions' => array (
 				array ('Project.artifact_type' => 'company')
 			),
+		),
+		'Comment' => array(
+			'foreignKey' => 'artifact_id'
 		)
 	);
 	

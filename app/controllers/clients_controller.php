@@ -13,7 +13,8 @@ class ClientsController extends AppController {
 		'Task',
 		'TaskStatus',
 		'ProjectStatus',
-		'State'
+		'State',
+		'Comment'
 	);
 	
 	public function beforeFilter() {
@@ -132,6 +133,19 @@ class ClientsController extends AppController {
 	}
 
 	public function view($id) {
+		if ($this->RequestHandler->isPost()) {
+			if (! empty($this->data['Comment']['text'])) {
+				$this->data['Comment']['user_id'] = $this->current_user['User']['id'];
+				$this->data['Comment']['artifact_id'] = $id;
+				$this->data['Comment']['artifact_type'] = 'client';
+				$this->data['Comment']['comment_time'] = date('Y-m-d H:i:s');
+				$success = $this->Comment->save($this->data);
+				if (! $success) {
+					$this->Session->SetFlash('Не удалось добавить комментарий.');
+				}
+			}
+			$this->data = array();
+		}
 		$this->set('sidebar_element', 'client_view');
 		$client = $this->Client->find(
 			'first',
@@ -159,6 +173,13 @@ class ClientsController extends AppController {
 			)
 		));
 		$this->set('projects', $this->Project->find('all'));
+		$comments = $this->Comment->find('all', array(
+			'conditions' => array(
+				'Comment.artifact_id' => $id,
+				'Comment.artifact_type' => 'client'
+			)
+		));
+		$this->set('comments', $comments);
 	}
 
 	public function edit($id) {

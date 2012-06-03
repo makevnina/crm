@@ -117,10 +117,6 @@ input#ProjectBudget {
 .usersTable td {
 	padding: 6px;
 }
-.sales_funnel_user {
-	color: #909090;
-	margin-bottom: 15px;
-}
 td .usersTable .editLink, .usersTable .deleteLink, .editPassword {
 	font-size: 75%;
 	width: 50px;
@@ -151,6 +147,62 @@ td .usersTable .editLink, .usersTable .deleteLink, .editPassword {
 .description {
 	border: 1px solid #ccc;
 	width: 400px
+}
+/** Comments **/
+div.new_comment {
+	margin-top: 15px;
+}
+div.new_comment, div.new_comment div {
+	padding: 0;
+}
+div.new_comment textarea {
+	height: 80px;
+	width: 500px;
+}
+div.comment {
+	margin-top: 10px;
+	border: 1px solid #ccc;
+	width: 500px;
+}
+h3.comment_title {
+	font-size: 16px;
+	margin-top: 15px;
+}
+div.new_comment label {
+	color: #1C94C4;
+	font-size: 14px;
+}
+.comment_user {
+	color: #afafaf;
+	font-size: 11px;
+	font-weight: bold;
+}
+.comment_text {
+	height: auto;
+	width: 500px;
+	padding: 5px;
+	font-size: 12px;
+}
+.comment_time {
+	color: #afafaf;
+	font-size: 10px;
+}
+
+/** Sales funnel **/
+#content-wrapper table.sales_funnel_table td {
+	vertical-align: middle;
+	text-align: center;
+	font-size: 10px;
+	background: #fff;
+}
+.sales_funnel_title {
+	color: #909090;
+	margin-bottom: 15px;
+	font-size: 12px;
+}
+#content-wrapper tr.sales_funnel_tableHeader td {
+	font-size: 11px;
+	font-weight: bold;
 }
 	
 /** Layout **/

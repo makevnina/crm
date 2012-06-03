@@ -9,7 +9,8 @@ class TasksController extends AppController {
 		'Company',
 		'Project',
 		'TaskStatus',
-		'User'
+		'User',
+		'Comment'
 	);
 	
 	public function beforeFilter() {
@@ -92,6 +93,19 @@ class TasksController extends AppController {
 	}
 	
 	public function view($id) {
+		if ($this->RequestHandler->isPost()) {
+			if (! empty($this->data['Comment']['text'])) {
+				$this->data['Comment']['user_id'] = $this->current_user['User']['id'];
+				$this->data['Comment']['artifact_id'] = $id;
+				$this->data['Comment']['artifact_type'] = 'task';
+				$this->data['Comment']['comment_time'] = date('Y-m-d H:i:s');
+				$success = $this->Comment->save($this->data);
+				if (! $success) {
+					$this->Session->SetFlash('Не удалось добавить комментарий.');
+				}
+			}
+			$this->data = array();
+		}
 		$this->set('sidebar_element', 'task_view');
 		$task = $this->Task->find('first', array(
 			'conditions' => $this->isAdmin ? array('Task.id' => $id)
@@ -100,12 +114,18 @@ class TasksController extends AppController {
 		));
 		$this->set('task', $task);
 		$creator = $this->User->find('first', array(
-				'conditions' => array('User.id' => $task['Task']['creator_id'])));
-		
+				'conditions' => array('User.id' => $task['Task']['creator_id'])));		
 		if ($task['Task']['creator_id'] <> 0) {
 			$this->set('creator', $creator);
 		}
 		$this->set('companies', $this->Company->find('all'));
+		$comments = $this->Comment->find('all', array(
+			'conditions' => array(
+				'Comment.artifact_id' => $id,
+				'Comment.artifact_type' => 'task'
+			)
+		));
+		$this->set('comments', $comments);
 	}
 
 	public function edit($id) {

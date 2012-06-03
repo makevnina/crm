@@ -3,7 +3,7 @@
 -- Server version:               5.5.16 - MySQL Community Server (GPL)
 -- Server OS:                    Win32
 -- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2012-06-03 16:50:26
+-- Date/time:                    2012-06-04 00:24:22
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -54,8 +54,7 @@ CREATE TABLE IF NOT EXISTS `comments` (
   `user_id` int(10) unsigned NOT NULL,
   `artifact_id` int(10) unsigned NOT NULL,
   `artifact_type` enum('client','company','project','task') NOT NULL,
-  `date` date NOT NULL,
-  `time` time NOT NULL,
+  `comment_time` datetime NOT NULL,
   `text` varchar(500) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

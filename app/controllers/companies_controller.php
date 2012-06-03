@@ -13,7 +13,8 @@ class CompaniesController extends AppController {
 		'ClientStatus',
 		'ProjectStatus',
 		'TaskStatus',
-		'State'
+		'State',
+		'Comment'
 	);
 	
 	public function beforeFilter() {
@@ -149,6 +150,25 @@ class CompaniesController extends AppController {
 	}
 
 	function view($id) {
+		if ($this->RequestHandler->isPost()) {
+			if (! empty($this->data['Comment']['text'])) {
+				$this->data['Comment']['user_id'] = $this->current_user['User']['id'];
+				$this->data['Comment']['artifact_id'] = $id;
+				$this->data['Comment']['artifact_type'] = 'company';
+				$this->data['Comment']['comment_time'] = date('Y-m-d H:i:s');
+				$success = $this->Comment->save($this->data);
+				if (! $success) {
+					$this->Session->SetFlash('Не удалось добавить комментарий.');
+				}
+			}
+			$this->data = array();
+		}
+		$this->set('comments', $this->Comment->find('all', array(
+			'conditions' => array(
+				'Comment.artifact_id' => $id,
+				'Comment.artifact_type' => 'company'
+			)
+		)));
 		$this->set('sidebar_element', 'company_view');
 		$this->set(
 			'company',
