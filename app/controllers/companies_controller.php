@@ -334,7 +334,7 @@ class CompaniesController extends AppController {
 		$client_statuses = $this->ClientStatus->find('all');
 		$this->set('client_statuses', $client_statuses);
 		if (empty($this->data)) {
-			$this->data[0] = 1;
+		//	$this->data[0] = 1;
 			foreach ($client_statuses as $status) {
 				$this->data[$status['ClientStatus']['id']] = 1;
 			}

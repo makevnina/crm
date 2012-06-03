@@ -14,6 +14,20 @@ if (empty($clients)) {
 	echo 'У данной компании нет контактных лиц.';
 }
 else {
+	$allClient = 0;
+	foreach ($client_statuses as $status) {
+		if ($client_filter[$status['ClientStatus']['id']] == 1) {
+			$allClient += 1;
+		}
+	}
+	if ($allClient == count($client_filter)) {
+		if (empty($client_filter[0])) {
+			$client_filter[0] = 1;
+		}
+	}
+	else {
+		$client_filter[0] = 0;
+	}
 	$filterClientsArray = array();
 	$filterArray = array();
 	foreach ($client_filter as $key => $value) {

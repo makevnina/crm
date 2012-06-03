@@ -16,12 +16,23 @@ if (empty($clients)) {
     );
 }
 else {
-	$clientFilterArray = array();
-	if (empty($client_filter[0])) {
-		$client_filter[0] = 1;
+	$clientFilterArray = array();	
+	$allClient = 0;
+	foreach ($statuses as $status) {
+		if ($client_filter[$status['ClientStatus']['id']] == 1) {
+			$allClient += 1;
+		}
+	}
+	if ($allClient == count($client_filter)) {
+		if (empty($client_filter[0])) {
+			$client_filter[0] = 1;
+		}
+	}
+	else {
+		$client_filter[0] = 0;
 	}
 	foreach ($clients as $client) {
-		if (($client_filter[$client['Client']['client_status_id']] == 1)) {
+		if ($client_filter[$client['Client']['client_status_id']] == 1) {
 			$clientFilterArray[] = $client;
 		}
    }
