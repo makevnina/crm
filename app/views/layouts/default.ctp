@@ -44,7 +44,9 @@
 					?>
 			</span>
 			</div>
-			<div id="navigation_menu"><?= $navigationMenu->render() ?></div>
+			<?php if (! empty($current_user)): ?>
+				<div id="navigation_menu"><?= $navigationMenu->render() ?></div>
+			<?php endif; ?>
 			<table id="content-wrapper" cellpadding="0" cellspacing="0">
 				<tr>
 					<? if(! empty($sidebar_element)): ?>

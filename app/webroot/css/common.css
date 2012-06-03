@@ -167,6 +167,7 @@ td .usersTable .editLink, .usersTable .deleteLink, .editPassword {
 }
 #header h1 a {
 	color: #fff;
+	font-size: 24px;
 	font-weight: normal;
 	text-decoration: none;
 }
@@ -174,7 +175,7 @@ td .usersTable .editLink, .usersTable .deleteLink, .editPassword {
 	color: #ddd;
 }
 #header h1#logo {
-	display: inline;
+	margin: 10px;
 }
 
 #container #header .login, #container #header .login a {
