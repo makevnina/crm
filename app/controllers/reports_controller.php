@@ -32,10 +32,12 @@ class ReportsController extends AppController {
 		if (! empty($this->data)) {
 			$user_id = $this->data['Report']['user_id'];
 			$filterUser = $this->data['Report']['user_id'];
+			$period = $this->data['Report']['period'];
 		}
 		else {
 			$user_id = $this->current_user['User']['id'];
 			$filterUser = 0;
+			$period = 'all_time';
 		}
 		if ((($this->isAdmin) OR ($this->isAnalyst))
 			AND ((empty($this->data) OR ($user_id == 0)))) {
@@ -57,6 +59,7 @@ class ReportsController extends AppController {
 				'User.id' => $filterUser
 			)
 		)));
+		$this->set('period', $period);
 		$this->set('project_statuses', $this->ProjectStatus->find('all'));
 		$this->set('completed_projects', $this->CompletedProject->find('all'));
 		$this->set('users', $this->User->find('all'));

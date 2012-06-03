@@ -11,12 +11,25 @@ if ($this->action == 'sales_funnel') {
 			''
 		)
 	);
+	echo $this->Form->create(
+		'Report',
+		array('action' => 'sales_funnel')
+	);
+	$periodArray = array(
+		'all_time' => 'За весь период',
+		'this_year' => 'За год',
+		'this_month' => 'За месяц',
+	);
+	echo $this->Form->input(
+		'period',
+		array(
+			'label' => 'Период',
+			'type' => 'select',
+			'options' => $periodArray
+		)
+	);
 	if ($userOK) {
 		if (! empty($users)) {
-			echo $this->Form->create(
-				'Report',
-				array('action' => 'sales_funnel')
-			);
 			$usersList = array('Все пользователи');
 			foreach ($users as $user) {
 				$usersList[$user['User']['id']] = $user['User']['surname'].' '.$user['User']['name'];
@@ -29,7 +42,7 @@ if ($this->action == 'sales_funnel') {
 					'options' => $usersList
 				)
 			);
-			echo $this->Form->end('Показать');
 		}
 	}
+	echo $this->Form->end('Показать');
 }
