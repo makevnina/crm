@@ -20,7 +20,8 @@ class Company extends AppModel {
 			),
 		),
 		'Comment' => array(
-			'foreignKey' => 'artifact_id'
+			'foreignKey' => 'artifact_id',
+			'dependent' => true
 		)
 	);
 	

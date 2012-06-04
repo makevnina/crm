@@ -179,6 +179,7 @@ class ClientsController extends AppController {
 				'Comment.artifact_type' => 'client'
 			)
 		));
+		$this->set('current_user', $this->current_user);
 		$this->set('comments', $comments);
 	}
 
@@ -319,4 +320,11 @@ class ClientsController extends AppController {
 		$this->set('project_filter', $this->data);
 	}
 
+	public function deleteComment($id, $artifact_id) {
+		$success = $this->Comment->delete($id);
+		if (! success) {
+			$this->Session->SetFlash('Не удалось удалить комментарий');
+		}
+		$this->redirect(array('action' => 'view', $artifact_id));
+	}
 }

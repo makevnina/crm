@@ -85,6 +85,7 @@ class ProjectsController extends AppController {
 			}
 			$this->data = array();
 		}
+		$this->set('current_user', $this->current_user);
 		$this->set('comments', $this->Comment->find('all', array(
 			'conditions' => array(
 				'Comment.artifact_id' => $id,
@@ -160,7 +161,7 @@ class ProjectsController extends AppController {
 	}
 	
 	public function delete($id, $agree) {
-		$success = $this->Project->delete($id);
+		$success = $this->Project->delete($id, $cascade = true);
 		if ($agree == 'true') {
 			$success = $this->Task->deleteAll(array(
 				'Task.project_id' => $id
@@ -204,5 +205,13 @@ class ProjectsController extends AppController {
 			}
 		}
 		$this->set('task_filter', $this->data);
+	}
+
+	public function deleteComment($id, $artifact_id) {
+		$success = $this->Comment->delete($id);
+		if (! success) {
+			$this->Session->SetFlash('Не удалось удалить комментарий');
+		}
+		$this->redirect(array('action' => 'view', $artifact_id));
 	}
 }

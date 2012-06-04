@@ -152,7 +152,7 @@ if (! empty($task)) {
 			)
 		);
 	}
-	$viewComments->viewGroup('task', $task['Task']['id'], $comments);
+	$viewComments->viewGroup('task', $task['Task']['id'], $comments, $current_user);
 }
 else {
 	echo 'Ошибка доступа.';

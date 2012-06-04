@@ -157,7 +157,7 @@ if (! empty($project)) {
 			)
 		);
 	}
-	$viewComments->viewGroup('project', $project['Project']['id'], $comments);
+	$viewComments->viewGroup('project', $project['Project']['id'], $comments, $current_user);
 }
 else {
 	echo 'Ошибка доступа';

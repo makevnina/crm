@@ -125,6 +125,7 @@ class TasksController extends AppController {
 				'Comment.artifact_type' => 'task'
 			)
 		));
+		$this->set('current_user', $this->current_user);
 		$this->set('comments', $comments);
 	}
 
@@ -157,10 +158,18 @@ class TasksController extends AppController {
 	}
 	
 	public function delete($id) {
-		$success = $this->Task->delete($id);
+		$success = $this->Task->delete($id, $cascade = true);
 		if ($success) {
 			$this->Session->SetFlash('Задача успешно удалена');
 			$this->redirect(array('action' => 'listing'));		
 		}
+	}
+	
+	public function deleteComment($id, $artifact_id) {
+		$success = $this->Comment->delete($id);
+		if (! success) {
+			$this->Session->SetFlash('Не удалось удалить комментарий');
+		}
+		$this->redirect(array('action' => 'view', $artifact_id));
 	}
 }

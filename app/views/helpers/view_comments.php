@@ -3,7 +3,8 @@ class ViewCommentsHelper extends AppHelper {
 	
 	public $helpers = array('Html', 'Form');
 	
-	public function viewGroup($artifact_type, $artifact_id, $comments) {
+	public function viewGroup($artifact_type, $artifact_id, $comments, $current_user) {
+		$controller = Inflector::pluralize($artifact_type);
 		if (! empty($comments)) {
 			echo $this->Html->tag(
 				'h3',
@@ -26,17 +27,36 @@ class ViewCommentsHelper extends AppHelper {
 					$comment['Comment']['text'],
 					array('class' => 'comment_text')
 				);
+				if (($current_user['User']['id'] == $comment['User']['id'])
+						OR ($current_user['User']['type'] == 'администратор')){
+					$deleteLink = $this->Html->link(
+						'удалить',
+						array(
+							'controller' => $controller,
+							'action' => 'deleteComment',
+							$comment['Comment']['id'],
+							$artifact_id
+						),
+						array('class' => 'deleteComment')
+					);
+				}
+				else {
+					$deleteLink = '';
+				}
 				echo $this->Html->tag(
 					'div',
-					$user.$text.$comment_time,
-					array('class' => 'comment')
+					$user.$text.$comment_time.$deleteLink,
+					array(
+						'class' => 'comment',
+						'id' => $comment['Comment']['id']
+					)
 				);
 			}
 		}
 		echo $this->Form->create(
 			'Comment',
 			array('url' => array(
-				'controller' => Inflector::pluralize($artifact_type),
+				'controller' => $controller,
 				'action' => 'view',
 				$artifact_id
 			))

@@ -164,6 +164,11 @@ div.comment {
 	border: 1px solid #ccc;
 	width: 500px;
 }
+.deleteComment {
+	font-size: 11px;
+	margin-left: 10px;
+	color: #d88c8c;
+}
 h3.comment_title {
 	font-size: 16px;
 	margin-top: 15px;

@@ -163,6 +163,7 @@ class CompaniesController extends AppController {
 			}
 			$this->data = array();
 		}
+		$this->set('current_user', $this->current_user);
 		$this->set('comments', $this->Comment->find('all', array(
 			'conditions' => array(
 				'Comment.artifact_id' => $id,
@@ -281,7 +282,7 @@ class CompaniesController extends AppController {
 	}
 
 	function delete($id, $clientsAgree, $projectsAgree) {
-		$this->Company->delete($id);
+		$this->Company->delete($id, $cascade = true);
 		if ($clientsAgree == 'true') {
 			$clients = $this->Client->find('all',	array(
 				'conditions' => array('Client.company_id' => $id)
@@ -425,4 +426,11 @@ class CompaniesController extends AppController {
 		$this->set('task_filter', $this->data);
 	}
 
+	public function deleteComment($id, $artifact_id) {
+		$success = $this->Comment->delete($id);
+		if (! success) {
+			$this->Session->SetFlash('Не удалось удалить комментарий');
+		}
+		$this->redirect(array('action' => 'view', $artifact_id));
+	}
 }

@@ -24,7 +24,8 @@ class Client extends AppModel {
 		),
 		'Task',
 		'Comment' => array(
-			'foreignKey' => 'artifact_id'
+			'foreignKey' => 'artifact_id',
+			'dependent' => true
 		)
 	);
 	

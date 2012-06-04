@@ -139,4 +139,4 @@ if (! empty($client['Client']['address'])) {
 		)
 	);
 }
-$viewComments->viewGroup('client', $client['Client']['id'], $comments);
+$viewComments->viewGroup('client', $client['Client']['id'], $comments, $current_user);

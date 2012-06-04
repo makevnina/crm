@@ -42,7 +42,8 @@ class Project extends AppModel {
 	public $hasMany = array(
 		'Task',
 		'Comment' => array(
-			'foreignKey' => 'artifact_id'
+			'foreignKey' => 'artifact_id',
+			'dependent' => true
 		)
 	);
 }

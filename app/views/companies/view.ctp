@@ -111,4 +111,4 @@ if (! empty($company['Company']['address'])) {
 		)
 	);
 }
-$viewComments->viewGroup('company', $company['Company']['id'], $comments);
+$viewComments->viewGroup('company', $company['Company']['id'], $comments, $current_user);
