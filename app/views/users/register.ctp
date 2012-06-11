@@ -52,6 +52,12 @@ if ($isAdmin == 'admin') {
 			'label' => 'Имя'
 		)
 	);
+	echo $this->Form->input(
+		'email',
+		array(
+			'label' => 'E-mail'
+		)
+	);
 	if (! empty($types)) {
 		$typeOptionsHtml = '';
 		foreach ($types as $type) {

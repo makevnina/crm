@@ -16,10 +16,10 @@ class TasksController extends AppController {
 	public function beforeFilter() {
 		parent::beforeFilter();
 		$tasks = $this->Task->find('all', array(
-			'fields' => array('Task.id', 'Task.deadline_date', 'Task.task_status_id')
+			'fields' => array('Task.id', 'Task.deadline', 'Task.task_status_id')
 		));
 		foreach ($tasks as $task) {
-			if (($task['Task']['deadline_date'] < date('Y-m-d')) 
+			if (($task['Task']['deadline'] < date('Y-m-d')) 
 				AND ($task['Task']['task_status_id'] <> 1)) {
 					$task['Task']['task_status_id'] = 2;
 					$this->Task->id = $task['Task']['id'];
@@ -65,7 +65,7 @@ class TasksController extends AppController {
 			array(
 				'conditions' => $this->isAdmin ? ''
 					: array('Task.user_id' => $this->current_user['User']['id']),
-				'order' => array('deadline_date ASC', 'deadline_time ASC')
+				'order' => array('deadline ASC', 'deadline ASC')
 			)
 		));
 		$this->set('companies', $this->Company->find('all'));

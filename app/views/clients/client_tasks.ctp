@@ -65,7 +65,7 @@ else {
 			);
 			$taskDeadline = $this->Html->tag(
 				'span',
-				$task['Task']['deadline_date'].' '.$task['Task']['deadline_time'],
+				$task['Task']['deadline'],
 				array(
 					'class' => 'taskDeadline'
 				)

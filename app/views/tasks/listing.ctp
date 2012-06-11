@@ -39,31 +39,31 @@ else {
 			$finishedTasks[] = $task;
 		}
 		else {
-			if ($task['Task']['deadline_date'] < date('Y-m-d')) {
+			if ($task['Task']['deadline'] < date('Y-m-d')) {
 				$overdueTasks[] = $task;
 			}
 			else {
-				if ($this->Time->isToday($task['Task']['deadline_date'])) {
+				if ($this->Time->isToday($task['Task']['deadline'])) {
 					$todayTasks[] = $task;
 				}
 				else {
-					if ($this->Time->isTomorrow($task['Task']['deadline_date'])) {
+					if ($this->Time->isTomorrow($task['Task']['deadline'])) {
 						$tomorrowTasks[] = $task;
 					}
 					else {
-						if ($this->Time->isThisWeek($task['Task']['deadline_date'])) {
+						if ($this->Time->isThisWeek($task['Task']['deadline'])) {
 							$thisWeekTasks[] = $task;
 						}
 						else {
-							if ($this->Time->isThisWeek(strtotime("{$task['Task']['deadline_date']}-1week"))) {
+							if ($this->Time->isThisWeek(strtotime("{$task['Task']['deadline']}-1week"))) {
 								$nextWeekTasks[] = $task;
 							}
 							else {
-								if ($this->Time->isThisMonth($task['Task']['deadline_date'])) {
+								if ($this->Time->isThisMonth($task['Task']['deadline'])) {
 									$thisMonthTasks[] = $task;
 								}
 								else {
-									if ($this->Time->isThisMonth(strtotime("{$task['Task']['deadline_date']}-1month"))) {
+									if ($this->Time->isThisMonth(strtotime("{$task['Task']['deadline']}-1month"))) {
 										$nextMonthTasks[] = $task;
 									}
 									else {

@@ -36,15 +36,11 @@ class Task extends AppModel {
 			'allowEmpty' => false,
 			'message' => 'Выберете тип задачи'
 		),
-		'deadline_date' => array(
+		'deadline' => array(
 			'rule1' => array(
 				'rule' => 'notEmpty',
 				'allowEmpty' => false,
 				'message' => 'Выберете дату дедлайна'
-			),
-			'rule2' => array(
-				'rule' => array('date', 'ymd'),
-				'message' => 'Введите корректную дату в формате ГГГГ-ММ-ДД'
 			)
 		),
 	);

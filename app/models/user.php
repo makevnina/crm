@@ -39,6 +39,11 @@ class User extends AppModel {
 			'rule' => 'notEmpty',
 			'allowEmpty' => false,
 			'message' => 'Введите пароль'
+		),
+		'email' => array(
+			'rule' => 'email',
+			'allowEmpty' => false,
+			'message' => 'Введите корректный email'
 		)
 	);
 }

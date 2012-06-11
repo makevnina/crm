@@ -406,7 +406,7 @@ class CompaniesController extends AppController {
 			array(
 				'conditions' => $this->isAdmin ? ''
 					: array('Task.user_id' => $this->current_user['User']['id']),
-				'order' => array('deadline_date ASC', 'deadline_time ASC')
+				'order' => array('deadline ASC')
 			)
 		));
 		$task_statuses = $this->TaskStatus->find('all');

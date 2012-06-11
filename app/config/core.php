@@ -317,3 +317,13 @@
 			array('id' => 3, 'name' => 'прежний', 'color' => '#acc1ff')
 		)
 	);
+
+	Configure::write(
+		'Email.noreply',
+		'noreply@webcrm.makevnina.locum.ru'
+	);
+
+	Configure::write(
+		'Email.host',
+		'webcrm.makevnina.locum.ru'
+	);

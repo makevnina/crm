@@ -276,18 +276,11 @@ echo $this->Form->input(
 	)
 );
 echo $this->Form->input(
-	'deadline_date',
+	'deadline',
 	array(
-		'label' => 'Дата дедлайна',
+		'label' => 'Дедлайн',
 		'type' => 'text',
 		'class' => 'datepicker'
-	)
-);
-echo $this->Form->input(
-	'deadline_time',
-	array(
-		'label' => 'Время дедлайна',
-		'type' => 'time'
 	)
 );
 echo $this->Form->input(

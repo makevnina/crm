@@ -206,8 +206,11 @@ $(document).ready(function() {
 	
 	$(function() {
 //		$('.datepicker').datepicker($.datepicker.regional["ru"]);
-		$( ".datepicker" ).datepicker({dateFormat: 'yy-mm-dd'});
-		$( ".datepicker" ).datepicker( "option", "dateFormat", 'yy-mm-dd' );
+		$( ".datepicker" ).datetimepicker({
+			dateFormat: 'yy-mm-dd',
+			timeFormat: 'hh:mm:ss',
+			showSecond: true
+		});
 	});
 	
 	$("select").change(function() {

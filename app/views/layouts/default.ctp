@@ -18,6 +18,7 @@
 		echo $this->Html->script('jpicker-1.1.6.min.js');
 		echo $this->Html->script('scripts.js');
 		echo $this->Html->script('jquery-ui-1.8.17.custom.min.js');
+		echo $this->Html->script('jquery-ui-timepicker-addon.js');
 
 		echo $scripts_for_layout;
 		?>
