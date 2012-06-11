@@ -1,22 +1,36 @@
--- --------------------------------------------------------
--- Host:                         127.0.0.1
--- Server version:               5.5.16 - MySQL Community Server (GPL)
--- Server OS:                    Win32
--- HeidiSQL version:             7.0.0.4053
--- Date/time:                    2012-06-04 00:24:22
--- --------------------------------------------------------
+-- phpMyAdmin SQL Dump
+-- version 3.4.10.1deb1
+-- http://www.phpmyadmin.net
+--
+-- Хост: localhost
+-- Время создания: Июн 11 2012 г., 23:26
+-- Версия сервера: 5.5.22
+-- Версия PHP: 5.3.10-1ubuntu3.1
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
-/*!40014 SET FOREIGN_KEY_CHECKS=0 */;
+
+--
+-- База данных: `polly_crm`
+--
 
 -- Dumping database structure for crm
 DROP DATABASE IF EXISTS `crm`;
 CREATE DATABASE IF NOT EXISTS `crm` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `crm`;
 
+-- --------------------------------------------------------
 
--- Dumping structure for table crm.clients
+--
+-- Структура таблицы `clients`
+--
+
 DROP TABLE IF EXISTS `clients`;
 CREATE TABLE IF NOT EXISTS `clients` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -29,12 +43,14 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `position` varchar(50) CHARACTER SET utf8 NOT NULL,
   `address` varchar(150) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
--- Data exporting was unselected.
+-- --------------------------------------------------------
 
+--
+-- Структура таблицы `client_statuses`
+--
 
--- Dumping structure for table crm.client_statuses
 DROP TABLE IF EXISTS `client_statuses`;
 CREATE TABLE IF NOT EXISTS `client_statuses` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -42,27 +58,32 @@ CREATE TABLE IF NOT EXISTS `client_statuses` (
   `color` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- Data exporting was unselected.
+-- --------------------------------------------------------
 
+--
+-- Структура таблицы `comments`
+--
 
--- Dumping structure for table crm.comments
 DROP TABLE IF EXISTS `comments`;
 CREATE TABLE IF NOT EXISTS `comments` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(10) unsigned NOT NULL,
   `artifact_id` int(10) unsigned NOT NULL,
   `artifact_type` enum('client','company','project','task') NOT NULL,
-  `comment_time` datetime NOT NULL,
+  `date` date NOT NULL,
+  `time` time NOT NULL,
   `text` varchar(500) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- Data exporting was unselected.
+-- --------------------------------------------------------
 
+--
+-- Структура таблицы `companies`
+--
 
--- Dumping structure for table crm.companies
 DROP TABLE IF EXISTS `companies`;
 CREATE TABLE IF NOT EXISTS `companies` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -72,24 +93,28 @@ CREATE TABLE IF NOT EXISTS `companies` (
   `address` varchar(150) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
 
--- Data exporting was unselected.
+-- --------------------------------------------------------
 
+--
+-- Структура таблицы `completed_projects`
+--
 
--- Dumping structure for table crm.completed_projects
 DROP TABLE IF EXISTS `completed_projects`;
 CREATE TABLE IF NOT EXISTS `completed_projects` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `project_id` int(10) unsigned NOT NULL DEFAULT '0',
   `last_status_id` int(10) unsigned NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- Data exporting was unselected.
+-- --------------------------------------------------------
 
+--
+-- Структура таблицы `emails`
+--
 
--- Dumping structure for table crm.emails
 DROP TABLE IF EXISTS `emails`;
 CREATE TABLE IF NOT EXISTS `emails` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -97,12 +122,14 @@ CREATE TABLE IF NOT EXISTS `emails` (
   `artifact_type` enum('client','company') NOT NULL,
   `address` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- Data exporting was unselected.
+-- --------------------------------------------------------
 
+--
+-- Структура таблицы `phones`
+--
 
--- Dumping structure for table crm.phones
 DROP TABLE IF EXISTS `phones`;
 CREATE TABLE IF NOT EXISTS `phones` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -110,12 +137,14 @@ CREATE TABLE IF NOT EXISTS `phones` (
   `artifact_type` enum('client','company') NOT NULL,
   `number` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- Data exporting was unselected.
+-- --------------------------------------------------------
 
+--
+-- Структура таблицы `projects`
+--
 
--- Dumping structure for table crm.projects
 DROP TABLE IF EXISTS `projects`;
 CREATE TABLE IF NOT EXISTS `projects` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -131,12 +160,14 @@ CREATE TABLE IF NOT EXISTS `projects` (
   `budget` int(50) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
--- Data exporting was unselected.
+-- --------------------------------------------------------
 
+--
+-- Структура таблицы `project_statuses`
+--
 
--- Dumping structure for table crm.project_statuses
 DROP TABLE IF EXISTS `project_statuses`;
 CREATE TABLE IF NOT EXISTS `project_statuses` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -145,12 +176,14 @@ CREATE TABLE IF NOT EXISTS `project_statuses` (
   `number` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
--- Data exporting was unselected.
+-- --------------------------------------------------------
 
+--
+-- Структура таблицы `states`
+--
 
--- Dumping structure for table crm.states
 DROP TABLE IF EXISTS `states`;
 CREATE TABLE IF NOT EXISTS `states` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -158,12 +191,14 @@ CREATE TABLE IF NOT EXISTS `states` (
   `color` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
--- Data exporting was unselected.
+-- --------------------------------------------------------
 
+--
+-- Структура таблицы `tasks`
+--
 
--- Dumping structure for table crm.tasks
 DROP TABLE IF EXISTS `tasks`;
 CREATE TABLE IF NOT EXISTS `tasks` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -175,16 +210,17 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `project_id` int(10) unsigned NOT NULL DEFAULT '0',
   `type` enum('звонок','встреча','письмо','событие') NOT NULL,
   `description` varchar(500) NOT NULL,
-  `deadline_date` date NOT NULL,
-  `deadline_time` time NOT NULL,
+  `deadline` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
--- Data exporting was unselected.
+-- --------------------------------------------------------
 
+--
+-- Структура таблицы `task_statuses`
+--
 
--- Dumping structure for table crm.task_statuses
 DROP TABLE IF EXISTS `task_statuses`;
 CREATE TABLE IF NOT EXISTS `task_statuses` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -192,12 +228,14 @@ CREATE TABLE IF NOT EXISTS `task_statuses` (
   `color` varchar(20) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
--- Data exporting was unselected.
+-- --------------------------------------------------------
 
+--
+-- Структура таблицы `users`
+--
 
--- Dumping structure for table crm.users
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -206,9 +244,10 @@ CREATE TABLE IF NOT EXISTS `users` (
   `type` enum('администратор','менеджер','аналитик') NOT NULL,
   `surname` varchar(50) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `email` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
--- Data exporting was unselected.
-/*!40014 SET FOREIGN_KEY_CHECKS=1 */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
