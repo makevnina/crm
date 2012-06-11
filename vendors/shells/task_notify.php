@@ -13,7 +13,7 @@ class TaskNotifyShell extends Shell {
 
 		$this->users = array();
 
-		$serverTime = time();
+		$serverTime = date("Y-m-d H:i:s");
 
 		foreach ($this->_getExpiredSoon($serverTime) as $task) {
 			$user = $task['User'];
@@ -48,9 +48,9 @@ class TaskNotifyShell extends Shell {
 			FROM tasks as `Task`
 			LEFT JOIN users AS `User` ON `User`.`id` = `Task`.`user_id`
 			WHERE
-				`Task`.`deadline` <= DATE_ADD(FROM_UNIXTIME({$serverTime}), INTERVAL 30 MINUTE)
+				`Task`.`deadline` <= DATE_ADD(DATE('{$serverTime}'), INTERVAL 30 MINUTE)
 				AND
-				`Task`.`deadline` > FROM_UNIXTIME({$serverTime})
+				`Task`.`deadline` > DATE('{$serverTime}')
 				AND
 				`Task`.`task_status_id` <> 1
 		");
@@ -61,7 +61,7 @@ class TaskNotifyShell extends Shell {
 			FROM tasks as `Task`
 			LEFT JOIN users AS `User` ON `User`.`id` = `Task`.`user_id`
 			WHERE
-				`Task`.`deadline` < FROM_UNIXTIME({$serverTime})
+				`Task`.`deadline` < DATE('{$serverTime}')
 				AND
 				`Task`.`task_status_id` <> 1
 		");
