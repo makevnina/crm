@@ -13,16 +13,17 @@ class TaskNotifyShell extends Shell {
 
 		$this->users = array();
 
-		$serverTime = date("Y-m-d H:i:s");
+		$now = date("Y-m-d H:i:s", time());
+		$later = date("Y-m-d H:i:s", time() + 30 * 60);
 
-		foreach ($this->_getExpiredSoon($serverTime) as $task) {
+		foreach ($this->_getExpiredSoon($now, $later) as $task) {
 			$user = $task['User'];
 			if (empty($user['email'])) continue;
 			if (empty($this->users[ $user['id'] ])) $this->users[ $user['id'] ] = $user;
 			$this->users[ $user['id'] ]['expired_soon'][] = $task['Task'];
 		}
 
-		foreach ($this->_getAlreadyExpired($serverTime) as $task) {
+		foreach ($this->_getAlreadyExpired($now, $later) as $task) {
 			$user = $task['User'];
 			if (empty($user['email'])) continue;
 			if (empty($this->users[ $user['id'] ])) $this->users[ $user['id'] ] = $user;
@@ -42,26 +43,26 @@ class TaskNotifyShell extends Shell {
 		}
 	}
 
-	private function _getExpiredSoon($serverTime) {
+	private function _getExpiredSoon($now, $later) {
 		return $this->Task->query("
 			SELECT *
 			FROM tasks as `Task`
 			LEFT JOIN users AS `User` ON `User`.`id` = `Task`.`user_id`
 			WHERE
-				`Task`.`deadline` <= DATE_ADD(DATE('{$serverTime}'), INTERVAL 30 MINUTE)
+				`Task`.`deadline` <= '{$later}'
 				AND
-				`Task`.`deadline` > DATE('{$serverTime}')
+				`Task`.`deadline` > '{$now}'
 				AND
 				`Task`.`task_status_id` <> 1
 		");
 	}
-	private function _getAlreadyExpired($serverTime) {
+	private function _getAlreadyExpired($now, $later) {
 		return $this->Task->query("
 			SELECT *
 			FROM tasks as `Task`
 			LEFT JOIN users AS `User` ON `User`.`id` = `Task`.`user_id`
 			WHERE
-				`Task`.`deadline` < DATE('{$serverTime}')
+				`Task`.`deadline` < '{$now}'
 				AND
 				`Task`.`task_status_id` <> 1
 		");
