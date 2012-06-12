@@ -80,6 +80,9 @@ div.statusName div {
 h4.details_block {
 	font-size: 120%;
 }
+select{
+	width: 200px;
+}
 .taskDeadline {
 	font-size: 70%;
 }
