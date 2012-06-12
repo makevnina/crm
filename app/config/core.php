@@ -320,7 +320,7 @@
 
 	Configure::write(
 		'Email.noreply',
-		'hosting_makevnina@locum.ru'
+		'noreply@webcrm.makevnina.locum.ru'
 	);
 
 	Configure::write(
