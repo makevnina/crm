@@ -157,12 +157,12 @@ div.new_comment, div.new_comment div {
 }
 div.new_comment textarea {
 	height: 80px;
-	width: 500px;
+	width: 400px;
 }
 div.comment {
 	margin-top: 10px;
 	border: 1px solid #ccc;
-	width: 500px;
+	width: 400px;
 }
 .deleteComment {
 	font-size: 11px;
