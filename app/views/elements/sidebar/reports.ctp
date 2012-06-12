@@ -76,4 +76,8 @@ if (($isAdmin) OR ($isAnalyst)) {
 			echo $this->Form->end('Показать');
 		}
 	}
+	echo $this->Html->link(
+		'Источники клиентов',
+		array('controller' => 'reports', 'action' => 'client_sources')
+	);
 }

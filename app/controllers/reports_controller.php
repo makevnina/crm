@@ -8,7 +8,8 @@ class ReportsController extends AppController {
 		'ProjectStatus',
 		'CompletedProject',
 		'User',
-		'Task'
+		'Task',
+		'Client'
 	);
 	
 	public function beforeFilter() {
@@ -145,5 +146,9 @@ class ReportsController extends AppController {
 			)
 		)));
 		$this->set('users', $this->User->find('all'));
+	}
+	
+	public function client_sources() {
+		$this->set('clients', $this->Client->find('all'));
 	}
 }
