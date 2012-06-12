@@ -21,6 +21,12 @@ class TaskNotifyShell extends Shell {
 			if (empty($user['email'])) continue;
 			if (empty($this->users[ $user['id'] ])) $this->users[ $user['id'] ] = $user;
 			$this->users[ $user['id'] ]['expired_soon'][] = $task['Task'];
+
+			$this->Task->query("UPDATE `tasks` SET `notified` = '1' WHERE `tasks`.`id` = {$task['Task']['id']}");
+		}
+
+		if (! $this->users) {
+			return false;
 		}
 
 		foreach ($this->_getAlreadyExpired($now, $later) as $task) {
@@ -32,7 +38,7 @@ class TaskNotifyShell extends Shell {
 
 		foreach($this->users as $user) {
 			$this->Email->reset();
-			$this->Email->subject = 'Напоминание';
+			$this->Email->subject = 'Webcrm: Напоминание';
 			$this->Email->from = Configure::read('Email.noreply');
 			$this->Email->to = $user['email'];
 			$this->Email->sendAs = 'html';
@@ -54,6 +60,8 @@ class TaskNotifyShell extends Shell {
 				`Task`.`deadline` > '{$now}'
 				AND
 				`Task`.`task_status_id` <> 1
+				AND
+				`Task`.`notified` = 0
 		");
 	}
 	private function _getAlreadyExpired($now, $later) {
