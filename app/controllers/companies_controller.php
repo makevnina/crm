@@ -147,9 +147,6 @@ class CompaniesController extends AppController {
 					);
 				}
 			}
-			else {
-				$this->Session->SetFlash('Не удалось добавить компанию');
-			}
 		}
 		$this->set('clients', $this->Client->find(
 				'all',
