@@ -154,14 +154,6 @@ else {
 					array('class' => "details_block block{$project['Project']['id']}")
 				);
 			}
-			echo $this->Html->tag(
-				'div',
-				$this->Html->tag(
-					'b',
-					'<Комментарии>'
-				),
-				array('class' => "details_block block{$project['Project']['id']}")
-			);
 		}
 	}
 }

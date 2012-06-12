@@ -166,11 +166,6 @@ else {
 					)
 				);
 			}
-			echo $this->Html->tag(
-				'b',
-				'<Комментарии>',
-				array('class' => "details_block block{$task['Task']['id']}")
-			);
 		}
 	}
 }
