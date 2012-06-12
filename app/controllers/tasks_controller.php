@@ -19,7 +19,7 @@ class TasksController extends AppController {
 			'fields' => array('Task.id', 'Task.deadline', 'Task.task_status_id')
 		));
 		foreach ($tasks as $task) {
-			if (($task['Task']['deadline'] < date('Y-m-d')) 
+			if (($task['Task']['deadline'] < date('Y-m-d H:i:s')) 
 				AND ($task['Task']['task_status_id'] <> 1)) {
 					$task['Task']['task_status_id'] = 2;
 					$this->Task->id = $task['Task']['id'];
@@ -33,10 +33,6 @@ class TasksController extends AppController {
 	}
 	
 	public function listing() {
-		/*pr($this->current_user);
-		vd($this->isAdmin);
-		vd($this->isAnalityc);
-		vd($this->isManager);*/
 		$statuses = $this->TaskStatus->find('all');
 		$task_types = Configure::read('Task.type');
 		if (empty($this->data)) {
@@ -56,7 +52,64 @@ class TasksController extends AppController {
 				$this->data[$type] = 1;
 			}
 		}
+		else {
+			if ($this->data['overdue'] === '0') {
+			} else {
+				$this->data['overdue'] = 1;
+			}
+			if ($this->data['finished'] === '0') {
+			} else {
+				$this->data['finished'] = 1;
+			}
+			if ($this->data['today'] === '0') {
+			} else {
+				$this->data['today'] = 1;
+			}
+			if ($this->data['tomorrow']=== '0') {
+			} else {
+				$this->data['tomorrow'] = 1;
+			}
+			if ($this->data['this_week']=== '0') {
+			} else {
+				$this->data['this_week'] = 1;
+			}
+			if ($this->data['next_week']=== '0') {
+			} else {
+				$this->data['next_week'] = 1;
+			}
+			if ($this->data['this_month']=== '0') {
+			} else {
+				$this->data['this_month'] = 1;
+			}
+			if ($this->data['next_month']=== '0') {
+			} else {
+				$this->data['next_month'] = 1;
+			}
+			if ($this->data['later']=== '0') {
+			} else {
+				$this->data['later'] = 1;
+			}
+			foreach ($statuses as $status) {
+				if ($this->data[$status['TaskStatus']['id']] === '0') {
+				} else {
+					$this->data[$status['TaskStatus']['id']] = 1;
+				}
+			}
+			foreach ($task_types as $type) {
+				if ($this->data[$type] === '0') {
+				} else {
+					$this->data[$type] = 1;
+				}
+			}
+		}
 		$this->set('task_filter', $this->data);
+		if ($this->isAdmin) {
+			$this->set('users', $this->User->find('all'));
+			$this->set('isAdmin', true);
+		}
+		else {
+			$this->set('isAdmin', false);
+		}
 		$this->set('statuses', $statuses);
 		$this->set('task_types', $task_types);
 		$this->set('sidebar_element', 'task_listing');
@@ -68,12 +121,20 @@ class TasksController extends AppController {
 				'order' => array('deadline ASC', 'deadline ASC')
 			)
 		));
+		$this->set('clients', $this->Client->find('all'));
 		$this->set('companies', $this->Company->find('all'));
+		$this->set('projects', $this->isAdmin
+			? $this->Project->find('all')
+			: $this->Project->find('all', array(
+				'conditions' => array('Project.user_id' => $this->current_user['User']['id'])
+			)
+		));
 	}
 	
 	public function create() {
 		$this->set('sidebar_element', 'task_create');
 		if ($this->RequestHandler->isPost()) {
+			$this->Task->id = 0;
 			$success = $this->Task->save($this->data);
 			if ($success) {
 				$this->Session->SetFlash('Задача создана');

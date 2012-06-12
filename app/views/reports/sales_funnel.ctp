@@ -27,7 +27,7 @@ if ($period == 'this_month') {
 echo $this->Html->tag(
 	'div',
 	$titleUser.$titlePeriod,
-	array('class' => 'sales_funnel_title')
+	array('class' => 'reports_title')
 );
 if (! empty($projects)) {
 	$closedProjects = array();

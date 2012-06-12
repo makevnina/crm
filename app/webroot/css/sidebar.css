@@ -26,20 +26,20 @@ td.sidebar {
 	border-radius: 4px;
 	font-size: 75%;
 }
-
-.filterDiv {
-	padding: 0;
-}
 #sidebar label {
 	font-size: 80%;
 }
-
 #sidebar .submenu {
 	padding-left: 20px;
 	background-color: #f7f7f7;
 }
-
 #sidebar .sidebarTitle {
 	font-weight: bold;
 	font-size: 110%;
+}
+#sidebar div {
+	padding: 5px 0 0 0;
+}
+#sidebar div.filterDiv {
+	padding: 0;
 }

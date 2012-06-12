@@ -70,6 +70,14 @@ class CompaniesController extends AppController {
 
 	function listing() {
 		$this->set('sidebar_element', 'company_listing');
+		$states = $this->State->find('all');
+		if (empty($this->data)) {
+			foreach ($states as $state) {
+				$this->data[$state['State']['id']] = 1;
+			}
+		}
+		$this->set('company_filter', $this->data);
+		$this->set('states', $states);
 		$this->set('companies', $this->Company->find('all'));
 		$this->set('clients', $this->Client->find('all'));
 		$this->set('phones', $this->Phone->find('all', array(

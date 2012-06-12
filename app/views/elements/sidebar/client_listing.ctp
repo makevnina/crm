@@ -24,7 +24,7 @@ if (! empty($statuses)) {
 		array('class' => 'titleLabel')
 	);
 	foreach ($statuses as $status) {
-		$clientCheckbox = $this->Form->checkbox(
+		$clientStatusCheckbox = $this->Form->checkbox(
 			'',
 			array(
 				'name' => "data[{$status['ClientStatus']['id']}]",
@@ -32,7 +32,7 @@ if (! empty($statuses)) {
 				'id' => $status['ClientStatus']['id']
 			)
 		);
-		$clientLabel = $this->Html->tag(
+		$clientStatusLabel = $this->Html->tag(
 			'label',
 			$status['ClientStatus']['name'],
 			array(
@@ -43,7 +43,7 @@ if (! empty($statuses)) {
 		);
 		echo $this->Html->tag(
 			'div',
-			$clientCheckbox.$clientLabel,
+			$clientStatusCheckbox.$clientStatusLabel,
 			array('class' => 'filterDiv')
 		);
 	}

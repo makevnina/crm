@@ -193,14 +193,14 @@ div.new_comment label {
 	font-size: 10px;
 }
 
-/** Sales funnel **/
+/** Reports **/
 #content-wrapper table.sales_funnel_table td {
 	vertical-align: middle;
 	text-align: center;
 	font-size: 10px;
 	background: #fff;
 }
-.sales_funnel_title {
+.reports_title {
 	color: #909090;
 	margin-bottom: 15px;
 	font-size: 12px;
@@ -208,6 +208,19 @@ div.new_comment label {
 #content-wrapper tr.sales_funnel_tableHeader td {
 	font-size: 11px;
 	font-weight: bold;
+}
+span.overdueTaskCount {
+	background-color: #f4d0d2;
+}
+table.overdueTask tr td{
+	padding: 5px 0 5px 0;
+}
+body table.presentProjects tr td, body table.presentProjects tr td .status {
+	font-size: 12px;
+}
+table.presentProjects tr td {
+	padding: 5px;
+	text-align: center;
 }
 	
 /** Layout **/

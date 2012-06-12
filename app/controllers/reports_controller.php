@@ -7,7 +7,8 @@ class ReportsController extends AppController {
 		'Project',
 		'ProjectStatus',
 		'CompletedProject',
-		'User'
+		'User',
+		'Task'
 	);
 	
 	public function beforeFilter() {
@@ -22,21 +23,54 @@ class ReportsController extends AppController {
 			}
 			$num += 1;
 		}
+		if ($this->isAdmin) {
+			$this->set('isAdmin', true);
+		}
+		else {
+			$this->set('isAdmin', false);
+		}
+		if ($this->isAnalyst) {
+			$this->set('isAnalyst', true);
+		}
+		else {
+			$this->set('isAnalyst', false);
+		}
 	}
 	
 	public function index() {
-		
+		if ($this->isManager)  {
+			$this->redirect(array(
+				'action' => 'sales_funnel'
+			));
+		}
 	}
 	
 	public function sales_funnel() {
 		if (! empty($this->data)) {
-			$user_id = $this->data['Report']['user_id'];
-			$filterUser = $this->data['Report']['user_id'];
+			if (! empty($this->data['Report']['user_id'])) {
+				$user_id = $this->data['Report']['user_id'];
+				$filterUser = $this->data['Report']['user_id'];
+			}
+			else {
+				if ($this->isManager) {
+					$user_id = $this->current_user['User']['id'];
+					$filterUser = $this->current_user['User']['id'];
+				}
+				else {
+					$user_id = 0;
+					$filterUser = 0;
+				}
+			}
 			$period = $this->data['Report']['period'];
 		}
 		else {
 			$user_id = $this->current_user['User']['id'];
-			$filterUser = 0;
+			if ($this->isManager) {
+				$filterUser = $this->current_user['User']['id'];
+			}
+			else {
+				$filterUser = 0;
+			}
 			$period = 'all_time';
 		}
 		if ((($this->isAdmin) OR ($this->isAnalyst))
@@ -80,5 +114,36 @@ class ReportsController extends AppController {
 		$this->set('project_statuses', $this->ProjectStatus->find('all', array(
 			'order' => array('number ASC')
 		)));
+	}
+	
+	public function overdue_tasks() {
+		$this->set('tasks', $this->Task->find('all', array(
+			'conditions' => array('Task.task_status_id' => 2)
+		)));
+	}
+	public function present_projects() {
+		if (! empty($this->data)) {
+			$user_id = $this->data['Report']['user_id'];
+		}
+		else {
+			$user_id = 0;
+		}
+		if ($user_id == 0) {
+			$this->set('projects', $this->Project->find('all'));
+		}
+		else {
+			$this->set('projects', $this->Project->find('all', array(
+				'conditions' => array('Project.user_id' => $user_id)
+			)));
+		}
+		$this->set('statuses', $this->ProjectStatus->find('all', array(
+			'order' => 'ProjectStatus.number ASC'
+		)));
+		$this->set('filterUser', $this->User->find('first', array(
+			'conditions' => array(
+				'User.id' => $user_id
+			)
+		)));
+		$this->set('users', $this->User->find('all'));
 	}
 }

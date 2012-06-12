@@ -46,3 +46,34 @@ if ($this->action == 'sales_funnel') {
 	}
 	echo $this->Form->end('Показать');
 }
+if (($isAdmin) OR ($isAnalyst)) {
+	echo  $this->Html->link(
+		'Просроченные задачи',
+		array('action' => 'overdue_tasks')
+	);
+	echo $this->Html->link(
+		'Текущие проекты',
+		array('action' => 'present_projects')
+	);
+	if ($this->action == 'present_projects') {
+		if (! empty($users)) {
+			echo $this->Form->create(
+				'Report',
+				array('action' => 'present_projects')
+			);
+			$usersList = array('Все пользователи');
+			foreach ($users as $user) {
+				$usersList[$user['User']['id']] = $user['User']['surname'].' '.$user['User']['name'];
+			}
+			echo $this->Form->input(
+				'user_id',
+				array(
+					'label' => 'Пользователь',
+					'type' => 'select',
+					'options' => $usersList
+				)
+			);
+			echo $this->Form->end('Показать');
+		}
+	}
+}

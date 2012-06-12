@@ -35,6 +35,14 @@ class ProjectsController extends AppController {
 				$this->data[$status['ProjectStatus']['id']] = 1;
 			}
 		}
+		else {
+			foreach ($statuses as $status) {
+				if ($this->data[$status['ProjectStatus']['id']] === '0') {
+				} else {
+					$this->data[$status['ProjectStatus']['id']] = 1;
+				}
+			}
+		}
 		$this->set('project_filter', $this->data);
 		$this->set('sidebar_element', 'project_listing');		
 		$this->set('projects', $this->Project->find(
@@ -46,6 +54,10 @@ class ProjectsController extends AppController {
 			)
 		));
 		$this->set('statuses', $statuses);
+		$this->set('clients', $this->Client->find('all',
+				array('conditions' => array('Client.company_id' => 0))
+		));
+		$this->set('companies', $this->Company->find('all'));
 	}
 	public function create() {
 		$this->set('sidebar_element', 'project_create');

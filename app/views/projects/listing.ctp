@@ -26,6 +26,18 @@ else {
 			}
 		}
 	}
+	if (! empty($project_filter['Project'])) {
+		$ProjectArray = array();
+		if ($project_filter['Project']['artifact_id'] <> '0') {
+			foreach ($projects as $project) {
+				if (($project['Project']['artifact_id'] == $project_filter['Project']['artifact_id'])
+					AND ($project['Project']['artifact_type'] == $project_filter['Project']['artifact_type'])) {
+					$ProjectArray[] = $project;
+				}
+			}
+			$projects = $ProjectArray;
+		}
+	}
 	$projectFilterArray = array();
 	foreach ($projects as $project) {
 		if (empty($project_filter[$project['Project']['project_status_id']])) {
