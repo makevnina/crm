@@ -22,6 +22,9 @@ else {
 	foreach ($taskByUser as $key => $count) {
 		$user = $key;
 		$padding = $count*5;
+		if ($padding > 80) {
+			$padding = 80;
+		}
 		$task_count = $this->Html->tag(
 			'span',
 			$count,
