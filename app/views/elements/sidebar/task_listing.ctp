@@ -1,4 +1,14 @@
 <?php
+echo $this->Form->create(
+	'Task',
+	array(
+		'action' => 'search'
+	)
+);
+echo $this->Form->input('search', array ('label' => 'Поиск задачи (Enter)'));
+echo $this->Form->end();
+echo '<br/>';
+
 echo $this->Html->link(
 	'Создать задачу',
 	array(

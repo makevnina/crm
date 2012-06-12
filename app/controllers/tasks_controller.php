@@ -233,4 +233,19 @@ class TasksController extends AppController {
 		}
 		$this->redirect(array('action' => 'view', $artifact_id));
 	}
+
+	public function search() {
+		$request = $this->data['Task']['search'];
+		$tasks = $this->Task->find(
+			'all',
+			array (
+				'conditions' => array (
+					'Task.name LIKE' => '%'.$request.'%'
+				)
+			)
+		);
+
+		$this->set('request', $request);
+		$this->set('tasks', $tasks);
+	}
 }
