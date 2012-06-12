@@ -161,8 +161,7 @@ else {
 						$task['Task']['description']
 					),
 					array(
-						'style' => 'border:1px solid #ccc; width:55%',
-						'class' => "details_block block{$task['Task']['id']}"
+						'class' => "description details_block block{$task['Task']['id']}"
 					)
 				);
 			}
