@@ -17,13 +17,13 @@ else {
 			$taskByUser[$key] += 1;
 		}
 	}
-	$tableHeaders = array('Пользователь', 'Кол-во пропущенных задач');
+	$tableHeaders = array('Пользователь', 'Кол-во просроченных задач');
 	$tableCells = array();
 	foreach ($taskByUser as $key => $count) {
 		$user = $key;
-		$padding = $count*5;
-		if ($padding > 80) {
-			$padding = 80;
+		$padding = $count*10;
+		if ($padding > 85) {
+			$padding = 85;
 		}
 		$task_count = $this->Html->tag(
 			'span',
