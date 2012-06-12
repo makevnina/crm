@@ -132,7 +132,7 @@ if (! empty($clients)) {
 	$optionsHtml = '';
 	$aloneOptionsHtml = $this->Html->tag(
 		'option',
-		'Все клиенты',
+		'',
 		array(
 			'value' => 0,
 			'class' => 'empty'
@@ -206,7 +206,7 @@ if (! empty($clients)) {
 if (! empty($projects)) {
 	$projectOptionsHtml = $this->Html->tag(
 		'option',
-		'Все проекты',
+		'',
 		array(
 			'value' => 0,
 			'class' => 'empty',
