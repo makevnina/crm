@@ -279,6 +279,9 @@ $(document).ready(function() {
 
 		return false;
 	});
+
+  $('#ClientSource').editableSelect();
+
 });
 
 jQuery(function($){

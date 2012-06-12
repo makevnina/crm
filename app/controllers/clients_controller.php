@@ -128,6 +128,8 @@ class ClientsController extends AppController {
 				$this->Session->SetFlash('Не удалось добавить клиента');
 			}
 		}
+
+		$this->set('sourcesList', $this->Client->getSources());
 		$this->set('companies', $this->Company->find('all'));
 		$this->set('client_statuses', $this->ClientStatus->find('all'));
 	}
@@ -226,6 +228,8 @@ class ClientsController extends AppController {
 				'Email.artifact_type' => 'client'
 			)
 		)));
+
+		$this->set('sourcesList', $this->Client->getSources());
 		$this->set('client_statuses', $this->ClientStatus->find('all'));
 		$this->render('create');
 	}

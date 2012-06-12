@@ -182,6 +182,14 @@ echo $this->Html->tag(
 	)
 );
 echo $this->Form->input(
+	'source',
+	array(
+		'label' => 'Источник',
+		'type' => 'select',
+		'options' => $sourcesList
+	)
+);
+echo $this->Form->input(
 	'address',
 	array(
 		'label' => 'Адрес'

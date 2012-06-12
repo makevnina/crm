@@ -42,4 +42,14 @@ class Client extends AppModel {
 			'message' => 'Имя клиента обязательно для заполнения'
 		),
 	);
+
+	public function getSources() {
+		$statuses = $this->query('SELECT source FROM  clients GROUP BY source');
+		$result = array ('' => '');
+		foreach ($statuses as $status) {
+			$status = $status['clients']['source'];
+			$result[$status] = $status;
+		}
+		return $result;
+	}
 }
