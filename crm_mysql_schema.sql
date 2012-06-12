@@ -17,8 +17,9 @@ CREATE TABLE IF NOT EXISTS `clients` (
   `father` varchar(50) CHARACTER SET utf8 NOT NULL,
   `position` varchar(50) CHARACTER SET utf8 NOT NULL,
   `address` varchar(150) CHARACTER SET utf8 NOT NULL,
+  `source` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8mb4 AUTO_INCREMENT=4 ;
 
 CREATE TABLE IF NOT EXISTS `client_statuses` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
