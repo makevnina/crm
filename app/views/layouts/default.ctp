@@ -14,11 +14,13 @@
 		echo $this->Html->css('sidebar');
 		echo $this->Html->css('jPicker-1.1.6');
 		echo $this->Html->css('jPicker');
+		echo $this->Html->css('jquery.editable-select');
 		echo $this->Html->script('jquery-1.7.1.min.js');
 		echo $this->Html->script('jpicker-1.1.6.min.js');
 		echo $this->Html->script('scripts.js');
 		echo $this->Html->script('jquery-ui-1.8.17.custom.min.js');
 		echo $this->Html->script('jquery-ui-timepicker-addon.js');
+		echo $this->Html->script('jquery.editable-select.pack.js');
 
 		echo $scripts_for_layout;
 		?>
