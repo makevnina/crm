@@ -290,4 +290,11 @@ echo $this->Form->input(
 		'type' => 'hidden'
 	)
 );
+echo $this->Form->input(
+	'notified',
+	array(
+		'value' => 0,
+		'type' => 'hidden'
+	)
+);
 echo $this->Form->end($this->action == 'create' ? 'Создать' : 'Сохранить');
