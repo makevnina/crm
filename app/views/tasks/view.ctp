@@ -148,7 +148,7 @@ if (! empty($task)) {
 				$task['Task']['description']
 			),
 			array(
-				'style' => 'border:1px solid #ccc; width:55%'
+				'class' => 'description'
 			)
 		);
 	}
