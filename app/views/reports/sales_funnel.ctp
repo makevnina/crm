@@ -168,6 +168,58 @@ if (! empty($projects)) {
 				echo '</tr>';
 			}
 			echo '</table>';
+			if (! empty($projects_by_status['2'])) {
+				$closedProjectsByStatus = array();
+				foreach ($projects_by_status['2'] as $project) {
+					foreach ($project_statuses as $status) {
+						if ($status['ProjectStatus']['id'] == $project['CompletedProject']['last_status_id']) {
+							$closedProjectsByStatus[$status['ProjectStatus']['id']][] = $project;
+						}
+					}
+				}
+				foreach ($project_statuses as $status) {
+					if (! empty($closedProjectsByStatus[$status['ProjectStatus']['id']])) {
+						$projectStatus = $this->Html->tag(
+							'span',
+							$status['ProjectStatus']['name'],
+							array(
+								'class' => 'status',
+								'style' => "background: {$status['ProjectStatus']['color']}"
+							)
+						);
+						echo $this->Html->tag(
+							'div',
+							'Проекты, закрытые на стадии '
+							. $projectStatus. ':',
+							array('style' => 'padding: 10px 0 10px 0')
+						);
+						echo '<ul>';
+						foreach ($closedProjectsByStatus[$status['ProjectStatus']['id']] as $project) {
+							$closedProjectName = $this->Html->link(
+								$project['Project']['name'],
+								array(
+									'controller' => 'projects',
+									'action' => 'view',
+									$project['Project']['id']
+								)
+							);
+							$closedProjectBudget = $this->Html->tag(
+								'span',
+								$this->Html->tag(
+									'b',
+									$project['Project']['budget']
+								). ' руб.',
+								array('class' => 'budget')
+							);
+							echo $this->Html->tag(
+								'li',
+								$closedProjectName.' '.$closedProjectBudget
+							);
+						}
+						echo '</ul>';
+					}
+				}
+			}
 		}
 	}
 	else {

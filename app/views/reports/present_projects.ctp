@@ -57,7 +57,12 @@ else {
 			);
 			$tableCells = array();
 			foreach ($statuses as $status) {
-				if (! empty($projectByStatus['count'][$status['ProjectStatus']['id']])) {
+				if (($status['ProjectStatus']['id'] <> 1)
+					AND ($status['ProjectStatus']['id'] <> 2)) {
+					if (empty($projectByStatus['count'][$status['ProjectStatus']['id']])) {
+						$projectByStatus['count'][$status['ProjectStatus']['id']] = 0;
+						$projectByStatus['budget'][$status['ProjectStatus']['id']] = 0;
+					}
 					$statusSpan = $this->Html->tag(
 						'span',
 						$status['ProjectStatus']['name'],
