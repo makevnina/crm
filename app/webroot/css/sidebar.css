@@ -43,3 +43,6 @@ td.sidebar {
 #sidebar div.filterDiv {
 	padding: 0;
 }
+#sidebar select{
+	width: 200px;
+}
