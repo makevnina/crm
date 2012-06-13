@@ -226,4 +226,27 @@ class ProjectsController extends AppController {
 		}
 		$this->redirect(array('action' => 'view', $artifact_id));
 	}
+	
+	public function search() {
+		$this->set('sidebar_element', 'search');
+		$request = $this->data['Project']['search'];
+		$userOk = false;
+		if (($this->isAdmin) OR ($this->isAnalyst)) {
+			$userOk = true;
+		}
+		$projects = $this->Project->find(
+			'all',
+			array (
+				'conditions' => $userOk 
+					? array ('Project.name LIKE' => '%'.$request.'%')
+					: array(
+						'Project.name LIKE' => '%'.$request.'%',
+						'Project.user_id' => $this->current_user['User']['id'],
+					)
+			)
+		);
+
+		$this->set('request', $request);
+		$this->set('projects', $projects);
+	}
 }

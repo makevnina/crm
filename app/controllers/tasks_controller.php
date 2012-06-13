@@ -235,13 +235,17 @@ class TasksController extends AppController {
 	}
 
 	public function search() {
+		$this->set('sidebar_element', 'search');
 		$request = $this->data['Task']['search'];
 		$tasks = $this->Task->find(
 			'all',
 			array (
-				'conditions' => array (
-					'Task.name LIKE' => '%'.$request.'%'
-				)
+				'conditions' => $this->isAdmin 
+					? array ('Task.name LIKE' => '%'.$request.'%')
+					: array(
+						'Task.name LIKE' => '%'.$request.'%',
+						'Task.user_id' => $this->current_user['User']['id'],
+					)
 			)
 		);
 

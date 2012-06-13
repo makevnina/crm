@@ -1,4 +1,14 @@
 <?php
+echo $this->Form->create(
+	'Company',
+	array(
+		'action' => 'search'
+	)
+);
+echo $this->Form->input('search', array ('label' => 'Поиск компании (Enter)'));
+echo $this->Form->end();
+echo '<br/>';
+
 echo $this->Html->link(
 	'Создать компанию',
 	array(

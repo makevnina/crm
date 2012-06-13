@@ -331,4 +331,24 @@ class ClientsController extends AppController {
 		}
 		$this->redirect(array('action' => 'view', $artifact_id));
 	}
+	
+	public function search() {
+		$this->set('sidebar_element', 'search');
+		$request = explode(' ', $this->data['Client']['search']);
+		$conditions = array ();
+		foreach ($request as $word) {
+			$conditions[]['OR'] = array (
+				'Client.name LIKE' => '%'.$word.'%',
+				'Client.surname LIKE' => '%'.$word.'%',
+				'Client.father LIKE' => '%'.$word.'%'
+			);
+		}
+		
+		$clients = $this->Client->find(
+			'all',
+			array ('conditions' => $conditions)
+		);
+		$this->set('request', $this->data['Client']['search']);
+		$this->set('clients', $clients);
+	}
 }

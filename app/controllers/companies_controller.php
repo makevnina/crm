@@ -438,4 +438,20 @@ class CompaniesController extends AppController {
 		}
 		$this->redirect(array('action' => 'view', $artifact_id));
 	}
+	
+	public function search() {
+		$this->set('sidebar_element', 'search');
+		$request = $this->data['Company']['search'];
+		$companies = $this->Company->find(
+			'all',
+			array (
+				'conditions' => array (
+					'Company.name LIKE' => '%'.$request.'%'
+				)
+			)
+		);
+
+		$this->set('request', $request);
+		$this->set('companies', $companies);
+	}
 }
